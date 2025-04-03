@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/data/point.proto";
+import "compas_pb/data/vector.proto";
+import "compas_pb/data/line.proto";
+import "compas_pb/data/element.proto";
+import "compas_pb/data/frame.proto";
+
+// import "google/protobuf/any.proto";
+
+/* A message to hold any data type */
+enum DataType {
+  UNKNOWN = 0;
+  POINT = 1;
+  VECTOR = 2;
+  LINE = 3;
+  FRAME = 4;
+  ELEMENT = 5;
+  LIST = 6;
+  DICT = 7;
+}
+
+/** Hold any data type in protobuf */
+message AnyData {
+  DataType type = 1;
+  oneof data {
+    PointData point = 2;
+    VectorData vector = 3;
+    LineData line = 4;
+    FrameData frame = 5;
+    ElementData element = 6;
+    ListData list = 7;
+    DictData dict = 8;
+  }
+}
+
+/** Another way to hold the data, but we have to use Pack and upPack with URL */
+// message AnyData {
+//   DataType type = 1;
+//   google.protobuf.Any data = 2;
+// }
+
+/** repeated serves as a list in protobuf */
+message ListData {
+  repeated AnyData data = 1;
+}
+
+message DictData {
+  map<string, AnyData> data = 1;
+}
+
+/** root serialization element */
+message MessageData {
+  AnyData data = 1;
+}
+
