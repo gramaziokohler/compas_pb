@@ -25,7 +25,7 @@ pip install -e ".[dev]"
 - Protobuf version 6.30.2
 
 #### Re-generate pb_to_py files
-Windows
+- Windows
 
 ```powershell
 # version check
@@ -34,7 +34,7 @@ Windows
 .\proto\win64\bin\protoc.exe --proto_path=.\IDL --python_out=.\src .\IDL\compas_pb\data\*.proto
 ```
 
-Linux
+- Linux
 
 ```bash
 # version check
