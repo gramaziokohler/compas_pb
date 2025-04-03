@@ -2,8 +2,6 @@
 
 Protobuf extension for COMPAS Data
 
-
-
 ## Installation
 
 Stable releases can be installed from PyPI.
