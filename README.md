@@ -2,6 +2,8 @@
 
 Protobuf extension for COMPAS Data
 
+
+
 ## Installation
 
 Stable releases can be installed from PyPI.
@@ -16,6 +18,29 @@ To install the latest version for development, do:
 git clone https://github.com/gramaziokohler/compas_pb.git
 cd compas_pb
 pip install -e ".[dev]"
+```
+
+## Development
+
+- Protobuf version 6.30.2
+
+#### Re-generate pb_to_py files
+Windows
+
+```powershell
+# version check
+.\proto\win64\bin\protoc.exe --version
+
+.\proto\win64\bin\protoc.exe --proto_path=.\IDL --python_out=.\src .\IDL\compas_pb\data\*.proto
+```
+
+Linux
+
+```bash
+# version check
+./proto/linux64/bin/protoc --version
+
+./proto/linux64/bin/protoc --proto_path=./IDL --python_out=./src ./IDL/**/*.proto
 ```
 
 ## Documentation
