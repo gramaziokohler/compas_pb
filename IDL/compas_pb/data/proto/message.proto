@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package compas_pb.data;
 
-import "compas_pb/data/point.proto";
-import "compas_pb/data/vector.proto";
-import "compas_pb/data/line.proto";
-import "compas_pb/data/element.proto";
-import "compas_pb/data/frame.proto";
+import "compas_pb/data/proto/point.proto";
+import "compas_pb/data/proto/vector.proto";
+import "compas_pb/data/proto/line.proto";
+import "compas_pb/data/proto/element.proto";
+import "compas_pb/data/proto/frame.proto";
 
 // import "google/protobuf/any.proto";
 
