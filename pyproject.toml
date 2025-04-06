@@ -106,7 +106,7 @@ replace = "[{new_version}] {now:%Y-%m-%d}"
 line-length = 179
 
 [tool.ruff]
-line-length = 179
+line-length = 140
 indent-width = 4
 target-version = "py39"
 
