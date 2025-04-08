@@ -1,12 +1,4 @@
 
-# import os
-# import sys
-#
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
-
-from compas.data import Data
-from compas.geometry import Frame, Line, Point, Vector
-
 from compas_pb.data import point_pb2 as PointData
 from compas_pb.data import line_pb2 as LineData
 from compas_pb.data import frame_pb2 as FrameData
