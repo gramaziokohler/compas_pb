@@ -37,8 +37,6 @@ pip install -e ".[dev]"
 ```bash
 # version check
 ./proto/linux64/bin/protoc --version
-
-./proto/linux64/bin/protoc --proto_path=./IDL --python_out=./src ./IDL/**/*.proto
 ```
 
 ## Documentation
