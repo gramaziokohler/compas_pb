@@ -33,7 +33,12 @@ uv pip install -e . --upgrade
 # version check
 .\proto\win64\bin\protoc.exe --version
 
-.\proto\win64\bin\protoc.exe --proto_path=.\IDL --python_out=.\src .\IDL\compas_pb\data\*.proto
+# proto to python
+.\proto\win64\bin\protoc.exe --proto_path=.\IDL --python_out=.\src .\IDL\compas_pb\data\proto\*.proto
+
+
+# proto to c#
+.\proto\win64\bin\protoc.exe --proto_path=IDL\compas_pb\data\proto\ --csharp_out=compas_cSharp --csharp_opt=base_namespace=IDL\compas_pb\data\proto\*.proto
 ```
 
 - Linux/ MacOS
@@ -42,10 +47,16 @@ uv pip install -e . --upgrade
 # version check
 ./proto/linux64/bin/protoc --version
 
-# proto file location
-#./IDL/compas_pb/data/proto/*.proto
+
+# proto file location "./IDL/compas_pb/data/proto/*.proto"
+# proto to python
 ./proto/linux64/bin/protoc --proto_path=./IDL --python_out=./src ./IDL/**/*.proto
 ./proto/macaarch64/bin/protoc --proto_path=./IDL --python_out=./src ./IDL/**/*.proto
+
+# proto to c#
+protoc --proto_path=bar --csharp_out=src --csharp_opt=base_namespace=Example player.proto
+
+
 ```
 
 ## Documentation
