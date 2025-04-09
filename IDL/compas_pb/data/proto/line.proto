@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/data/proto/point.proto";
+
+message LineData {
+  string guid = 1;
+  string name = 2;
+  PointData start = 3;
+  PointData end = 4;
+}

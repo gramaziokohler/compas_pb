@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/data/proto/point.proto";
+import "compas_pb/data/proto/vector.proto";
+
+message FrameData {
+  string guid = 1;
+  string name = 2;
+  PointData point = 3;
+  VectorData xaxis = 4;
+  VectorData yaxis = 5;
+}
+
+
