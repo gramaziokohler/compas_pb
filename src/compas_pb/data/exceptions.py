@@ -1,2 +1,3 @@
-class DecoderError(Exception):
-    """Exception that is raised when the decoder fails at reconstructing an object that has been identified as a COMPAS data object."""
+class DeserializeError(Exception):
+    """Exception that is raised when the deserialize fails at reconstructing an object that has been identified as a COMPAS data object."""
+

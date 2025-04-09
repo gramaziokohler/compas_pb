@@ -7,6 +7,11 @@ from compas_invocations2 import docs
 from compas_invocations2 import style
 from compas_invocations2 import tests
 from invoke import Collection
+from compile_protos import generate_proto_classes
+
+protobuf = Collection("protobuf")
+
+protobuf.add_task(generate_proto_classes, name="generate_proto_classes")
 
 ns = Collection(
     docs.help,
@@ -22,7 +27,9 @@ ns = Collection(
     build.clean,
     build.release,
     build.build_ghuser_components,
+    protobuf,
 )
+
 ns.configure(
     {
         "base_folder": os.path.dirname(__file__),
