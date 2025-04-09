@@ -309,10 +309,80 @@ class _ProtoBufferFrame(_ProtoBufferData):
         return frame
 
 
+class _ProtoBufferAny(_ProtoBufferData):
+    """A class to hold the protobuf data for any object.
+
+    Parameters:
+    ----------
+        obj : :class: `compas.geometry.Point`,
+                        `compas.geometry.Vector`,
+                        `compas.geometry.Line`,
+                        `compas.geometry.Frame`
+    if the object is not one of the above, and it has the atrribute from the listed above,
+    it will be converted to the corresponding object type and as `data`.
+
+    """
+
+    PB_TYPE = AnyData.DataType.UNKNOWN
+
+    # Mapping of COMPAS object types to protobuf data types
+    # COMPAS type: {protobuf type: protobuf class}
+    SERIALIZER = {
+        Point: _ProtoBufferPoint,
+        Vector: _ProtoBufferVector,
+        Line: _ProtoBufferLine,
+        Frame: _ProtoBufferFrame,
+        # Element: _ProtoBufferElement,
+    }
+
+    DESERIALIZER = {key.__name__.lower(): value for key, value in SERIALIZER.items()}
+
+    def __init__(self, obj=None):
+        super().__init__()
+        self._obj = obj
+        self._proto_data = AnyData.AnyData()
+
+    def to_pb(self):
+        """Convert a any object to a protobuf any message.
+
+        Returns:
+            :class: `compas_pb.data.proto.message_pb2.AnyData`
+                The protobuf message type of AnyData.
+
+        """
+        if self._obj is None:
+            raise ValueError("No object provided for conversion.")
+        obj = self._obj
+        pb_type_map = self.SERIALIZER.get(type(obj))
+
+        if pb_type_map is None:
+            raise TypeError(f"Unsupported type: {type(obj)}")
+
+        pb_obj = pb_type_map
+        self.PB_TYPE = pb_obj.PB_TYPE
+
+        field_name = AnyData.DataType.Name(self.PB_TYPE).lower()
+        data_offset = pb_obj(obj).to_pb()
+        getattr(self._proto_data, field_name).CopyFrom(data_offset)
+
+        return self._proto_data
+
+    @staticmethod
+    def from_pb(proto_data):
+        """Convert a protobuf message to a supported COMPAS object."""
+
+        proto_type = proto_data.WhichOneof("data")
+        obj = _ProtoBufferAny.DESERIALIZER.get(proto_type)
+        if obj is None:
+            raise TypeError(f"Unsupported type: {proto_type}")
+
+        data = obj.from_pb(proto_data)
+        return data
+
+
 #######################
 # NOT IMPLEMENTED YET
 #######################
-
 
 class _ProtoBufferElement(_ProtoBufferData):
     """
@@ -342,43 +412,3 @@ class _ProtoBufferElement(_ProtoBufferData):
         raise NotImplementedError("Need to be define")
 
 
-class _ProtoBufferAny(_ProtoBufferData):
-    """A class to hold the protobuf data for any object."""
-
-    PB_TYPE = AnyData.DataType.UNKNOWN
-
-    def __init__(self, obj=None):
-        super().__init__()
-        self._proto_data = AnyData.AnyData()
-
-
-class _ProtoBufferList(_ProtoBufferData):
-    """A class to hold the protobuf data for a list object."""
-
-    PB_TYPE = AnyData.DataType.LIST
-
-    def __init__(self, obj=None):
-        super().__init__()
-        self._proto_data = AnyData.ListData()
-
-
-class _ProtoBufferDict(_ProtoBufferData):
-    """A class to hold the protobuf data for a dict object."""
-
-    PB_TYPE = AnyData.DataType.DICT
-
-    def __init__(self, obj=None, name=None):
-        super().__init__()
-        self._proto_data = AnyData.DictData()
-
-
-if __name__ == "__main__":
-    # frame = Frame(Point(1, 2, 3), Vector(4, 5, 6), Vector(7, 8, 9))
-    # proto_frame = _ProtoBufferFrame(frame)
-    # proto_frame_data = proto_frame.to_pb()
-    # print(proto_frame_data)
-
-    line = Line(Point(1, 2, 3), Point(4, 5, 6))
-    proto_line = _ProtoBufferLine(line)
-    proto_line_data = proto_line.to_pb()
-    print(proto_line_data)
