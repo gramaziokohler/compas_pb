@@ -22,22 +22,13 @@ pip install -e ".[dev]"
 
 - Protobuf version 6.30.2
 
-#### Re-generate pb_to_py files
-- Windows
-
-```powershell
-# version check
-.\proto\win64\bin\protoc.exe --version
-
-.\proto\win64\bin\protoc.exe --proto_path=.\IDL --python_out=.\src .\IDL\compas_pb\data\*.proto
-```
-
-- Linux
+#### Re-generate `.proto` files to Python Classes
 
 ```bash
-# version check
-./proto/linux64/bin/protoc --version
+invoke protobuf.generate-proto-classes
+
 ```
+
 
 ## Documentation
 
