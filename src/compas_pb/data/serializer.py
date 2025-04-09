@@ -1,38 +1,71 @@
-from compas.geometry import Frame, Line, Point, Vector
-from compas_model.elements import Element
+from compas.geometry import Point, Vector
 
-from compas_pb.data.data import ProtoBufferElement, ProtoBufferFrame, ProtoBufferLine, ProtoBufferPoint, ProtoBufferVector
-
-# ProtoBufferList,
-# ProtoBufferDict,
-# ProtoBufferAny,
+from compas_pb.data.data import _ProtoBufferAny
 from compas_pb.data.proto import message_pb2 as AnyData
-
-SERIALIZERS = {
-    Point: ProtoBufferPoint,
-    Vector: ProtoBufferVector,
-    Line: ProtoBufferLine,
-    Frame: ProtoBufferFrame,
-    Element: ProtoBufferElement,
-}
+from google.protobuf.json_format import MessageToJson, Parse
 
 
 class DataSerializer:
-    """Data Encoder for COMPAS objects to protobuf messages."""
+    """Data Encoder for COMPAS objects to protobuf messages.
 
-    def __init__(self, *args, **kwargs):
-        super(DataSerializer, self).__init__(*args, **kwargs)
+    Parameters:
+    ----------
+    data : object
+        The data to be serialized. This can be a COMPAS object, a list of objects, or a dictionary.
 
-    def serialize_message(self, data):
-        """Serialize a top-level protobuf message."""
-        message_data = self._serializer_any(data)
+    """
+
+    def __init__(self, data=None):
+        super().__init__()
+        self._data = data
+
+    def serialize_message(self) -> AnyData.MessageData:
+        """Serialize a top-level protobuf message.
+
+        Parameters:
+        ----------
+        data : object
+
+        Returns:
+        -------
+        message : AnyData.MessageData
+
+        """
+        if not self._data:
+            raise ValueError("No message data to convert.")
+
+        message_data = self._serializer_any(self._data)
         message = AnyData.MessageData(data=message_data)
-        # print(message)
-        return message.SerializeToString()
+        return message
+
+    def serialize_message_bts(self) -> bytes:
+        """Serialize a top-level protobuf message.
+
+        Returns:
+        -------
+        message : bytes
+            The serialized protobuf message as bytes.
+
+        """
+        message = self.serialize_message()
+        message_bts = message.SerializeToString()
+        return message_bts
+
+    def serialize_message_to_json(self):
+        """Serialize a top-level protobuf message.
+
+        Returns:
+        -------
+        message : dict
+            The serialized protobuf message as a dictionary.
+
+        """
+        message = self.serialize_message()
+        message_json = MessageToJson(message)
+        return message_json
 
     def _serializer_any(self, obj):
         """ "Serialize a COMPAS object to protobuf message."""
-
         any_data = AnyData.AnyData()
 
         if isinstance(obj, list):
@@ -46,18 +79,7 @@ class DataSerializer:
             any_data.dict.CopyFrom(data_offset)
 
         else:
-            serializer = SERIALIZERS.get(type(obj))
-
-            if not serializer:
-                raise TypeError(f"Unsupported type: {type(obj)}")
-
-            buffer_obj = serializer().to_pb(obj)
-            data_offset, type_enum = buffer_obj
-
-            any_data.type = type_enum
-            field_name = AnyData.DataType.Name(type_enum).lower()
-            getattr(any_data, field_name).CopyFrom(data_offset)
-
+            any_data = _ProtoBufferAny(obj).to_pb()
         return any_data
 
     def _serialize_list(self, data_list):
@@ -77,57 +99,73 @@ class DataSerializer:
         return dict_data
 
 
-DESERIALIZERS = {
-    AnyData.DataType.POINT: ProtoBufferPoint,
-    AnyData.DataType.VECTOR: ProtoBufferVector,
-    AnyData.DataType.LINE: ProtoBufferLine,
-    AnyData.DataType.FRAME: ProtoBufferFrame,
-    AnyData.DataType.ELEMENT: ProtoBufferElement,
-}
-
-
 class DataDeserializer:
-    """Data Decoder for protobuf messages to COMPAS objects.
+    """Data Decoder for protobuf messages to objects."""
 
-    The decoder hooks into the Protocol Buffer deserialization process
-    to reconstruct COMPAS data objects from serialized protobuf data.
+    def __init__(self, data=None):
+        super().__init__()
+        self._data = data
 
-    Examples
-    --------
-    >>> from compas_pb.data import pb_load
-    >>> point = pb_load("point.pb")  # doctest: +SKIP
+    def deserialize_message(self) -> AnyData.MessageData:
+        """Deserialize a top-level protobuf message.
 
-    """
+        Returns:
+        -------
+        message : AnyData.MessageData
+            The deserialized protobuf message.
 
-    def __init__(self, *args, **kwargs):
-        super(DataDeserializer, self).__init__(*args, **kwargs)
-        self.message_data = AnyData.MessageData()
+        """
+        data_bts = self.deserialize_message_bts()
+        return self._deserialize_any(data_bts)
 
-    def deserialize_message(self, binary_data):
-        """Deserialize a top-level protobuf message."""
-        if not binary_data:
+    def deserialize_message_bts(self) -> bytes:
+        """Deserialize a binary data into bytes string.
+
+        Parameters:
+        ----------
+        message_data : AnyData.MessageData
+            The protobuf message data to be deserialized.
+        Returns:
+        -------
+
+        """
+        if not self._data:
             raise ValueError("Binary data is empty.")
-        self.message_data.ParseFromString(binary_data)
-        return self._deserialize_any(self.message_data.data)
+        binary_data = self._data
+
+        any_data = AnyData.MessageData()
+        any_data.ParseFromString(binary_data)
+        return any_data.data
+
+    def deserialize_message_from_json(self):
+        """Deserialize a top-level protobuf message into dictionary.
+
+        Returns:
+        -------
+        message :
+            The serialized protobuf message as a dictionary.
+
+        """
+        if not self._data:
+            raise ValueError("No message data to convert.")
+
+        json_format_data = self._data
+        message = AnyData.MessageData()
+        json_message = Parse(json_format_data, message)
+        self._data = json_message
+        message = self.deserialize_message()
+
+        return message
 
     def _deserialize_any(self, data):
         """Deserialize a protobuf message to COMPAS object."""
         if data.type == AnyData.DataType.LIST:
-            return self._deserialize_list(data.list)
-
+            data_offset = self._deserialize_list(data.list)
         elif data.type == AnyData.DataType.DICT:
-            return self._deserialize_dict(data.dict)
-
+            data_offset = self._deserialize_dict(data.dict)
         else:
-            deserializer = DESERIALIZERS.get(data.type)
-
-            if not deserializer:
-                raise TypeError(f"Unsupported type: {data.type}")
-
-            buffer_obj = deserializer()
-            data_offset = buffer_obj.from_pb(data)
-
-            return data_offset
+            data_offset = _ProtoBufferAny.from_pb(data)
+        return data_offset
 
     def _deserialize_list(self, data_list):
         """Deserialize a protobuf ListData message to Python list."""
@@ -143,45 +181,5 @@ class DataDeserializer:
             data_offset[key] = self._deserialize_any(value)
         return data_offset
 
-    def to_dict(self):
-        """Convert protobuf message to dictionary."""
-        from google.protobuf.json_format import MessageToDict
-
-        if not self.message_data:
-            raise ValueError("No message data to convert.")
-        proto_dict = MessageToDict(self.message_data, preserving_proto_field_name=True)
-        return proto_dict
 
 
-if __name__ == "__main__":
-    # Example usage
-    nested_data = {
-        "point": Point(1.0, 2.0, 3.0),
-        "line": Line(Point(1.0, 2.0, 3.0), Point(4.0, 5.0, 6.0)),
-        "list": [Point(4.0, 5.0, 6.0), [Vector(7.0, 8.0, 9.0)]],  # Nested list
-        "frame": Frame(Point(1.0, 2.0, 3.0), Vector(4.0, 5.0, 6.0)),
-        # "element": element,
-    }
-
-    # Dump the binary data to a file
-    encoder = DataSerializer()
-    binary_data = encoder.serialize_message(nested_data)
-    print("Successfully serialized")
-    with open("./nested_data.bin", "wb") as f:
-        f.write(binary_data)
-
-    # Deserialize
-    # load the binary data from the file
-    with open("./nested_data.bin", "rb") as f:
-        binary_data = f.read()
-
-    decoder = DataDeserializer()
-    message_data = decoder.deserialize_message(binary_data)
-    # message_data_dict = decoder.to_dict()
-
-    print("Successfully deserialized")
-    print(message_data)
-
-    line = message_data["line"]
-    print(message_data["line"])
-    print(type(line))
