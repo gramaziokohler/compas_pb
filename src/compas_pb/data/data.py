@@ -1,5 +1,6 @@
-from compas.data import Data
-from compas.geometry import Frame, Line, Point
+from abc import ABC, abstractmethod
+
+from compas.geometry import Frame, Line, Point, Vector
 
 # from compas_model.elements import Element
 from compas_pb.data.proto import element_pb2 as ElementData
@@ -9,53 +10,85 @@ from compas_pb.data.proto import message_pb2 as AnyData
 from compas_pb.data.proto import point_pb2 as PointData
 from compas_pb.data.proto import vector_pb2 as VectorData
 
-from abc import ABC, abstractmethod
 
-
-
-class _ProtoBufferData():
-    """ProtoBufferData is a base class for all data types that can be converted to protobuf data."""
+class _ProtoBufferData(ABC):
+    """A abstract class for protobuf data."""
 
     @abstractmethod
-    def to_pb(self, obj):
-        """ Convert a data object to a protobuf message.
+    def to_pb(self):
+        """Convert a data object to a protobuf message.
 
-        Args:
+        Parameters:
+        -----------
             obj: The data object to convert.
         """
         raise NotImplementedError("Subclasses implement this method")
-    @abstractmethod
-    def from_pb(self, proto_data):
-        """" Convert a protobuf message to a data object.
 
-        Args:
+    @staticmethod
+    @abstractmethod
+    def from_pb(proto_data):
+        """ " Convert a protobuf message to a data object.
+
+        Parameters:
             proto_data: The protobuf message to convert.
         """
         raise NotImplementedError("Subclasses implement this method")
 
+
 class _ProtoBufferPoint(_ProtoBufferData):
-    """ """
+    """A class to hold the protobuf data for a Point object.
+
+    Parameters:
+    ----------
+    obj : :class: `compas.geometry.Point`
+
+    Methods:
+    -------
+
+    """
 
     PB_TYPE = AnyData.DataType.POINT
 
-    def __init__(self, obj):
+    def __init__(self, obj=None):
         super().__init__()
         self._obj = obj
         self._proto_data = PointData.PointData()
 
     def to_pb(self):
-        """Convert a Point object to a protobuf message."""
+        """Convert a Point object to a protobuf message.
 
-        self._proto_data.guid = str(self._obj.guid)
-        self._proto_data.name = self._obj.name
-        self._proto_data.x = self._obj.x
-        self._proto_data.y = self._obj.y
-        self._proto_data.z = self._obj.z
+        Returns:
+        :class: `compas_pb.data.proto.point_pb2.PointData`
+            The protobuf message type of PointData.
+
+        """
+
+        point_obj = self._obj
+
+        if point_obj is None:
+            raise ValueError("No Point object provided for conversion.")
+
+        self._proto_data.guid = str(point_obj.guid)
+        self._proto_data.name = point_obj.name
+        self._proto_data.x = point_obj.x
+        self._proto_data.y = point_obj.y
+        self._proto_data.z = point_obj.z
+
         return self._proto_data
 
     @staticmethod
     def from_pb(proto_data):
-        """Convert a protobuf message to a Point object."""
+        """Convert a protobuf message to a Point object.
+
+        Parameters:
+        proto_data : :class: `compas_pb.data.proto.point_pb2.PointData`
+            The protobuf message type of PointData.
+
+        Returns:
+        :class: `compas.geometry.Point`
+
+        """
+
         point_data = None
         if hasattr(proto_data, "point"):
             point_data = Point(
@@ -72,179 +105,280 @@ class _ProtoBufferPoint(_ProtoBufferData):
         return point_data
 
 
-# class ProtoBufferLine(ProtoBufferData):
-#     """ """
+class _ProtoBufferLine(_ProtoBufferData):
+    """A class to hold the protobuf data for a Line object.
 
-#     def __init__(self, obj=None, name=None):
-#         super(ProtoBufferLine, self).__init__(name=name)
-#         self._proto_data = LineData.LineData()
-#         self._type_enum = AnyData.DataType.LINE
+    Parameters:
+    ----------
+    obj : :class: `compas.geometry.Line`
 
-#     def to_pb(self, obj):
-#         self._proto_data.guid = str(obj.guid)
-#         self._proto_data.name = obj.name
-#         start, _ = ProtoBufferPoint().to_pb(obj.start)
-#         end, _ = ProtoBufferPoint().to_pb(obj.end)
+    Methods:
+    -------
 
-#         self._proto_data.start.CopyFrom(start)
-#         self._proto_data.end.CopyFrom(end)
+    """
 
-#         return self._proto_data, self._type_enum
+    PB_TYPE = AnyData.DataType.LINE
 
-#     @staticmethod
-#     def from_pb(proto_data):
-#         """Convert a protobuf message to a Line object."""
-#         start = ProtoBufferPoint.from_pb(proto_data.line.start)
-#         end = ProtoBufferPoint.from_pb(proto_data.line.end)
-#         line_data = Line(start, end)
-#         return line_data
+    def __init__(self, obj=None):
+        super().__init__()
+        self._obj = obj
+        self._proto_data = LineData.LineData()
 
+    def to_pb(self):
+        """Convert a Line object to a protobuf message.
 
-# class ProtoBufferVector(ProtoBufferData):
-#     """ """
+        Returns:
+        :class: `compas_pb.data.proto.line_pb2.LineData`
+            The protobuf message type of LineData.
 
-#     def __init__(self, obj=None, name=None):
-#         super(ProtoBufferVector, self).__init__(name=name)
-#         self._proto_data = VectorData.VectorData()
-#         self._type_enum = AnyData.DataType.VECTOR
+        """
+        line_obj = self._obj
 
-#         if obj is not None:
-#             proto_data, type_enum = self.to_pb(obj)
-#             self.proto_data = proto_data
-#             self.type_enum = type_enum
+        if line_obj is None:
+            raise ValueError("No Line object provided for conversion.")
 
-#     def to_pb(self, obj):
-#         self._proto_data.guid = str(obj.guid)
-#         self._proto_data.name = obj.name
-#         self._proto_data.x = obj.x
-#         self._proto_data.y = obj.y
-#         self._proto_data.z = obj.z
+        self._proto_data.guid = str(line_obj.guid)
+        self._proto_data.name = line_obj.name
+        start = _ProtoBufferPoint(line_obj.start).to_pb()
+        end = _ProtoBufferPoint(line_obj.end).to_pb()
 
-#         return self._proto_data, self._type_enum
+        self._proto_data.start.CopyFrom(start)
+        self._proto_data.end.CopyFrom(end)
 
-#     @staticmethod
-#     def from_pb(proto_data):
-#         """Convert a protobuf message to a Vector object."""
-#         # field_name = AnyData.DataType.Name(proto_data.type).lower()
-#         # from google.protobuf.json_format import MessageToDict
-#         vector_data = None
-#         if hasattr(proto_data, "vector"):
-#             vector_data = Point(
-#                 proto_data.vector.x,
-#                 proto_data.vector.y,
-#                 proto_data.vector.z,
-#             )
-#         else:
-#             vector_data = Point(
-#                 proto_data.x,
-#                 proto_data.y,
-#                 proto_data.z,
-#             )
-#         return vector_data
+        return self._proto_data
+
+    @staticmethod
+    def from_pb(proto_data):
+        """Convert a protobuf message to a Line object.
+
+        Parameters:
+            proto_data : :class: `compas_pb.data.proto.line_pb2.LineData`
+                The protobuf message type of LineData.
+
+        Returns:
+            :class: `compas.geometry.Line`
+                The converted Line object.
+        """
+        if hasattr(proto_data, "line"):
+            start = _ProtoBufferPoint.from_pb(proto_data.line.start)
+            end = _ProtoBufferPoint.from_pb(proto_data.line.end)
+        else:
+            start = _ProtoBufferPoint.from_pb(proto_data.start)
+            end = _ProtoBufferPoint.from_pb(proto_data.end)
+        line_data = Line(start, end)
+        return line_data
 
 
-# class ProtoBufferFrame(ProtoBufferData):
-#     """ """
+class _ProtoBufferVector(_ProtoBufferData):
+    """A class to hold the protobuf data for a Vector object.
 
-#     def __init__(self, obj=None, name=None):
-#         super(ProtoBufferFrame, self).__init__(name=name)
-#         self._proto_data = FrameData.FrameData()
-#         self._type_enum = AnyData.DataType.FRAME
+    Parameters:
+    ----------
+    obj : :class: `compas.geometry.Vector`
 
-#         if obj is not None:
-#             proto_data, type_enum = self.to_pb(obj)
-#             self.proto_data = proto_data
-#             self.type_enum = type_enum
+    Methods:
+    -------
 
-#     def to_pb(self, obj):
-#         """Convert a Frame object to a protobuf message."""
-#         self._proto_data.guid = str(obj.guid)
-#         self._proto_data.name = obj.name
-#         point, _ = ProtoBufferPoint().to_pb(obj.point)
-#         xaxis, _ = ProtoBufferVector().to_pb(obj.xaxis)
-#         yaxis, _ = ProtoBufferVector().to_pb(obj.yaxis)
+    """
 
-#         self._proto_data.point.CopyFrom(point)
-#         self._proto_data.xaxis.CopyFrom(xaxis)
-#         self._proto_data.yaxis.CopyFrom(yaxis)
+    PB_TYPE = AnyData.DataType.VECTOR
 
-#         return self._proto_data, self._type_enum
+    def __init__(self, obj=None):
+        super().__init__()
+        self._obj = obj
+        self._proto_data = VectorData.VectorData()
 
-#     @staticmethod
-#     def from_pb(proto_data):
-#         """Convert a protobuf message to a Vector object."""
-#         point = ProtoBufferPoint.from_pb(proto_data.frame.point)
-#         xaxis = ProtoBufferVector.from_pb(proto_data.frame.xaxis)
-#         yaxis = ProtoBufferVector.from_pb(proto_data.frame.yaxis)
-#         frame = Frame(
-#             point=point,
-#             xaxis=xaxis,
-#             yaxis=yaxis,
-#         )
-#         return frame
+    def to_pb(self):
+        """Convert a Vector object to a protobuf message.
 
+        Returns:
+        :class: `compas_pb.data.proto.vector_pb2.VectorData`
+            The protobuf message type of VectorData.
 
-# class ProtoBufferElement(ProtoBufferData):
-#     """ """
+        """
+        vector_obj = self._obj
 
-#     def __init__(self, obj=None, name=None):
-#         super(ProtoBufferElement, self).__init__(name=name)
-#         self._proto_data = ElementData.ElementData()
-#         self._type_enum = AnyData.DataType.ELEMENT
+        if vector_obj is None:
+            raise ValueError("No Vector object provided for conversion.")
 
-#         if obj is not None:
-#             proto_data, type_enum = self.to_pb(obj)
-#             self.proto_data = proto_data
-#             self.type_enum = type_enum
+        self._proto_data.guid = str(vector_obj.guid)
+        self._proto_data.name = vector_obj.name
+        self._proto_data.x = vector_obj.x
+        self._proto_data.y = vector_obj.y
+        self._proto_data.z = vector_obj.z
 
-#     def to_pb(self, obj):
-#         """Convert a Element object to a protobuf message."""
-#         self._proto_data.guid = str(obj.guid)
-#         self._proto_data.name = obj.name
-#         frame, _ = ProtoBufferFrame().to_pb(obj.frame)
+        return self._proto_data
 
-#         self._proto_data.frame.CopyFrom(frame)
-#         self._proto_data.xsize = obj.xsize
-#         self._proto_data.ysize = obj.ysize
-#         self._proto_data.zsize = obj.zsize
+    @staticmethod
+    def from_pb(proto_data):
+        """Convert a protobuf message to a Vector object.
 
-#         return self._proto_data, self._type_enum
+        Parameters:
+            proto_data : :class: `compas_pb.data.proto.vector_pb2.VectorData`
+                The protobuf message type of VectorData.
 
-#     # TODO:
-#     # @staticmethod
-#     # def from_pb(proto_data):
-#     #     """Convert a protobuf message to a Vector object."""
-#     #     element = Element()
-#     #     return frame
+        Returns:
+            :class: `compas.geometry.Vector`
+        """
+
+        vector_data = None
+        if hasattr(proto_data, "vector"):
+            vector_data = Vector(
+                proto_data.vector.x,
+                proto_data.vector.y,
+                proto_data.vector.z,
+            )
+        else:
+            vector_data = Vector(
+                proto_data.x,
+                proto_data.y,
+                proto_data.z,
+            )
+        return vector_data
 
 
-# class ProtoBufferAny(ProtoBufferData):
-#     def __init__(self, name=None):
-#         super(ProtoBufferAny, self).__init__(name=name)
-#         self._proto_data = AnyData.AnyData()
-#         self._type_enum = AnyData.DataType.UNKNOWN
+class _ProtoBufferFrame(_ProtoBufferData):
+    """A class to hold the protobuf data for a Frame object.
+
+    Parameters:
+    ----------
+    obj : :class: `compas.geometry.Frame`
+
+    Methods:
+    -------
+    """
+
+    PB_TYPE = AnyData.DataType.FRAME
+
+    def __init__(self, obj=None):
+        super().__init__()
+        self._obj = obj
+        self._proto_data = FrameData.FrameData()
+
+    def to_pb(self):
+        """Convert a Frame object to a protobuf message.
+
+        Returns:
+        :class: `compas_pb.data.proto.frame_pb2.FrameData`
+            The protobuf message type of FrameData.
+
+        """
+        frame_obj = self._obj
+
+        if frame_obj is None:
+            raise ValueError("No Frame object provided for conversion.")
+
+        self._proto_data.guid = str(frame_obj.guid)
+        self._proto_data.name = frame_obj.name
+        point = _ProtoBufferPoint(frame_obj.point).to_pb()
+        xaxis = _ProtoBufferVector(frame_obj.xaxis).to_pb()
+        yaxis = _ProtoBufferVector(frame_obj.yaxis).to_pb()
+
+        self._proto_data.point.CopyFrom(point)
+        self._proto_data.xaxis.CopyFrom(xaxis)
+        self._proto_data.yaxis.CopyFrom(yaxis)
+
+        return self._proto_data
+
+    @staticmethod
+    def from_pb(proto_data):
+        """Convert a protobuf message to a Frame object.
+
+        Parameters:
+        -----------
+            proto_data : :class: `compas_pb.data.proto.frame_pb2.FrameData`
+                The protobuf message type of FrameData.
+
+        Returns:
+            :class: `compas.geometry.Frame`
+        """
+        if hasattr(proto_data, "frame"):
+            point = _ProtoBufferPoint.from_pb(proto_data.frame.point)
+            xaxis = _ProtoBufferVector.from_pb(proto_data.frame.xaxis)
+            yaxis = _ProtoBufferVector.from_pb(proto_data.frame.yaxis)
+        else:
+            point = _ProtoBufferPoint.from_pb(proto_data.point)
+            xaxis = _ProtoBufferVector.from_pb(proto_data.xaxis)
+            yaxis = _ProtoBufferVector.from_pb(proto_data.yaxis)
+
+        frame = Frame(
+            point=point,
+            xaxis=xaxis,
+            yaxis=yaxis,
+        )
+        return frame
 
 
-# class ProtoBufferList(ProtoBufferData):
-#     """ """
-
-#     def __init__(self, obj=None, name=None):
-#         super(ProtoBufferList, self).__init__(name=name)
-#         self._proto_data = AnyData.ListData()
-#         self._type_enum = AnyData.DataType.LIST
+#######################
+# NOT IMPLEMENTED YET
+#######################
 
 
-# class ProtoBufferDict(ProtoBufferData):
-#     """ """
+class _ProtoBufferElement(_ProtoBufferData):
+    """
+    A class to hold the protobuf data for an Element object.
 
-#     def __init__(self, obj=None, name=None):
-#         super(ProtoBufferDict, self).__init__(name=name)
-#         self._proto_data = AnyData.DictData()
-#         self._type_enum = AnyData.DataType.DICT
+    Parameters:
+    ----------
+    obj : :class: `compas_model.elements.Element`
+
+    """
+
+    PB_TYPE = AnyData.DataType.ELEMENT
+
+    def __init__(self, obj=None):
+        super().__init__()
+        self._obj = obj
+        self._proto_data = ElementData.ElementData()
+
+    def to_pb(self):
+        """Convert a Element object to a protobuf message."""
+        raise NotImplementedError("Need to be define")
+
+    # TODO:
+    @staticmethod
+    def from_pb(proto_data):
+        """Convert a protobuf message to a Vector object."""
+        raise NotImplementedError("Need to be define")
+
+
+class _ProtoBufferAny(_ProtoBufferData):
+    """A class to hold the protobuf data for any object."""
+
+    PB_TYPE = AnyData.DataType.UNKNOWN
+
+    def __init__(self, obj=None):
+        super().__init__()
+        self._proto_data = AnyData.AnyData()
+
+
+class _ProtoBufferList(_ProtoBufferData):
+    """A class to hold the protobuf data for a list object."""
+
+    PB_TYPE = AnyData.DataType.LIST
+
+    def __init__(self, obj=None):
+        super().__init__()
+        self._proto_data = AnyData.ListData()
+
+
+class _ProtoBufferDict(_ProtoBufferData):
+    """A class to hold the protobuf data for a dict object."""
+
+    PB_TYPE = AnyData.DataType.DICT
+
+    def __init__(self, obj=None, name=None):
+        super().__init__()
+        self._proto_data = AnyData.DictData()
 
 
 if __name__ == "__main__":
-    point = Point(1, 2, 3)
-    point_data = _ProtoBufferPoint(point).to_pb()
-    print(point_data)
+    # frame = Frame(Point(1, 2, 3), Vector(4, 5, 6), Vector(7, 8, 9))
+    # proto_frame = _ProtoBufferFrame(frame)
+    # proto_frame_data = proto_frame.to_pb()
+    # print(proto_frame_data)
 
+    line = Line(Point(1, 2, 3), Point(4, 5, 6))
+    proto_line = _ProtoBufferLine(line)
+    proto_line_data = proto_line.to_pb()
+    print(proto_line_data)
