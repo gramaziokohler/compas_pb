@@ -2,7 +2,7 @@ from pathlib import Path
 
 from compas.geometry import Frame, Line, Point, Vector
 
-from compas_pb.data.data_handling import pb_dump, pb_dump_bts, pb_load, pb_load_bts
+from compas_pb.data.data_handling import pb_dump, pb_dump_bts, pb_load, pb_load_bts, pb_dump_json, pb_load_json
 
 
 def main():
@@ -26,11 +26,19 @@ def main():
     print(type(loaded_data))
     print(f"loaded_data_from_bin: {loaded_data}\n")
 
-    # bts
+    # to bts and from bts
     data_bts = pb_dump_bts(nested_data)
     print(f"data_bts: {data_bts}\n")
     loaded_data_bts = pb_load_bts(data_bts)
     print(f"loaded_data_from_bts: {loaded_data_bts}")
+
+    # to JsonString and from JsonString
+    data_json_string = pb_dump_json(nested_data)
+    print(f"data_json_string: {data_json_string}\n")
+
+    loaded_data_json = pb_load_json(data_json_string)
+    print(f"loaded_data_from_json: {loaded_data_json}")
+
 
 
 if __name__ == "__main__":
