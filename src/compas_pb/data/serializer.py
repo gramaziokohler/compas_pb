@@ -143,7 +143,7 @@ class DataDeserializer:
         Returns:
         -------
         message :
-            The serialized protobuf message as a dictionary.
+            The serialized protobuf message as a json like string.
 
         """
         if not self._data:
@@ -152,10 +152,12 @@ class DataDeserializer:
         json_format_data = self._data
         message = AnyData.MessageData()
         json_message = Parse(json_format_data, message)
-        self._data = json_message
-        message = self.deserialize_message()
 
-        return message
+        any_data = AnyData.MessageData()
+        any_data.CopyFrom(json_message)
+
+        return self._deserialize_any(any_data.data)
+
 
     def _deserialize_any(self, data):
         """Deserialize a protobuf message to COMPAS object."""
