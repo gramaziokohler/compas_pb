@@ -53,12 +53,36 @@ def pb_load(filepath: str) -> Data | Dict | List:
         message = DataDeserializer(message_bts).deserialize_message()
         return message
 
-def pb_dump_json(data):
-    pass
+def pb_dump_json(data: Data | Dict | List) -> str:
+    """Write a collection of COMPAS object to a JSON string.
+
+    Parameters:
+    ----------
+    data : Data | Dict | List
+        Any  protobuffer serializable object.
+        This includes any (combination of) COMPAS object(s).
+    Returns:
+    -------
+    string
+        The JSON string representation of the data.
+    """
+    json_str = DataSerializer(data).serialize_message_to_json()
+    return json_str
 
 
-def pb_loads_json(data):
-    pass
+def pb_load_json(data:str) -> Data | Dict | List:
+    """ Read a collection of COMPAS object from a JSON string.
+    Parameters:
+    ----------
+    data : str
+        A JSON string representation of the data.
+    Returns:
+    -------
+    Data | Dict | List
+        The (COMPAS) object(s) contained in the JSON string.
+    """
+    message = DataDeserializer(data).deserialize_message_from_json()
+    return message
 
 
 def pb_dump_bts(data):
