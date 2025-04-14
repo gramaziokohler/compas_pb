@@ -79,8 +79,6 @@ class DataSerializer:
             any_data.dict.CopyFrom(data_offset)
         else:
             any_data = _ProtoBufferAny(obj).to_pb()
-            print(any_data)
-            print(type(any_data))
         return any_data
 
     def _serialize_list(self, data_list):
