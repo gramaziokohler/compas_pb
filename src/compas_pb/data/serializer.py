@@ -72,13 +72,19 @@ class DataSerializer:
             data_offset = self._serialize_list(obj)
             any_data.type = AnyData.DataType.LIST
             any_data.list.CopyFrom(data_offset)
-
         elif isinstance(obj, dict):
             data_offset = self._serialize_dict(obj)
             any_data.type = AnyData.DataType.DICT
             any_data.dict.CopyFrom(data_offset)
         else:
-            any_data = _ProtoBufferAny(obj).to_pb()
+            # fallback to dictionary serialization
+            if hasattr(obj, "__data__"):
+                obj_dict = {obj.__class__.__name__: obj.__data__}
+                data_offset = self._serialize_dict(obj_dict)
+                any_data.type = AnyData.DataType.DICT
+                any_data.dict.CopyFrom(data_offset)
+            else:
+                any_data = _ProtoBufferAny(obj).to_pb()
         return any_data
 
     def _serialize_list(self, data_list):
@@ -157,7 +163,6 @@ class DataDeserializer:
 
         return self._deserialize_any(any_data.data)
 
-
     def _deserialize_any(self, data):
         """Deserialize a protobuf message to COMPAS object."""
         if data.type == AnyData.DataType.LIST:
@@ -181,6 +186,3 @@ class DataDeserializer:
         for key, value in data_dict.data.items():
             data_offset[key] = self._deserialize_any(value)
         return data_offset
-
-
-

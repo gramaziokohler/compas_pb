@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 
 from compas.geometry import Frame, Line, Point, Vector
-from compas.data import Data
 
 # from compas_model.elements import Element
 from compas_pb.data.proto import element_pb2 as ElementData
@@ -310,6 +309,73 @@ class _ProtoBufferFrame(_ProtoBufferData):
         return frame
 
 
+class _ProtoBufferDefault(_ProtoBufferData):
+    """
+    A class to hold the protobuf data for python native types.
+
+    """
+
+    PB_TYPE = AnyData.DataType.UNKNOWN
+
+    PY_TYPES_SERIALIZER = {
+        int: AnyData.DataType.INT,
+        float: AnyData.DataType.FLOAT,
+        str: AnyData.DataType.STRING,
+        bool: AnyData.DataType.BOOL,
+    }
+
+    PY_TYPES_DESERIALIZER = {key.__name__.lower(): value for key, value in PY_TYPES_SERIALIZER.items()}
+
+    def __init__(self, obj=None):
+        super().__init__()
+        self._obj = obj
+        self._proto_data = AnyData.AnyData()
+
+    def to_pb(self):
+        """
+        Convert a python native type to a protobuf message.
+
+        Returns:
+            :class: `compas_pb.data.proto.message_pb2.DefaultData`
+                The protobuf message type of DefaultData.
+        """
+        if self._obj is None:
+            raise ValueError("No object provided for conversion.")
+        obj = self._obj
+
+        try:
+            type_obj = self.PY_TYPES_SERIALIZER.get(type(obj))
+            field_name = AnyData.DataType.Name(type_obj).lower()
+            setattr(self._proto_data, field_name, obj)
+            return self._proto_data
+
+        except TypeError as e:
+            raise TypeError(f"Unsupported type: {type(obj)}: {e}")
+
+    @staticmethod
+    def from_pb(proto_data):
+        """Convert a protobuf message to a python native type.
+
+        Parameters:
+        -----------
+            proto_data : :class: `compas_pb.data.proto.message_pb2.AnyData`
+                The protobuf message type of AnyData.
+
+        Returns:
+            data_offset : python object
+                The converted python native type.
+        """
+        proto_type = proto_data.WhichOneof("data")
+
+        try:
+            type_proto_data = _ProtoBufferDefault.PY_TYPES_DESERIALIZER.get(proto_type)
+            if type_proto_data:
+                data_offset = getattr(proto_data, proto_type)
+            return data_offset
+        except TypeError as e:
+            raise TypeError(f"Unsupported type: {proto_type}: {e}")
+
+
 class _ProtoBufferAny(_ProtoBufferData):
     """A class to hold the protobuf data for any object.
 
@@ -333,15 +399,14 @@ class _ProtoBufferAny(_ProtoBufferData):
         Vector: _ProtoBufferVector,
         Line: _ProtoBufferLine,
         Frame: _ProtoBufferFrame,
-        Data: _ProtoBufferData,
     }
-
     DESERIALIZER = {key.__name__.lower(): value for key, value in SERIALIZER.items()}
 
-    def __init__(self, obj=None):
+    def __init__(self, obj=None, fallback_serializer=None):
         super().__init__()
         self._obj = obj
         self._proto_data = AnyData.AnyData()
+        self._fallback_serializer = fallback_serializer
 
     def to_pb(self):
         """Convert a any object to a protobuf any message.
@@ -367,17 +432,8 @@ class _ProtoBufferAny(_ProtoBufferData):
                 getattr(self._proto_data, field_name).CopyFrom(data_offset)
                 return self._proto_data
             else:
-                for item in obj:
-                    pb_serializer_cls = self.SERIALIZER.get(type(item))
-                    pb_obj = pb_serializer_cls(item)
-                    self.PB_TYPE = pb_obj.PB_TYPE
-
-                    field_name = AnyData.DataType.Name(self.PB_TYPE).lower()
-                    data_offset = pb_obj.to_pb()
-                    getattr(self._proto_data, field_name).CopyFrom(data_offset)
-                    return self._proto_data
-                    # _ProtoBufferAny(item).to_pb()
-
+                self._proto_data = _ProtoBufferDefault(obj).to_pb()
+                return self._proto_data
         except TypeError as e:
             raise TypeError(f"Unsupported type: {type(obj)}: {e}")
 
@@ -401,10 +457,10 @@ class _ProtoBufferAny(_ProtoBufferData):
             pb_deserializer_cls = _ProtoBufferAny.DESERIALIZER.get(proto_type)
             if pb_deserializer_cls:
                 data_offset = pb_deserializer_cls.from_pb(proto_data)
-                return data_offset
             else:
-                for item in proto_data:
-                    _ProtoBufferAny.from_pb(item)
+                data_offset = _ProtoBufferDefault.from_pb(proto_data)
+            return data_offset
+
         except TypeError as e:
             raise TypeError(f"Unsupported type: {proto_type}: {e}")
 
@@ -412,8 +468,6 @@ class _ProtoBufferAny(_ProtoBufferData):
 #######################
 # NOT IMPLEMENTED YET
 #######################
-
-
 class _ProtoBufferElement(_ProtoBufferData):
     """
     A class to hold the protobuf data for an Element object.
