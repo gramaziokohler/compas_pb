@@ -19,12 +19,17 @@ enum DataType {
   ELEMENT = 5;
   LIST = 6;
   DICT = 7;
-  DEFAULT = 8; // built-in data type, such as int, float, string, etc.
+
+  INT = 8;
+  FLOAT = 9;
+  BOOL = 10;
+  STRING = 11;
 }
 
 message AnyData {
   DataType type = 1;
   oneof data {
+    /* a meesage to hold COMPAS obejct data types */
     PointData point = 2;
     VectorData vector = 3;
     LineData line = 4;
@@ -32,17 +37,12 @@ message AnyData {
     ElementData element = 6;
     ListData list = 7;
     DictData dict = 8;
-    DefaultData default = 9;
-  }
-}
 
-/* a meesage to hold built-in data types */
-message DefaultData {
-  oneof data {
-    int32 int = 1;
-    float float = 2;
-    bool bool = 3;
-    string string = 4;
+    /* a meesage to hold built-in data types */
+    int32 int = 9;
+    float float = 10;
+    bool bool = 11;
+    string string = 12;
   }
 }
 
