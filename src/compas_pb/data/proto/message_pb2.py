@@ -29,7 +29,7 @@ from compas_pb.data.proto import element_pb2 as compas__pb_dot_data_dot_proto_do
 from compas_pb.data.proto import frame_pb2 as compas__pb_dot_data_dot_proto_dot_frame__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\"compas_pb/data/proto/message.proto\x12\x0e\x63ompas_pb.data\x1a compas_pb/data/proto/point.proto\x1a!compas_pb/data/proto/vector.proto\x1a\x1f\x63ompas_pb/data/proto/line.proto\x1a\"compas_pb/data/proto/element.proto\x1a compas_pb/data/proto/frame.proto\"\x9d\x03\n\x07\x41nyData\x12&\n\x04type\x18\x01 \x01(\x0e\x32\x18.compas_pb.data.DataType\x12*\n\x05point\x18\x02 \x01(\x0b\x32\x19.compas_pb.data.PointDataH\x00\x12,\n\x06vector\x18\x03 \x01(\x0b\x32\x1a.compas_pb.data.VectorDataH\x00\x12(\n\x04line\x18\x04 \x01(\x0b\x32\x18.compas_pb.data.LineDataH\x00\x12*\n\x05\x66rame\x18\x05 \x01(\x0b\x32\x19.compas_pb.data.FrameDataH\x00\x12.\n\x07\x65lement\x18\x06 \x01(\x0b\x32\x1b.compas_pb.data.ElementDataH\x00\x12(\n\x04list\x18\x07 \x01(\x0b\x32\x18.compas_pb.data.ListDataH\x00\x12(\n\x04\x64ict\x18\x08 \x01(\x0b\x32\x18.compas_pb.data.DictDataH\x00\x12.\n\x07\x64\x65\x66\x61ult\x18\t \x01(\x0b\x32\x1b.compas_pb.data.DefaultDataH\x00\x42\x06\n\x04\x64\x61ta\"W\n\x0b\x44\x65\x66\x61ultData\x12\r\n\x03int\x18\x01 \x01(\x05H\x00\x12\x0f\n\x05\x66loat\x18\x02 \x01(\x02H\x00\x12\x0e\n\x04\x62ool\x18\x03 \x01(\x08H\x00\x12\x10\n\x06string\x18\x04 \x01(\tH\x00\x42\x06\n\x04\x64\x61ta\"1\n\x08ListData\x12%\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x17.compas_pb.data.AnyData\"\x82\x01\n\x08\x44ictData\x12\x30\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\".compas_pb.data.DictData.DataEntry\x1a\x44\n\tDataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12&\n\x05value\x18\x02 \x01(\x0b\x32\x17.compas_pb.data.AnyData:\x02\x38\x01\"4\n\x0bMessageData\x12%\n\x04\x64\x61ta\x18\x01 \x01(\x0b\x32\x17.compas_pb.data.AnyData*q\n\x08\x44\x61taType\x12\x0b\n\x07UNKNOWN\x10\x00\x12\t\n\x05POINT\x10\x01\x12\n\n\x06VECTOR\x10\x02\x12\x08\n\x04LINE\x10\x03\x12\t\n\x05\x46RAME\x10\x04\x12\x0b\n\x07\x45LEMENT\x10\x05\x12\x08\n\x04LIST\x10\x06\x12\x08\n\x04\x44ICT\x10\x07\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x08\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\"compas_pb/data/proto/message.proto\x12\x0e\x63ompas_pb.data\x1a compas_pb/data/proto/point.proto\x1a!compas_pb/data/proto/vector.proto\x1a\x1f\x63ompas_pb/data/proto/line.proto\x1a\"compas_pb/data/proto/element.proto\x1a compas_pb/data/proto/frame.proto\"\xaf\x03\n\x07\x41nyData\x12&\n\x04type\x18\x01 \x01(\x0e\x32\x18.compas_pb.data.DataType\x12*\n\x05point\x18\x02 \x01(\x0b\x32\x19.compas_pb.data.PointDataH\x00\x12,\n\x06vector\x18\x03 \x01(\x0b\x32\x1a.compas_pb.data.VectorDataH\x00\x12(\n\x04line\x18\x04 \x01(\x0b\x32\x18.compas_pb.data.LineDataH\x00\x12*\n\x05\x66rame\x18\x05 \x01(\x0b\x32\x19.compas_pb.data.FrameDataH\x00\x12.\n\x07\x65lement\x18\x06 \x01(\x0b\x32\x1b.compas_pb.data.ElementDataH\x00\x12(\n\x04list\x18\x07 \x01(\x0b\x32\x18.compas_pb.data.ListDataH\x00\x12(\n\x04\x64ict\x18\x08 \x01(\x0b\x32\x18.compas_pb.data.DictDataH\x00\x12\r\n\x03int\x18\t \x01(\x05H\x00\x12\x0f\n\x05\x66loat\x18\n \x01(\x02H\x00\x12\x0e\n\x04\x62ool\x18\x0b \x01(\x08H\x00\x12\x10\n\x06string\x18\x0c \x01(\tH\x00\x42\x06\n\x04\x64\x61ta\"1\n\x08ListData\x12%\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x17.compas_pb.data.AnyData\"\x82\x01\n\x08\x44ictData\x12\x30\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\".compas_pb.data.DictData.DataEntry\x1a\x44\n\tDataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12&\n\x05value\x18\x02 \x01(\x0b\x32\x17.compas_pb.data.AnyData:\x02\x38\x01\"4\n\x0bMessageData\x12%\n\x04\x64\x61ta\x18\x01 \x01(\x0b\x32\x17.compas_pb.data.AnyData*\x8e\x01\n\x08\x44\x61taType\x12\x0b\n\x07UNKNOWN\x10\x00\x12\t\n\x05POINT\x10\x01\x12\n\n\x06VECTOR\x10\x02\x12\x08\n\x04LINE\x10\x03\x12\t\n\x05\x46RAME\x10\x04\x12\x0b\n\x07\x45LEMENT\x10\x05\x12\x08\n\x04LIST\x10\x06\x12\x08\n\x04\x44ICT\x10\x07\x12\x07\n\x03INT\x10\x08\x12\t\n\x05\x46LOAT\x10\t\x12\x08\n\x04\x42OOL\x10\n\x12\n\n\x06STRING\x10\x0b\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -38,18 +38,16 @@ if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_DICTDATA_DATAENTRY']._loaded_options = None
   _globals['_DICTDATA_DATAENTRY']._serialized_options = b'8\001'
-  _globals['_DATATYPE']._serialized_start=969
-  _globals['_DATATYPE']._serialized_end=1082
+  _globals['_DATATYPE']._serialized_start=899
+  _globals['_DATATYPE']._serialized_end=1041
   _globals['_ANYDATA']._serialized_start=227
-  _globals['_ANYDATA']._serialized_end=640
-  _globals['_DEFAULTDATA']._serialized_start=642
-  _globals['_DEFAULTDATA']._serialized_end=729
-  _globals['_LISTDATA']._serialized_start=731
-  _globals['_LISTDATA']._serialized_end=780
-  _globals['_DICTDATA']._serialized_start=783
-  _globals['_DICTDATA']._serialized_end=913
-  _globals['_DICTDATA_DATAENTRY']._serialized_start=845
-  _globals['_DICTDATA_DATAENTRY']._serialized_end=913
-  _globals['_MESSAGEDATA']._serialized_start=915
-  _globals['_MESSAGEDATA']._serialized_end=967
+  _globals['_ANYDATA']._serialized_end=658
+  _globals['_LISTDATA']._serialized_start=660
+  _globals['_LISTDATA']._serialized_end=709
+  _globals['_DICTDATA']._serialized_start=712
+  _globals['_DICTDATA']._serialized_end=842
+  _globals['_DICTDATA_DATAENTRY']._serialized_start=774
+  _globals['_DICTDATA_DATAENTRY']._serialized_end=842
+  _globals['_MESSAGEDATA']._serialized_start=844
+  _globals['_MESSAGEDATA']._serialized_end=896
 # @@protoc_insertion_point(module_scope)
