@@ -7,7 +7,7 @@ import invoke
 def generate_compiler_path():
     path = ""
     if platform.system() == "Windows":
-        path = Path("proto/win64/bin/protoc.exe")
+        path = Path("./proto/win64/bin/protoc.exe")
     elif platform.system() == "Linux":
         path = Path("proto/linux64/bin/protoc")
     elif platform.system() == "Darwin":
@@ -24,7 +24,7 @@ def generate_proto_classes(ctx, target_language: str = "python"):
     path_to_compiler = generate_compiler_path()
 
     for idl_file in idl_dir.glob("*.proto"):
-        cmd = f"./{path_to_compiler} --proto_path=./IDL --{target_language}_out={out_dir} {idl_file}"
+        cmd = f"{path_to_compiler} --proto_path=./IDL --{target_language}_out={out_dir} {idl_file}"
         print(cmd)
         ctx.run(cmd)
 
