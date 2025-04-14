@@ -7,7 +7,6 @@ import "compas_pb/data/proto/vector.proto";
 import "compas_pb/data/proto/line.proto";
 import "compas_pb/data/proto/element.proto";
 import "compas_pb/data/proto/frame.proto";
-
 // import "google/protobuf/any.proto";
 
 /* A message to hold any data type */
@@ -20,9 +19,9 @@ enum DataType {
   ELEMENT = 5;
   LIST = 6;
   DICT = 7;
+  DEFAULT = 8; // built-in data type, such as int, float, string, etc.
 }
 
-/** Hold any data type in protobuf */
 message AnyData {
   DataType type = 1;
   oneof data {
@@ -33,14 +32,19 @@ message AnyData {
     ElementData element = 6;
     ListData list = 7;
     DictData dict = 8;
+    DefaultData default = 9;
   }
 }
 
-/** Another way to hold the data, but we have to use Pack and upPack with URL */
-// message AnyData {
-//   DataType type = 1;
-//   google.protobuf.Any data = 2;
-// }
+/* a meesage to hold built-in data types */
+message DefaultData {
+  oneof data {
+    int32 int = 1;
+    float float = 2;
+    bool bool = 3;
+    string string = 4;
+  }
+}
 
 /** repeated serves as a list in protobuf */
 message ListData {
