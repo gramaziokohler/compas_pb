@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from compas.geometry import Frame, Line, Point, Vector
+from compas.data import Data
 
 # from compas_model.elements import Element
 from compas_pb.data.proto import element_pb2 as ElementData
@@ -332,7 +333,7 @@ class _ProtoBufferAny(_ProtoBufferData):
         Vector: _ProtoBufferVector,
         Line: _ProtoBufferLine,
         Frame: _ProtoBufferFrame,
-        # Element: _ProtoBufferElement,
+        Data: _ProtoBufferData,
     }
 
     DESERIALIZER = {key.__name__.lower(): value for key, value in SERIALIZER.items()}
@@ -350,39 +351,68 @@ class _ProtoBufferAny(_ProtoBufferData):
                 The protobuf message type of AnyData.
 
         """
+
         if self._obj is None:
             raise ValueError("No object provided for conversion.")
         obj = self._obj
-        pb_type_map = self.SERIALIZER.get(type(obj))
 
-        if pb_type_map is None:
-            raise TypeError(f"Unsupported type: {type(obj)}")
+        try:
+            pb_serializer_cls = self.SERIALIZER.get(type(obj))
+            if pb_serializer_cls:
+                pb_obj = pb_serializer_cls(obj)
+                self.PB_TYPE = pb_obj.PB_TYPE
 
-        pb_obj = pb_type_map
-        self.PB_TYPE = pb_obj.PB_TYPE
+                field_name = AnyData.DataType.Name(self.PB_TYPE).lower()
+                data_offset = pb_obj.to_pb()
+                getattr(self._proto_data, field_name).CopyFrom(data_offset)
+                return self._proto_data
+            else:
+                for item in obj:
+                    pb_serializer_cls = self.SERIALIZER.get(type(item))
+                    pb_obj = pb_serializer_cls(item)
+                    self.PB_TYPE = pb_obj.PB_TYPE
 
-        field_name = AnyData.DataType.Name(self.PB_TYPE).lower()
-        data_offset = pb_obj(obj).to_pb()
-        getattr(self._proto_data, field_name).CopyFrom(data_offset)
+                    field_name = AnyData.DataType.Name(self.PB_TYPE).lower()
+                    data_offset = pb_obj.to_pb()
+                    getattr(self._proto_data, field_name).CopyFrom(data_offset)
+                    return self._proto_data
+                    # _ProtoBufferAny(item).to_pb()
 
-        return self._proto_data
+        except TypeError as e:
+            raise TypeError(f"Unsupported type: {type(obj)}: {e}")
 
     @staticmethod
     def from_pb(proto_data):
-        """Convert a protobuf message to a supported COMPAS object."""
+        """Convert a protobuf message to a supported COMPAS object.
+
+        Parameters:
+        -----------
+            proto_data : :class: `compas_pb.data.proto.message_pb2.AnyData`
+                The protobuf message type of AnyData.
+
+        Returns:
+        ----------
+            data_offset : python object
+        """
 
         proto_type = proto_data.WhichOneof("data")
-        obj = _ProtoBufferAny.DESERIALIZER.get(proto_type)
-        if obj is None:
-            raise TypeError(f"Unsupported type: {proto_type}")
 
-        data = obj.from_pb(proto_data)
-        return data
+        try:
+            pb_deserializer_cls = _ProtoBufferAny.DESERIALIZER.get(proto_type)
+            if pb_deserializer_cls:
+                data_offset = pb_deserializer_cls.from_pb(proto_data)
+                return data_offset
+            else:
+                for item in proto_data:
+                    _ProtoBufferAny.from_pb(item)
+        except TypeError as e:
+            raise TypeError(f"Unsupported type: {proto_type}: {e}")
 
 
 #######################
 # NOT IMPLEMENTED YET
 #######################
+
 
 class _ProtoBufferElement(_ProtoBufferData):
     """
@@ -410,5 +440,3 @@ class _ProtoBufferElement(_ProtoBufferData):
     def from_pb(proto_data):
         """Convert a protobuf message to a Vector object."""
         raise NotImplementedError("Need to be define")
-
-
