@@ -7,6 +7,7 @@ from compas_pb.data.data_handling import pb_dump, pb_dump_bts, pb_load, pb_load_
 def main():
     # Example nested data structure
     # element = Element(frame, 1.0, 2.0, 3.0, name="Element")
+
     nested_data = {
         # "point": Point(1.0, 2.0, 3.0),
         # "line": Line(Point(1.0, 2.0, 3.0), Point(4.0, 5.0, 6.0)),
@@ -16,32 +17,35 @@ def main():
         # "element": element,
     }
 
-    polyline = Polyline([[0, 0, 0], [1, 0, 0], [2, 0, 0], [3, 0, 0]])
-    nested_py_native_list = [ [0.0, 0.5, 1.5], True, 5, 10 ]
+    nested_data_diff_types = {
+        "polyline": Polyline([[0, 0, 0], [1, 0, 0], [2, 0, 0], [3, 0, 0]]),
+        "list": ["hey", [0.0, 0.5, 1.5], True, 5, 10]
+    }
 
     FILEPATH = Path(__file__).parent / "temp" / "nested_data.bin"
 
-    # Load the data from the file
-    # pb_dump(polyline, filepath=FILEPATH.as_posix())
-    pb_dump(nested_py_native_list, filepath=FILEPATH.as_posix())
+    # LOAD THE DATA FROM THE FILE
+    pb_dump(nested_data_diff_types, filepath=FILEPATH.as_posix())
 
-    # Deserialize the data
+    # DESERIALIZE THE DATA
     loaded_data = pb_load(filepath=FILEPATH.as_posix())
-    print(type(loaded_data))
+    print(f"pb_load type: {type(loaded_data)}")
     print(f"loaded_data_from_bin: {loaded_data}\n")
 
-    # # to bts and from bts
-    # data_bts = pb_dump_bts(nested_data)
-    # print(f"data_bts: {data_bts}\n")
-    # loaded_data_bts = pb_load_bts(data_bts)
-    # print(f"loaded_data_from_bts: {loaded_data_bts}")
-
-    # # to JsonString and from JsonString
-    # data_json_string = pb_dump_json(nested_data)
+    # TO JSONSTRING AND FROM JSONSTRING
+    data_json_string = pb_dump_json(nested_data_diff_types)
+    print(f"data_json_string type: {type(data_json_string)}")
     # print(f"data_json_string: {data_json_string}\n")
 
-    # loaded_data_json = pb_load_json(data_json_string)
+    loaded_data_json = pb_load_json(data_json_string)
+    print(f"loaded_data_from_json type: {type(loaded_data_json)}")
     # print(f"loaded_data_from_json: {loaded_data_json}")
+
+    # TO BTS AND FROM BTS
+    data_bts = pb_dump_bts(nested_data_diff_types)
+    print(f"data_bts type: {type(data_bts)}")
+    loaded_data_bts = pb_load_bts(data_bts)
+    print(f"loaded_data_from_bts type: {type(loaded_data_bts)}")
 
 
 if __name__ == "__main__":
