@@ -23,7 +23,7 @@ enum DataType {
   INT = 8;
   FLOAT = 9;
   BOOL = 10;
-  STRING = 11;
+  STR = 11;
 }
 
 message AnyData {
@@ -42,7 +42,7 @@ message AnyData {
     int32 int = 9;
     float float = 10;
     bool bool = 11;
-    string string = 12;
+    string str = 12;
   }
 }
 
