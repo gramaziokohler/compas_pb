@@ -78,8 +78,8 @@ class DataSerializer:
             any_data.dict.CopyFrom(data_offset)
         else:
             # fallback to dictionary serialization
-            if hasattr(obj, "__data__"):
-                obj_dict = {obj.__class__.__name__: obj.__data__}
+            if hasattr(obj, "__jsondump__"):
+                obj_dict = {obj.__class__.__name__: obj.__jsondump__()}
                 data_offset = self._serialize_dict(obj_dict)
                 any_data.type = AnyData.DataType.DICT
                 any_data.dict.CopyFrom(data_offset)
