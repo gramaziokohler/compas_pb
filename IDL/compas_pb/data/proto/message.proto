@@ -7,7 +7,6 @@ import "compas_pb/data/proto/vector.proto";
 import "compas_pb/data/proto/line.proto";
 import "compas_pb/data/proto/element.proto";
 import "compas_pb/data/proto/frame.proto";
-
 // import "google/protobuf/any.proto";
 
 /* A message to hold any data type */
@@ -20,12 +19,17 @@ enum DataType {
   ELEMENT = 5;
   LIST = 6;
   DICT = 7;
+
+  INT = 8;
+  FLOAT = 9;
+  BOOL = 10;
+  STR = 11;
 }
 
-/** Hold any data type in protobuf */
 message AnyData {
   DataType type = 1;
   oneof data {
+    /* a meesage to hold COMPAS obejct data types */
     PointData point = 2;
     VectorData vector = 3;
     LineData line = 4;
@@ -33,14 +37,14 @@ message AnyData {
     ElementData element = 6;
     ListData list = 7;
     DictData dict = 8;
+
+    /* a meesage to hold built-in data types */
+    int32 int = 9;
+    float float = 10;
+    bool bool = 11;
+    string str = 12;
   }
 }
-
-/** Another way to hold the data, but we have to use Pack and upPack with URL */
-// message AnyData {
-//   DataType type = 1;
-//   google.protobuf.Any data = 2;
-// }
 
 /** repeated serves as a list in protobuf */
 message ListData {

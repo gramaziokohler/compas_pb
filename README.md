@@ -20,6 +20,10 @@ pip install -e ".[dev]"
 
 ## Development
 
+```
+uv pip install -e . --upgrade
+```
+
 - Protobuf version 6.30.2
 
 #### Re-generate `.proto` files to Python Classes
