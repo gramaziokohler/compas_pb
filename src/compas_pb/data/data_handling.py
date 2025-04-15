@@ -38,12 +38,13 @@ def pb_load(filepath: str) -> Data | Dict | List:
     Parameters:
     ----------
     filepath : path string or file-like object
-        A readable file-like object or the path to a file.
 
+        A readable file-like object or the path to a file.
 
     Returns:
     -------
     Data | Dict | List
+
         The (COMPAS) object(s) contained in the file.
 
     """
@@ -53,47 +54,71 @@ def pb_load(filepath: str) -> Data | Dict | List:
         message = DataDeserializer(message_bts).deserialize_message()
         return message
 
+
 def pb_dump_json(data: Data | Dict | List) -> str:
     """Write a collection of COMPAS object to a JSON string.
+
 
     Parameters:
     ----------
     data : Data | Dict | List
-        Any  protobuffer serializable object.
-        This includes any (combination of) COMPAS object(s).
+
+        Any  protobuffer serializable object. This includes any (combination of) COMPAS object(s).
+
+
     Returns:
     -------
     string
+
         The JSON string representation of the data.
+
+    Example:
+    --------
+    pass
+
     """
     json_str = DataSerializer(data).serialize_message_to_json()
     return json_str
 
 
-def pb_load_json(data:str) -> Data | Dict | List:
-    """ Read a collection of COMPAS object from a JSON string.
+def pb_load_json(data: str) -> Data | Dict | List:
+    """Read a collection of COMPAS object from a JSON string.
+
+
     Parameters:
     ----------
     data : str
+
         A JSON string representation of the data.
+
+
     Returns:
     -------
     Data | Dict | List
+
+
         The (COMPAS) object(s) contained in the JSON string.
+
+    Example:
+    --------
+    pass
+
     """
     message = DataDeserializer(data).deserialize_message_from_json()
     return message
 
 
-def pb_dump_bts(data):
-
+def pb_dump_bts(data: Data | Dict | list) -> bytes:
     """Write a collection of COMPAS object to a btye string.
+
 
     Parameters:
     ----------
     data : Data | Dict | List
+
         Any  protobuffer serializable object.
         This includes any (combination of) COMPAS object(s).
+
     Returns:
     -------
     None
@@ -108,8 +133,7 @@ def pb_dump_bts(data):
     return message_bts
 
 
-def pb_load_bts(data: bytes):
-
+def pb_load_bts(data: bytes) -> Data | Dict | List:
     """Read a collection of COMPAS object from a binary file.
 
     Parameters:
@@ -124,5 +148,5 @@ def pb_load_bts(data: bytes):
         The (COMPAS) object(s) contained in the file.
 
     """
-    message_bts = DataDeserializer(data).deserialize_message_bts()
+    message_bts = DataDeserializer(data).deserialize_message()
     return message_bts

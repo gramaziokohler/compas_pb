@@ -11,6 +11,7 @@ from compas_pb.data.proto import point_pb2 as PointData
 from compas_pb.data.proto import vector_pb2 as VectorData
 
 
+
 class _ProtoBufferData(ABC):
     """A abstract class for protobuf data."""
 
@@ -313,6 +314,9 @@ class _ProtoBufferDefault(_ProtoBufferData):
     """
     A class to hold the protobuf data for python native types.
 
+    Parameters:
+    ----------
+        obj : :class: `int`, `float`, `bool`, `str`
     """
 
     PB_TYPE = AnyData.DataType.UNKNOWN
@@ -320,8 +324,8 @@ class _ProtoBufferDefault(_ProtoBufferData):
     PY_TYPES_SERIALIZER = {
         int: AnyData.DataType.INT,
         float: AnyData.DataType.FLOAT,
-        str: AnyData.DataType.STRING,
         bool: AnyData.DataType.BOOL,
+        str: AnyData.DataType.STR,
     }
 
     PY_TYPES_DESERIALIZER = {key.__name__.lower(): value for key, value in PY_TYPES_SERIALIZER.items()}
@@ -336,8 +340,8 @@ class _ProtoBufferDefault(_ProtoBufferData):
         Convert a python native type to a protobuf message.
 
         Returns:
-            :class: `compas_pb.data.proto.message_pb2.DefaultData`
-                The protobuf message type of DefaultData.
+            :class: `compas_pb.data.proto.message_pb2.AnyData`
+                The protobuf message type of AnyData.
         """
         if self._obj is None:
             raise ValueError("No object provided for conversion.")
@@ -408,7 +412,7 @@ class _ProtoBufferAny(_ProtoBufferData):
         self._proto_data = AnyData.AnyData()
         self._fallback_serializer = fallback_serializer
 
-    def to_pb(self):
+    def to_pb(self) -> AnyData.AnyData:
         """Convert a any object to a protobuf any message.
 
         Returns:
@@ -438,7 +442,7 @@ class _ProtoBufferAny(_ProtoBufferData):
             raise TypeError(f"Unsupported type: {type(obj)}: {e}")
 
     @staticmethod
-    def from_pb(proto_data):
+    def from_pb(proto_data) -> list | dict | object:
         """Convert a protobuf message to a supported COMPAS object.
 
         Parameters:

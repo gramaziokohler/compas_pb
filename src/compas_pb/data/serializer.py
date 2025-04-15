@@ -1,8 +1,8 @@
-from compas.geometry import Point, Vector
+from google.protobuf.json_format import MessageToJson
+from google.protobuf.json_format import Parse
 
 from compas_pb.data.data import _ProtoBufferAny
 from compas_pb.data.proto import message_pb2 as AnyData
-from google.protobuf.json_format import MessageToJson, Parse
 
 
 class DataSerializer:
@@ -51,7 +51,7 @@ class DataSerializer:
         message_bts = message.SerializeToString()
         return message_bts
 
-    def serialize_message_to_json(self):
+    def serialize_message_to_json(self) -> dict:
         """Serialize a top-level protobuf message.
 
         Returns:
@@ -64,7 +64,7 @@ class DataSerializer:
         message_json = MessageToJson(message)
         return message_json
 
-    def _serializer_any(self, obj):
+    def _serializer_any(self, obj) -> AnyData.AnyData:
         """ "Serialize a COMPAS object to protobuf message."""
         any_data = AnyData.AnyData()
 
@@ -84,10 +84,11 @@ class DataSerializer:
                 any_data.type = AnyData.DataType.DICT
                 any_data.dict.CopyFrom(data_offset)
             else:
+                # check if it is COMPAS object or Python native type.
                 any_data = _ProtoBufferAny(obj).to_pb()
         return any_data
 
-    def _serialize_list(self, data_list):
+    def _serialize_list(self, data_list) -> AnyData.ListData:
         """Serialize a Python list containing mixed data type."""
         list_data = AnyData.ListData()
         for item in data_list:
@@ -95,7 +96,7 @@ class DataSerializer:
             list_data.data.append(data_offset)
         return list_data
 
-    def _serialize_dict(self, data_dict):
+    def _serialize_dict(self, data_dict) -> AnyData.DictData:
         """Serialize a Python dictionary containing mixed data types."""
         dict_data = AnyData.DictData()
         for key, value in data_dict.items():
@@ -111,7 +112,7 @@ class DataDeserializer:
         super().__init__()
         self._data = data
 
-    def deserialize_message(self) -> AnyData.MessageData:
+    def deserialize_message(self) -> list | dict:
         """Deserialize a top-level protobuf message.
 
         Returns:
@@ -120,10 +121,10 @@ class DataDeserializer:
             The deserialized protobuf message.
 
         """
-        data_bts = self.deserialize_message_bts()
-        return self._deserialize_any(data_bts)
+        message_data = self.deserialize_message_bts()
+        return self._deserialize_any(message_data)
 
-    def deserialize_message_bts(self) -> bytes:
+    def deserialize_message_bts(self) -> AnyData.MessageData:
         """Deserialize a binary data into bytes string.
 
         Parameters:
@@ -142,7 +143,7 @@ class DataDeserializer:
         any_data.ParseFromString(binary_data)
         return any_data.data
 
-    def deserialize_message_from_json(self):
+    def deserialize_message_from_json(self) -> dict:
         """Deserialize a top-level protobuf message into dictionary.
 
         Returns:
@@ -163,8 +164,9 @@ class DataDeserializer:
 
         return self._deserialize_any(any_data.data)
 
-    def _deserialize_any(self, data):
+    def _deserialize_any(self, data: any) -> list | dict:
         """Deserialize a protobuf message to COMPAS object."""
+
         if data.type == AnyData.DataType.LIST:
             data_offset = self._deserialize_list(data.list)
         elif data.type == AnyData.DataType.DICT:
@@ -173,15 +175,17 @@ class DataDeserializer:
             data_offset = _ProtoBufferAny.from_pb(data)
         return data_offset
 
-    def _deserialize_list(self, data_list):
+    def _deserialize_list(self, data_list: list) -> list:
         """Deserialize a protobuf ListData message to Python list."""
+
         data_offset = []
         for item in data_list.data:
             data_offset.append(self._deserialize_any(item))
         return data_offset
 
-    def _deserialize_dict(self, data_dict):
+    def _deserialize_dict(self, data_dict: dict) -> dict:
         """Deserialize a protobuf DictData message to Python dictionary."""
+
         data_offset = {}
         for key, value in data_dict.data.items():
             data_offset[key] = self._deserialize_any(value)
