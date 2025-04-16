@@ -430,14 +430,17 @@ class _ProtoBufferAny(_ProtoBufferData):
             if pb_serializer_cls:
                 pb_obj = pb_serializer_cls(obj)
                 self.PB_TYPE = pb_obj.PB_TYPE
-
                 field_name = AnyData.DataType.Name(self.PB_TYPE).lower()
                 data_offset = pb_obj.to_pb()
                 getattr(self._proto_data, field_name).CopyFrom(data_offset)
-                return self._proto_data
+            elif hasattr(obj, "__jsondump__"):
+                obj_dict = {obj.__class__.__name__: obj.__jsondump__()}
+                data_offset = self._fallback_serializer(obj_dict)
+                self._proto_data.type = AnyData.DataType.DICT
+                self._proto_data.dict.CopyFrom(data_offset)
             else:
                 self._proto_data = _ProtoBufferDefault(obj).to_pb()
-                return self._proto_data
+            return self._proto_data
         except TypeError as e:
             raise TypeError(f"Unsupported type: {type(obj)}: {e}")
 

@@ -77,15 +77,8 @@ class DataSerializer:
             any_data.type = AnyData.DataType.DICT
             any_data.dict.CopyFrom(data_offset)
         else:
-            # fallback to dictionary serialization
-            if hasattr(obj, "__jsondump__"):
-                obj_dict = {obj.__class__.__name__: obj.__jsondump__()}
-                data_offset = self._serialize_dict(obj_dict)
-                any_data.type = AnyData.DataType.DICT
-                any_data.dict.CopyFrom(data_offset)
-            else:
-                # check if it is COMPAS object or Python native type.
-                any_data = _ProtoBufferAny(obj).to_pb()
+            # check if it is COMPAS object or Python native type or fallback to dictionary.
+            any_data = _ProtoBufferAny(obj, fallback_serializer=self._serialize_dict).to_pb()
         return any_data
 
     def _serialize_list(self, data_list) -> AnyData.ListData:

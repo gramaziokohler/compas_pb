@@ -7,7 +7,6 @@ from compas_pb.data.data_handling import pb_dump, pb_dump_bts, pb_load, pb_load_
 def main():
     # Example nested data structure
     # element = Element(frame, 1.0, 2.0, 3.0, name="Element")
-
     nested_data = {
         # "point": Point(1.0, 2.0, 3.0),
         # "line": Line(Point(1.0, 2.0, 3.0), Point(4.0, 5.0, 6.0)),
@@ -18,6 +17,7 @@ def main():
     }
 
     nested_data_diff_types = {
+        "point": Point(1.0, 2.0, 3.0),
         "polyline": Polyline([[0, 0, 0], [1, 0, 0], [2, 0, 0], [3, 0, 0]]),
         "list": ["hey", [0.0, 0.5, 1.5], True, 5, 10]
     }
