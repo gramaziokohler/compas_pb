@@ -99,7 +99,7 @@ search = "Unreleased"
 replace = "[{new_version}] {now:%Y-%m-%d}"
 
 # ============================================================================
-# replace setup.cfg
+# linting and formatting
 # ============================================================================
 
 [tool.black]
@@ -119,8 +119,8 @@ select = ["E", "F", "I"]
 "tasks.py" = ["I001"]
 
 [tool.isort]
-line_length = 120
-multi_line_output = 4
+line_length = 179
+multi_line_output = 3
 include_trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
@@ -128,6 +128,8 @@ force_single_line = false
 ensure_newline_before_comments = true
 known_first_party = "compas_pb"
 default_section = "THIRDPARTY"
+
+forced_separate = "test_compas_pb"
 
 [tool.ruff.lint.isort]
 force-single-line = true
@@ -142,3 +144,4 @@ max-doc-length = 179
 [tool.ruff.format]
 docstring-code-format = true
 docstring-code-line-length = "dynamic"
+
