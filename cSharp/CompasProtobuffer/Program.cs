@@ -5,6 +5,37 @@ using System.Text.Json;
 using CompasPb.Data;
 using Google.Protobuf;
 
+
+public interface CompasProtoBufferData
+{
+    // properties
+    object obj { get; set; }
+    object protoData { get; set; }
+
+    // methods
+    void to_pb();
+    void from_pb();
+}
+
+
+public class CompasProtoBufferPoint : CompasProtoBufferData
+{
+
+    public object obj { get; set; }
+    public object protoData { get; set; }
+
+    public void to_pb()
+    {
+        // Implementation for converting to protobuf
+    }
+
+public void from_pb(IMessage message)
+    {
+        // Implementation from protobuf  message to object
+    }
+}
+
+
 public class ProtoBufProcessor
 {
     public void ProcessProtoMessage(string filePath)
@@ -26,7 +57,7 @@ public class ProtoBufProcessor
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 WriteIndented = true
             };
-
+            // Deserialize JSON to a dictionary
             var dictionary = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, options);
             if (dictionary == null)
             {
@@ -39,8 +70,7 @@ public class ProtoBufProcessor
             {
                 Console.WriteLine($"{entry.Key}: {entry.Value}");
             }
-
-
+            // print nested data
             if (dictionary.TryGetValue("data", out object dataObj))
             {
                 var dataJson = JsonSerializer.Serialize(dataObj, options);
@@ -55,7 +85,6 @@ public class ProtoBufProcessor
         }
     }
 
-    // Alternative method using reflection if JSON approach doesn't work
     public Dictionary<string, object> ConvertToDict(IMessage message)
     {
         var result = new Dictionary<string, object>();
@@ -67,7 +96,6 @@ public class ProtoBufProcessor
             var value = property.GetValue(message);
             if (value != null)
             {
-                // Handle nested messages
                 if (value is IMessage nestedMessage)
                 {
                     result[property.Name] = ConvertToDict(nestedMessage);
@@ -78,7 +106,6 @@ public class ProtoBufProcessor
                 }
             }
         }
-
         return result;
     }
 }
