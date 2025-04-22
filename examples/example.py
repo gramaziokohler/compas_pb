@@ -1,7 +1,14 @@
 from pathlib import Path
-from compas.geometry import Frame, Line, Point, Vector
+
+from compas.geometry import Point
 from compas.geometry import Polyline
-from compas_pb.data.data_handling import pb_dump, pb_dump_bts, pb_load, pb_load_bts, pb_dump_json, pb_load_json
+
+from compas_pb.data.data_handling import pb_dump
+from compas_pb.data.data_handling import pb_dump_bts
+from compas_pb.data.data_handling import pb_dump_json
+from compas_pb.data.data_handling import pb_load
+from compas_pb.data.data_handling import pb_load_bts
+from compas_pb.data.data_handling import pb_load_json
 
 
 def main():
