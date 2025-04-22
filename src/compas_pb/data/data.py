@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 
-from compas.geometry import Frame, Line, Point, Vector
+from compas.geometry import Frame
+from compas.geometry import Line
+from compas.geometry import Point
+from compas.geometry import Vector
 
 # from compas_model.elements import Element
 from compas_pb.data.proto import element_pb2 as ElementData
@@ -9,7 +13,6 @@ from compas_pb.data.proto import line_pb2 as LineData
 from compas_pb.data.proto import message_pb2 as AnyData
 from compas_pb.data.proto import point_pb2 as PointData
 from compas_pb.data.proto import vector_pb2 as VectorData
-
 
 
 class _ProtoBufferData(ABC):
