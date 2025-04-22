@@ -109,6 +109,7 @@ line-length = 179
 line-length = 179
 indent-width = 4
 target-version = "py39"
+exclude = ["src/compas_pb/data/proto/*_pb2.py"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
