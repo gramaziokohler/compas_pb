@@ -43,7 +43,6 @@ def register(item_type, serializer):
     else:
         raise ValueError(f"Serializer for {item_type} already registered.")
 
-
 class _ProtoBufferData(ABC):
     """A abstract class for protobuf data."""
 
