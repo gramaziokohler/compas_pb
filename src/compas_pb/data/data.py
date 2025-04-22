@@ -1,6 +1,11 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 
-from compas.geometry import Frame, Line, Point, Vector
+from compas.geometry import Frame
+from compas.geometry import Line
+from compas.geometry import Point
+from compas.geometry import Vector
+from compas.plugins import pluggable
 
 # from compas_model.elements import Element
 from compas_pb.data.proto import element_pb2 as ElementData
@@ -10,6 +15,33 @@ from compas_pb.data.proto import message_pb2 as AnyData
 from compas_pb.data.proto import point_pb2 as PointData
 from compas_pb.data.proto import vector_pb2 as VectorData
 
+"""
+# this is now the plugin side (for example in compas_timber)
+>>> from compas.plugins import plugin
+>>> from compas_pb.data import register
+>>>
+>>> from compas_timber.elements import Beam
+>>> from compas_timber_pb.data import _ProtoBufferBeam
+>>>
+>>> @plugin
+>>> def register_serializer():
+>>>    register(Beam, _ProtoBufferBeam)
+
+"""
+
+
+@pluggable(category="factories", selector="collect_all")
+def register_serializer():
+    # having no plugins is not necessarily a problem
+    pass
+
+
+def register(item_type, serializer):
+    """Register a serializer for a specific item type."""
+    if item_type not in _ProtoBufferAny.SERIALIZER:
+        _ProtoBufferAny.SERIALIZER[item_type] = serializer
+    else:
+        raise ValueError(f"Serializer for {item_type} already registered.")
 
 
 class _ProtoBufferData(ABC):
@@ -395,6 +427,7 @@ class _ProtoBufferAny(_ProtoBufferData):
     """
 
     PB_TYPE = AnyData.DataType.UNKNOWN
+    _INITIALIZED = False
 
     # Mapping of COMPAS object types to protobuf data types
     # COMPAS type: {protobuf type: protobuf class}
@@ -411,6 +444,12 @@ class _ProtoBufferAny(_ProtoBufferData):
         self._obj = obj
         self._proto_data = AnyData.AnyData()
         self._fallback_serializer = fallback_serializer
+
+    @classmethod
+    def register_plugin_serializers(cls):
+        if not cls._INITIALIZED:
+            register_serializer()
+            cls._INITIALIZED = True
 
     def to_pb(self) -> AnyData.AnyData:
         """Convert a any object to a protobuf any message.
