@@ -1,0 +1,14 @@
+syntax = "proto3";
+package compas_pb.data;
+
+import "compas_pb/data/proto/polyline.proto";
+import "compas_pb/data/proto/vector.proto";
+
+message PlateData {
+  string guid = 1;
+  string name = 2;
+
+  PolylineData outline = 3;
+  float thickness = 4;
+  VectorData vector = 5;
+}

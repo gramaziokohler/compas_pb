@@ -12,5 +12,3 @@ message FrameData {
   VectorData xaxis = 4;
   VectorData yaxis = 5;
 }
-
-

@@ -5,9 +5,15 @@ package compas_pb.data;
 import "compas_pb/data/proto/point.proto";
 import "compas_pb/data/proto/vector.proto";
 import "compas_pb/data/proto/line.proto";
-import "compas_pb/data/proto/element.proto";
 import "compas_pb/data/proto/frame.proto";
+import "compas_pb/data/proto/polyline.proto";
+import "compas_pb/data/proto/beam.proto";
+import "compas_pb/data/proto/plate.proto";
+
 // import "google/protobuf/any.proto";
+
+//TODO make it into different Type
+// Specify the data type of the message eg. python type and Compas type
 
 /* A message to hold any data type */
 enum DataType {
@@ -16,14 +22,19 @@ enum DataType {
   VECTOR = 2;
   LINE = 3;
   FRAME = 4;
-  ELEMENT = 5;
-  LIST = 6;
-  DICT = 7;
 
-  INT = 8;
-  FLOAT = 9;
-  BOOL = 10;
-  STR = 11;
+
+  LIST = 8;
+  DICT = 9;
+
+  INT = 10;
+  FLOAT = 11;
+  BOOL = 12;
+  STR = 13;
+
+  POLYLINE = 5;
+  BEAM = 6;
+  PLATE = 7;
 }
 
 message AnyData {
@@ -34,7 +45,6 @@ message AnyData {
     VectorData vector = 3;
     LineData line = 4;
     FrameData frame = 5;
-    ElementData element = 6;
     ListData list = 7;
     DictData dict = 8;
 

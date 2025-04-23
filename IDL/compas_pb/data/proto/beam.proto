@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/data/proto/frame.proto";
+
+message BeamData {
+  string guid = 1;
+  string name = 2;
+  FrameData frame = 3;
+  width float = 4;
+  hight float = 5;
+  length float = 6;
+}

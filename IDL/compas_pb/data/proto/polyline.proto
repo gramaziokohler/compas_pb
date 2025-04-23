@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package compas_pb.data;
+import "compas_pb/data/proto/point.proto";
+
+message PolylineData {
+  string guid = 1;
+  string name = 2;
+  // as list of point
+  repeated PointData point  = 3;
+}
+
