@@ -27,5 +27,3 @@ def generate_proto_classes(ctx, target_language: str = "python"):
         cmd = f"{path_to_compiler} --proto_path=./IDL --{target_language}_out={out_dir} {idl_file}"
         print(cmd)
         ctx.run(cmd)
-
-
