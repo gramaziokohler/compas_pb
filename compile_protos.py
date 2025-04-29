@@ -16,9 +16,26 @@ def generate_compiler_path():
 
 
 @invoke.task(help={"target_language": "Directory containing the .proto files"})
-def generate_proto_classes(ctx, target_language: str = "python"):
+def generate_proto_classes(ctx, with_plugin:bool = False, target_language: str = "python"):
     idl_root = Path("./IDL")
     idl_dir = idl_root / "compas_pb" / "data" / "proto"
+    out_dir = Path("./src")
+
+    path_to_compiler = generate_compiler_path()
+
+    for idl_file in idl_dir.glob("*.proto"):
+        cmd = f"{path_to_compiler} --proto_path=./IDL --{target_language}_out={out_dir} {idl_file}"
+        print(cmd)
+        ctx.run(cmd)
+
+    if with_plugin:
+        generate_proto_classes_plugin(ctx, target_language)
+
+
+@invoke.task(help={"target_language": "Directory containing the .proto files"})
+def generate_proto_classes_plugin(ctx, target_language: str = "python"):
+    idl_root = Path("./IDL")
+    idl_dir = idl_root / "compas_timber_pb" / "data" / "proto"
     out_dir = Path("./src")
 
     path_to_compiler = generate_compiler_path()

@@ -24,15 +24,14 @@ pip install -e ".[dev]"
 uv pip install -e . --upgrade
 ```
 
-- Protobuf version 6.30.2
+-   Protobuf version 6.30.2
 
 #### Re-generate `.proto` files to Python Classes
 
 ```bash
 invoke protobuf.generate-proto-classes
-
+invoke protobuf.generate-proto-classes-plugin
 ```
-
 
 ## Documentation
 
