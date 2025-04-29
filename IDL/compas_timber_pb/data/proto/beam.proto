@@ -5,10 +5,11 @@ package compas_pb.data;
 import "compas_pb/data/proto/frame.proto";
 
 message BeamData {
+  // no inheritance, so Data will have to repeate but apparently
   string guid = 1;
   string name = 2;
   FrameData frame = 3;
-  width float = 4;
-  hight float = 5;
-  length float = 6;
+  float width = 4;
+  float height = 5;
+  float length = 6;
 }
