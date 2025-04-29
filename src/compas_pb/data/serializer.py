@@ -160,6 +160,7 @@ class DataDeserializer:
     def _deserialize_any(self, data: any) -> list | dict:
         """Deserialize a protobuf message to COMPAS object."""
 
+
         if data.type == AnyData.DataType.LIST:
             data_offset = self._deserialize_list(data.list)
         elif data.type == AnyData.DataType.DICT:

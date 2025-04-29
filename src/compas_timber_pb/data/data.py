@@ -1,14 +1,23 @@
+from compas.plugins import plugin
 from compas_timber.elements import Beam
-from compas.geometry import Frame
 
-from compas_pb.data.data import _ProtoBufferData, _ProtoBufferFrame
+from compas_pb.data.data import _ProtoBufferData
+from compas_pb.data.data import _ProtoBufferFrame
+from compas_pb.data.data import register
 from compas_pb.data.proto import message_pb2 as AnyData
 from compas_timber_pb.data.proto import beam_pb2 as BeamData
-from compas_pb.data.proto import frame_pb2 as FrameData
+
+
+@plugin
+def register_serializer():
+    # Register Beam with _ProtoBufferBeam
+    register(Beam, _ProtoBufferBeam)
+    # Debugging: Confirm registration
+    print(f"Registered {Beam} with {_ProtoBufferBeam}")
 
 
 class _ProtoBufferBeam(_ProtoBufferData):
-    """A class to hold the protobuf data for a Point object.
+    """A class to hold the protobuf data for a Beam object.
 
     Parameters:
     ----------

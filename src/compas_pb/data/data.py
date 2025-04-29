@@ -338,6 +338,7 @@ class _ProtoBufferDefault(_ProtoBufferData):
     """
 
     PB_TYPE = AnyData.DataType.UNKNOWN
+    _INITIALIZED = False
 
     PY_TYPES_SERIALIZER = {
         int: AnyData.DataType.INT,
@@ -373,6 +374,12 @@ class _ProtoBufferDefault(_ProtoBufferData):
 
         except TypeError as e:
             raise TypeError(f"Unsupported type: {type(obj)}: {e}")
+
+    @classmethod
+    def register_plugin_serializers(cls):
+        if not cls._INITIALIZED:
+            register_serializer()
+            cls._INITIALIZED = True
 
     @staticmethod
     def from_pb(proto_data):
@@ -445,13 +452,14 @@ class _ProtoBufferAny(_ProtoBufferData):
                 The protobuf message type of AnyData.
 
         """
-
         if self._obj is None:
             raise ValueError("No object provided for conversion.")
         obj = self._obj
 
         try:
+            print(f"Object: {obj}")
             pb_serializer_cls = self.SERIALIZER.get(type(obj))
+            print(f"pb_serializer_cls: {pb_serializer_cls}")
             if pb_serializer_cls:
                 pb_obj = pb_serializer_cls(obj)
                 self.PB_TYPE = pb_obj.PB_TYPE
