@@ -1,114 +1,12 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.Json;
 using CompasPb.Data;
+using CompasPb.Data.Processor;
 using Google.Protobuf;
 
-
-public interface CompasProtoBufferData
-{
-    // properties
-    object obj { get; set; }
-    object protoData { get; set; }
-
-    // methods
-    void to_pb();
-    void from_pb();
-}
-
-
-public class CompasProtoBufferPoint : CompasProtoBufferData
-{
-
-    public object obj { get; set; }
-    public object protoData { get; set; }
-
-    public void to_pb()
-    {
-        // Implementation for converting to protobuf
-    }
-
-public void from_pb(IMessage message)
-    {
-        // Implementation from protobuf  message to object
-    }
-}
-
-
-public class ProtoBufProcessor
-{
-    public void ProcessProtoMessage(string filePath)
-    {
-        try
-        {
-            byte[] data = File.ReadAllBytes(filePath);
-            var message = CompasPb.Data.MessageData.Parser.ParseFrom(data);
-
-            Console.WriteLine($"Message Type: {message.GetType()}\n");
-            Console.WriteLine($"Message: {message}\n");
-
-            // convert to JSON using Google's built-in formatter
-            string jsonString = Google.Protobuf.JsonFormatter.Default.Format(message);
-            Console.WriteLine($"JSON representation:\n{jsonString}\n");
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-            // Deserialize JSON to a dictionary
-            var dictionary = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, options);
-            if (dictionary == null)
-            {
-                Console.WriteLine("Failed to deserialize JSON to dictionary.");
-                return;
-            }
-            Console.WriteLine("Full message as dictionary:");
-            Console.WriteLine(dictionary.GetType());
-            foreach (var entry in dictionary)
-            {
-                Console.WriteLine($"{entry.Key}: {entry.Value}");
-            }
-            // print nested data
-            if (dictionary.TryGetValue("data", out object dataObj))
-            {
-                var dataJson = JsonSerializer.Serialize(dataObj, options);
-                Console.WriteLine($"\nNested Data Type: {dataJson.GetType()}");
-                Console.WriteLine($"Nested Data: {dataJson}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error processing file: {ex.Message}");
-            Console.WriteLine($"Stack trace: {ex.StackTrace}");
-        }
-    }
-
-    public Dictionary<string, object> ConvertToDict(IMessage message)
-    {
-        var result = new Dictionary<string, object>();
-        var type = message.GetType();
-        var properties = type.GetProperties();
-
-        foreach (var property in properties)
-        {
-            var value = property.GetValue(message);
-            if (value != null)
-            {
-                if (value is IMessage nestedMessage)
-                {
-                    result[property.Name] = ConvertToDict(nestedMessage);
-                }
-                else
-                {
-                    result[property.Name] = value;
-                }
-            }
-        }
-        return result;
-    }
-}
 
 public class Program
 {
@@ -125,19 +23,66 @@ public class Program
             filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "examples", "temp", "nested_data.bin");
             filePath = Path.GetFullPath(filePath);
         }
-
         Console.WriteLine($"Processing file: {filePath}");
-
         if (!File.Exists(filePath))
         {
             Console.WriteLine($"Error: File does not exist at path: {filePath}");
             return;
         }
 
-        var processor = new ProtoBufProcessor();
-        processor.ProcessProtoMessage(filePath);
+        byte[] data = File.ReadAllBytes(filePath);
+        DataDeserializer dataDeserializer = new DataDeserializer(data);
+        dynamic deserializedData = dataDeserializer.DeserializeMessage();
 
+        Console.WriteLine($"Data Type: {deserializedData.GetType()}");
         // Console.WriteLine("\nPress any key to exit...");
         // Console.ReadKey();
     }
 }
+
+// public class ProtoBufProcessor
+// {
+//     public void ProcessProtoMessage(string filePath)
+//     {
+//         try
+//         {
+//             byte[] data = File.ReadAllBytes(filePath);
+//             var message = CompasPb.Data.MessageData.Parser.ParseFrom(data);
+//
+//             Console.WriteLine($"Message Type: {message.GetType()}\n");
+//             Console.WriteLine($"Message: {message}\n");
+//
+//             // convert to JSON using Google's built-in formatter
+//             string jsonString = Google.Protobuf.JsonFormatter.Default.Format(message);
+//             Console.WriteLine($"JSON representation:\n{jsonString}\n");
+//
+//             var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true };
+//             // Deserialize JSON to a dictionary
+//             var dictionary = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, options);
+//             if (dictionary == null)
+//             {
+//                 Console.WriteLine("Failed to deserialize JSON to dictionary.");
+//                 return;
+//             }
+//             Console.WriteLine("Full message as dictionary:");
+//             Console.WriteLine(dictionary.GetType());
+//             foreach (var entry in dictionary)
+//             {
+//                 Console.WriteLine($"{entry.Key}: {entry.Value}");
+//             }
+//             // print nested data
+//             if (dictionary.TryGetValue("data", out object dataObj))
+//             {
+//                 var dataJson = JsonSerializer.Serialize(dataObj, options);
+//                 Console.WriteLine($"\nNested Data Type: {dataJson.GetType()}");
+//                 Console.WriteLine($"Nested Data: {dataJson}");
+//             }
+//         }
+//         catch (Exception ex)
+//         {
+//             Console.WriteLine($"Error processing file: {ex.Message}");
+//             Console.WriteLine($"Stack trace: {ex.StackTrace}");
+//         }
+//     }
+//
+// }
