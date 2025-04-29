@@ -55,6 +55,9 @@ optional-dependencies = { dev = { file = "requirements-dev.txt" } }
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[project.scripts]
+compas_timber_pb_install = "compas_timber_pb:install"
+
 # ============================================================================
 # replace pytest.ini
 # ============================================================================

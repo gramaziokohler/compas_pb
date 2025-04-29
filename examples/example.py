@@ -5,36 +5,15 @@ from compas.geometry import Point
 from compas.geometry import Vector
 from compas_timber.elements import Beam
 
+import compas_timber_pb
 from compas_pb.data.data_handling import pb_dump
-from compas_pb.data.data_handling import pb_dump_bts
-from compas_pb.data.data_handling import pb_dump_json
 from compas_pb.data.data_handling import pb_load
-from compas_pb.data.data_handling import pb_load_bts
-from compas_pb.data.data_handling import pb_load_json
+
+# mimicking the install from CLI
+compas_timber_pb.install()
 
 
 def main():
-    # Example nested data structure
-    # element = Element(frame, 1.0, 2.0, 3.0, name="Element")
-    # nested_data = {
-    # "point": Point(1.0, 2.0, 3.0),
-    # "line": Line(Point(1.0, 2.0, 3.0), Point(4.0, 5.0, 6.0)),
-    # "list": [Point(4.0, 5.0, 6.0), [Vector(7.0, 8.0, 9.0)]],  # Nested list
-    # "frame": Frame(point=Point(1.0, 2.0, 3.0), xaxis=Vector(4.0, 5.0, 6.0), yaxis=Vector(7.0, 8.0, 9.0)),
-    # "polyline": Polyline([[0, 0, 0], [1, 0, 0], [2, 0, 0], [3, 0, 0]])
-    # "element": element,
-    # }
-    # _ProtoBufferAny.register_plugin_serializers()
-
-    # nested_data_diff_types = {
-    #     # "frame": Frame(point=Point(1.0, 2.0, 3.0), xaxis=Vector(4.0, 5.0, 6.0), yaxis=Vector(7.0, 8.0, 9.0)),
-    #     "beam": Beam(
-    #         frame=Frame(Point(1.0, 2.0, 3.0), Vector(4.0, 5.0, 6.0), Vector(7.0, 8.0, 9.0)),
-    #         length=10.0,
-    #         width=5.0,
-    #         height=3.0,
-    #     ),
-    # }
     frame = Frame(Point(1.0, 2.0, 3.0), Vector(4.0, 5.0, 6.0), Vector(7.0, 8.0, 9.0))
     lst = [
         # Frame(Point(1.0, 2.0, 3.0), Vector(4.0, 5.0, 6.0), Vector(7.0, 8.0, 9.0)),
@@ -43,7 +22,6 @@ def main():
             length=10,
             width=5,
             height=3,
-
         )
     ]
 
@@ -53,9 +31,9 @@ def main():
     pb_dump(lst, filepath=FILEPATH.as_posix())
 
     # DESERIALIZE THE DATA
-    # loaded_data = pb_load(filepath=FILEPATH.as_posix())
-    # print(f"pb_load type: {type(loaded_data)}")
-    # print(f"loaded_data_from_bin: {loaded_data}\n")
+    loaded_data = pb_load(filepath=FILEPATH.as_posix())
+    print(f"pb_load type: {type(loaded_data)}")
+    print(f"loaded_data_from_bin: {loaded_data}\n")
     #
     # # TO JSONSTRING AND FROM JSONSTRING
     # data_json_string = pb_dump_json(nested_data_diff_types)

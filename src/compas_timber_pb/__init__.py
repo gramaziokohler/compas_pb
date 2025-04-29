@@ -1,6 +1,6 @@
-from __future__ import print_function
-from __future__ import absolute_import
 
-__version__ = "0.1.0"
-
-# __all__ = []
+def install():
+    """Install and set up the compas_timber_pb package."""
+    from .plugin import plugin_setup
+    plugin_setup()
+    print("compas_timber_pb has been successfully installed and set up!")

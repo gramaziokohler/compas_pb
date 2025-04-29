@@ -7,8 +7,6 @@ from compas.geometry import Point
 from compas.geometry import Vector
 from compas.plugins import pluggable
 
-# from compas_model.elements import Element
-# from compas_pb.data.proto import element_pb2 as ElementData
 from compas_pb.data.proto import frame_pb2 as FrameData
 from compas_pb.data.proto import line_pb2 as LineData
 from compas_pb.data.proto import message_pb2 as AnyData
@@ -16,18 +14,19 @@ from compas_pb.data.proto import point_pb2 as PointData
 from compas_pb.data.proto import vector_pb2 as VectorData
 
 
-@pluggable(category="factories", selector="collect_all")
-def register_serializer():
-    # having no plugins is not necessarily a problem
-    pass
-
-
 def register(item_type, serializer):
     """Register a serializer for a specific item type."""
     if item_type not in _ProtoBufferAny.SERIALIZER:
         _ProtoBufferAny.SERIALIZER[item_type] = serializer
+        _ProtoBufferAny.DESERIALIZER[item_type.__name__.lower()] = serializer
     else:
         raise ValueError(f"Serializer for {item_type} already registered.")
+
+
+@pluggable(category="factories", selector="collect_all")
+def register_serializer():
+    """Pluggable function to register serializers."""
+    pass
 
 
 class _ProtoBufferData(ABC):
@@ -338,7 +337,6 @@ class _ProtoBufferDefault(_ProtoBufferData):
     """
 
     PB_TYPE = AnyData.DataType.UNKNOWN
-    _INITIALIZED = False
 
     PY_TYPES_SERIALIZER = {
         int: AnyData.DataType.INT,
@@ -374,12 +372,6 @@ class _ProtoBufferDefault(_ProtoBufferData):
 
         except TypeError as e:
             raise TypeError(f"Unsupported type: {type(obj)}: {e}")
-
-    @classmethod
-    def register_plugin_serializers(cls):
-        if not cls._INITIALIZED:
-            register_serializer()
-            cls._INITIALIZED = True
 
     @staticmethod
     def from_pb(proto_data):
@@ -457,9 +449,12 @@ class _ProtoBufferAny(_ProtoBufferData):
         obj = self._obj
 
         try:
-            print(f"Object: {obj}")
             pb_serializer_cls = self.SERIALIZER.get(type(obj))
+
+            # Debugging
             print(f"pb_serializer_cls: {pb_serializer_cls}")
+            # Debugging
+
             if pb_serializer_cls:
                 pb_obj = pb_serializer_cls(obj)
                 self.PB_TYPE = pb_obj.PB_TYPE
@@ -503,5 +498,3 @@ class _ProtoBufferAny(_ProtoBufferData):
 
         except TypeError as e:
             raise TypeError(f"Unsupported type: {proto_type}: {e}")
-
-

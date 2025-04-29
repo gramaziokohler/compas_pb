@@ -1,19 +1,9 @@
-from compas.plugins import plugin
 from compas_timber.elements import Beam
 
 from compas_pb.data.data import _ProtoBufferData
 from compas_pb.data.data import _ProtoBufferFrame
-from compas_pb.data.data import register
 from compas_pb.data.proto import message_pb2 as AnyData
 from compas_timber_pb.data.proto import beam_pb2 as BeamData
-
-
-@plugin
-def register_serializer():
-    # Register Beam with _ProtoBufferBeam
-    register(Beam, _ProtoBufferBeam)
-    # Debugging: Confirm registration
-    print(f"Registered {Beam} with {_ProtoBufferBeam}")
 
 
 class _ProtoBufferBeam(_ProtoBufferData):
@@ -49,7 +39,7 @@ class _ProtoBufferBeam(_ProtoBufferData):
 
         self._proto_data.guid = str(beam_obj.guid)
         self._proto_data.name = beam_obj.name
-        self._proto_data.frame = _ProtoBufferFrame.to_pb(beam_obj.frame)
+        self._proto_data.frame.CopyFrom(_ProtoBufferFrame(beam_obj.frame).to_pb())
         self._proto_data.width = beam_obj.width
         self._proto_data.height = beam_obj.height
         self._proto_data.length = beam_obj.length
@@ -68,17 +58,17 @@ class _ProtoBufferBeam(_ProtoBufferData):
         :class: `compas.geometry.Beam`
 
         """
-
+        print(f"Proto data: {proto_data}")
         if hasattr(proto_data, "beam"):
-            frame = (_ProtoBufferFrame.from_pb(proto_data.beam.frame),)
-            length = (proto_data.beam.length,)
-            width = (proto_data.beam.width,)
-            height = (proto_data.beam.height,)
+            frame = _ProtoBufferFrame.from_pb(proto_data.beam.frame)
+            length = proto_data.beam.length
+            width = proto_data.beam.width
+            height = proto_data.beam.height
         else:
-            frame = (_ProtoBufferFrame.from_pb(proto_data.frame),)
-            length = (proto_data.length,)
-            width = (proto_data.width,)
-            height = (proto_data.height,)
+            frame = _ProtoBufferFrame.from_pb(proto_data.frame)
+            length = proto_data.length
+            width = proto_data.width
+            height = proto_data.height
         beam = Beam(
             frame=frame,
             length=length,
