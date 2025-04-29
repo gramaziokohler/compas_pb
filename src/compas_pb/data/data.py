@@ -15,20 +15,6 @@ from compas_pb.data.proto import message_pb2 as AnyData
 from compas_pb.data.proto import point_pb2 as PointData
 from compas_pb.data.proto import vector_pb2 as VectorData
 
-"""
-# this is now the plugin side (for example in compas_timber)
->>> from compas.plugins import plugin
->>> from compas_pb.data import register
->>>
->>> from compas_timber.elements import Beam
->>> from compas_timber_pb.data import _ProtoBufferBeam
->>>
->>> @plugin
->>> def register_serializer():
->>>    register(Beam, _ProtoBufferBeam)
-
-"""
-
 
 @pluggable(category="factories", selector="collect_all")
 def register_serializer():
@@ -42,6 +28,7 @@ def register(item_type, serializer):
         _ProtoBufferAny.SERIALIZER[item_type] = serializer
     else:
         raise ValueError(f"Serializer for {item_type} already registered.")
+
 
 class _ProtoBufferData(ABC):
     """A abstract class for protobuf data."""
