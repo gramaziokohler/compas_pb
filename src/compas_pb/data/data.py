@@ -8,7 +8,7 @@ from compas.geometry import Vector
 from compas.plugins import pluggable
 
 # from compas_model.elements import Element
-from compas_pb.data.proto import element_pb2 as ElementData
+# from compas_pb.data.proto import element_pb2 as ElementData
 from compas_pb.data.proto import frame_pb2 as FrameData
 from compas_pb.data.proto import line_pb2 as LineData
 from compas_pb.data.proto import message_pb2 as AnyData
@@ -497,32 +497,3 @@ class _ProtoBufferAny(_ProtoBufferData):
             raise TypeError(f"Unsupported type: {proto_type}: {e}")
 
 
-#######################
-# NOT IMPLEMENTED YET
-#######################
-class _ProtoBufferElement(_ProtoBufferData):
-    """
-    A class to hold the protobuf data for an Element object.
-
-    Parameters:
-    ----------
-    obj : :class: `compas_model.elements.Element`
-
-    """
-
-    PB_TYPE = AnyData.DataType.ELEMENT
-
-    def __init__(self, obj=None):
-        super().__init__()
-        self._obj = obj
-        self._proto_data = ElementData.ElementData()
-
-    def to_pb(self):
-        """Convert a Element object to a protobuf message."""
-        raise NotImplementedError("Need to be define")
-
-    # TODO:
-    @staticmethod
-    def from_pb(proto_data):
-        """Convert a protobuf message to a Vector object."""
-        raise NotImplementedError("Need to be define")
