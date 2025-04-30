@@ -10,7 +10,7 @@ from compas_pb.data.data_handling import pb_dump
 from compas_pb.data.data_handling import pb_load
 
 # mimicking the install from CLI
-compas_timber_pb.install()
+# compas_timber_pb.install()
 
 
 def main():
