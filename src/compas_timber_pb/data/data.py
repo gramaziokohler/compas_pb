@@ -1,9 +1,10 @@
 from compas_timber.elements import Beam
 
-from compas_pb.data.data import _ProtoBufferData
+from compas_pb.data.data import _ProtoBufferData, _ProtoBufferAny
 from compas_pb.data.data import _ProtoBufferFrame
 from compas_pb.data.proto import message_pb2 as AnyData
 from compas_timber_pb.data.proto import beam_pb2 as BeamData
+
 
 
 class _ProtoBufferBeam(_ProtoBufferData):

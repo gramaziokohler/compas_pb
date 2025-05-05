@@ -454,7 +454,7 @@ class _ProtoBufferAny(_ProtoBufferData):
             # Debugging
             print(f"pb_serializer_cls: {pb_serializer_cls}")
             # Debugging
-
+            # _ProtoBufferAny.register_plugin_serializers()
             if pb_serializer_cls:
                 pb_obj = pb_serializer_cls(obj)
                 self.PB_TYPE = pb_obj.PB_TYPE

@@ -8,6 +8,7 @@ import "compas_pb/data/proto/line.proto";
 import "compas_pb/data/proto/frame.proto";
 import "compas_pb/data/proto/polyline.proto";
 
+// TODO: How handle it outside the base message?
 import "compas_timber_pb/data/proto/beam.proto";
 import "compas_timber_pb/data/proto/plate.proto";
 

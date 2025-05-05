@@ -6,11 +6,13 @@ from compas.geometry import Vector
 from compas_timber.elements import Beam
 
 import compas_timber_pb
+
+# import compas_timber_pb.install
 from compas_pb.data.data_handling import pb_dump
 from compas_pb.data.data_handling import pb_load
 
 # mimicking the install from CLI
-# compas_timber_pb.install()
+compas_timber_pb.install.install()
 
 
 def main():
