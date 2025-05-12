@@ -7,7 +7,7 @@ import "compas_pb/data/proto/vector.proto";
 import "compas_pb/data/proto/line.proto";
 import "compas_pb/data/proto/element.proto";
 import "compas_pb/data/proto/frame.proto";
-// import "google/protobuf/any.proto";
+import "google/protobuf/any.proto";
 
 /* A message to hold any data type */
 enum DataType {
@@ -60,3 +60,7 @@ message MessageData {
   AnyData data = 1;
 }
 
+/* any message */
+message AnyMessageData {
+   google.protobuf.Any data = 1;
+}
