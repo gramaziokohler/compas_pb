@@ -7,7 +7,6 @@ from compas.geometry import Point
 from compas.geometry import Vector
 
 # from compas_model.elements import Element
-from compas_pb.data.proto import element_pb2 as ElementData
 from compas_pb.data.proto import frame_pb2 as FrameData
 from compas_pb.data.proto import line_pb2 as LineData
 from compas_pb.data.proto import message_pb2 as AnyData
@@ -51,7 +50,7 @@ class _ProtoBufferPoint(_ProtoBufferData):
 
     """
 
-    PB_TYPE = AnyData.DataType.POINT
+    PB_TYPE = "PointData"
 
     def __init__(self, obj=None):
         super().__init__()
@@ -92,21 +91,17 @@ class _ProtoBufferPoint(_ProtoBufferData):
         :class: `compas.geometry.Point`
 
         """
-
-        point_data = None
-        if hasattr(proto_data, "point"):
-            point_data = Point(
-                proto_data.point.x,
-                proto_data.point.y,
-                proto_data.point.z,
+        point_data = PointData.PointData()
+        is_unpacked = proto_data.data.Unpack(point_data)
+        if is_unpacked:
+            point = Point(
+                point_data.x,
+                point_data.y,
+                point_data.z,
             )
         else:
-            point_data = Point(
-                proto_data.x,
-                proto_data.y,
-                proto_data.z,
-            )
-        return point_data
+            raise ValueError("Failed to unpack PointData from protobuf message.")
+        return point
 
 
 class _ProtoBufferLine(_ProtoBufferData):
@@ -121,7 +116,7 @@ class _ProtoBufferLine(_ProtoBufferData):
 
     """
 
-    PB_TYPE = AnyData.DataType.LINE
+    PB_TYPE = "LineData"
 
     def __init__(self, obj=None):
         super().__init__()
@@ -185,7 +180,7 @@ class _ProtoBufferVector(_ProtoBufferData):
 
     """
 
-    PB_TYPE = AnyData.DataType.VECTOR
+    PB_TYPE = "VectorData"
 
     def __init__(self, obj=None):
         super().__init__()
@@ -252,7 +247,7 @@ class _ProtoBufferFrame(_ProtoBufferData):
     -------
     """
 
-    PB_TYPE = AnyData.DataType.FRAME
+    PB_TYPE = "FrameData"
 
     def __init__(self, obj=None):
         super().__init__()
@@ -322,7 +317,7 @@ class _ProtoBufferDefault(_ProtoBufferData):
         obj : :class: `int`, `float`, `bool`, `str`
     """
 
-    PB_TYPE = AnyData.DataType.UNKNOWN
+    PB_TYPE = "AnyData"
 
     PY_TYPES_SERIALIZER = {
         int: AnyData.DataType.INT,
@@ -397,7 +392,7 @@ class _ProtoBufferAny(_ProtoBufferData):
 
     """
 
-    PB_TYPE = AnyData.DataType.UNKNOWN
+    PB_TYPE = "AnyData"
 
     # Mapping of COMPAS object types to protobuf data types
     # COMPAS type: {protobuf type: protobuf class}
@@ -407,7 +402,7 @@ class _ProtoBufferAny(_ProtoBufferData):
         Line: _ProtoBufferLine,
         Frame: _ProtoBufferFrame,
     }
-    DESERIALIZER = {key.__name__.lower(): value for key, value in SERIALIZER.items()}
+    DESERIALIZER = {value.__name__: value for key, value in SERIALIZER.items()}
 
     def __init__(self, obj=None, fallback_serializer=None):
         super().__init__()
@@ -432,10 +427,10 @@ class _ProtoBufferAny(_ProtoBufferData):
             pb_serializer_cls = self.SERIALIZER.get(type(obj))
             if pb_serializer_cls:
                 pb_obj = pb_serializer_cls(obj)
-                self.PB_TYPE = pb_obj.PB_TYPE
-                field_name = AnyData.DataType.Name(self.PB_TYPE).lower()
+                self.PB_TYPE = pb_obj.__class__.__name__
                 data_offset = pb_obj.to_pb()
-                getattr(self._proto_data, field_name).CopyFrom(data_offset)
+                self._proto_data.data.Pack(data_offset)
+                self._proto_data.type = self.PB_TYPE
             elif hasattr(obj, "__jsondump__"):
                 obj_dict = {obj.__class__.__name__: obj.__jsondump__()}
                 data_offset = self._fallback_serializer(obj_dict)
@@ -460,9 +455,7 @@ class _ProtoBufferAny(_ProtoBufferData):
         ----------
             data_offset : python object
         """
-
-        proto_type = proto_data.WhichOneof("data")
-
+        proto_type = proto_data.type
         try:
             pb_deserializer_cls = _ProtoBufferAny.DESERIALIZER.get(proto_type)
             if pb_deserializer_cls:
@@ -470,37 +463,5 @@ class _ProtoBufferAny(_ProtoBufferData):
             else:
                 data_offset = _ProtoBufferDefault.from_pb(proto_data)
             return data_offset
-
         except TypeError as e:
             raise TypeError(f"Unsupported type: {proto_type}: {e}")
-
-
-#######################
-# NOT IMPLEMENTED YET
-#######################
-class _ProtoBufferElement(_ProtoBufferData):
-    """
-    A class to hold the protobuf data for an Element object.
-
-    Parameters:
-    ----------
-    obj : :class: `compas_model.elements.Element`
-
-    """
-
-    PB_TYPE = AnyData.DataType.ELEMENT
-
-    def __init__(self, obj=None):
-        super().__init__()
-        self._obj = obj
-        self._proto_data = ElementData.ElementData()
-
-    def to_pb(self):
-        """Convert a Element object to a protobuf message."""
-        raise NotImplementedError("Need to be define")
-
-    # TODO:
-    @staticmethod
-    def from_pb(proto_data):
-        """Convert a protobuf message to a Vector object."""
-        raise NotImplementedError("Need to be define")

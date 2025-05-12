@@ -10,10 +10,6 @@ from compas_pb.data.data_handling import pb_load
 from compas_pb.data.data_handling import pb_load_bts
 from compas_pb.data.data_handling import pb_load_json
 
-from google.protobuf.any_pb2 import Any
-from google.protobuf.struct_pb2 import Struct
-from compas_pb.data.proto import message_pb2 as AnyData
-
 
 def main():
     # Example nested data structure
@@ -33,29 +29,16 @@ def main():
     }
 
     point = Point(1.0, 2.0, 3.0)
-    struct = Struct()
-    struct.update(point.__jsondump__())
-    any_data = AnyData.AnyMessageData()
-    any_data.data.Pack(struct)
-    print(any_data)
 
-
-    uppacke_struct = Struct()
-    any_data.data.Unpack(uppacke_struct)
-    print(dict(uppacke_struct))
-
-    # data = AnyData.AnyMessageData().data.Pack(point)
-    # print(f"data_type: {type(data)}")
-
-    # FILEPATH = Path(__file__).parent / "temp" / "nested_data.bin"
+    FILEPATH = Path(__file__).parent / "temp" / "nested_data.bin"
 
     # LOAD THE DATA FROM THE FILE
-    # pb_dump(nested_data_diff_types, filepath=FILEPATH.as_posix())
+    pb_dump(nested_data_diff_types, filepath=FILEPATH.as_posix())
 
     # # DESERIALIZE THE DATA
-    # loaded_data = pb_load(filepath=FILEPATH.as_posix())
-    # print(f"pb_load type: {type(loaded_data)}")
-    # print(f"loaded_data_from_bin: {loaded_data}\n")
+    loaded_data = pb_load(filepath=FILEPATH.as_posix())
+    print(f"pb_load type: {type(loaded_data)}")
+    print(f"loaded_data_from_bin: {loaded_data}\n")
 
     # # TO JSONSTRING AND FROM JSONSTRING
     # data_json_string = pb_dump_json(nested_data_diff_types)

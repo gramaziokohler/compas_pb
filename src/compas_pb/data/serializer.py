@@ -70,12 +70,12 @@ class DataSerializer:
 
         if isinstance(obj, list):
             data_offset = self._serialize_list(obj)
-            any_data.type = AnyData.DataType.LIST
-            any_data.list.CopyFrom(data_offset)
+            any_data.type = "List"
+            any_data.data.Pack(data_offset)
         elif isinstance(obj, dict):
             data_offset = self._serialize_dict(obj)
-            any_data.type = AnyData.DataType.DICT
-            any_data.dict.CopyFrom(data_offset)
+            any_data.type = "Dict"
+            any_data.data.Pack(data_offset)
         else:
             # check if it is COMPAS object or Python native type or fallback to dictionary.
             any_data = _ProtoBufferAny(obj, fallback_serializer=self._serialize_dict).to_pb()
@@ -159,27 +159,28 @@ class DataDeserializer:
 
     def _deserialize_any(self, data: any) -> list | dict:
         """Deserialize a protobuf message to COMPAS object."""
+        # print(AnyData.DataType)
 
-        if data.type == AnyData.DataType.LIST:
-            data_offset = self._deserialize_list(data.list)
-        elif data.type == AnyData.DataType.DICT:
-            data_offset = self._deserialize_dict(data.dict)
+        if data.type == "List":
+            data_offset = self._deserialize_list(data)
+        elif data.type == "Dict":
+            data_offset = self._deserialize_dict(data)
         else:
             data_offset = _ProtoBufferAny.from_pb(data)
         return data_offset
 
     def _deserialize_list(self, data_list: list) -> list:
         """Deserialize a protobuf ListData message to Python list."""
-
         data_offset = []
         for item in data_list.data:
             data_offset.append(self._deserialize_any(item))
         return data_offset
 
-    def _deserialize_dict(self, data_dict: dict) -> dict:
+    def _deserialize_dict(self, data_dict:AnyData.AnyData) -> dict:
         """Deserialize a protobuf DictData message to Python dictionary."""
-
         data_offset = {}
-        for key, value in data_dict.data.items():
+        dict_data = AnyData.DictData()
+        data_dict.data.Unpack(dict_data)
+        for key, value in dict_data.data.items():
             data_offset[key] = self._deserialize_any(value)
         return data_offset
