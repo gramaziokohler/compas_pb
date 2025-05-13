@@ -159,7 +159,6 @@ class DataDeserializer:
 
     def _deserialize_any(self, data: any) -> list | dict:
         """Deserialize a protobuf message to COMPAS object."""
-        # print(AnyData.DataType)
 
         if data.type == "List":
             data_offset = self._deserialize_list(data)
@@ -172,11 +171,13 @@ class DataDeserializer:
     def _deserialize_list(self, data_list: list) -> list:
         """Deserialize a protobuf ListData message to Python list."""
         data_offset = []
-        for item in data_list.data:
+        list_data = AnyData.ListData()
+        data_list.data.Unpack(list_data)
+        for item in list_data.data:
             data_offset.append(self._deserialize_any(item))
         return data_offset
 
-    def _deserialize_dict(self, data_dict:AnyData.AnyData) -> dict:
+    def _deserialize_dict(self, data_dict: AnyData.AnyData) -> dict:
         """Deserialize a protobuf DictData message to Python dictionary."""
         data_offset = {}
         dict_data = AnyData.DictData()

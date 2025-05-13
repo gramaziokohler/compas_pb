@@ -219,21 +219,17 @@ class _ProtoBufferVector(_ProtoBufferData):
         Returns:
             :class: `compas.geometry.Vector`
         """
-
-        vector_data = None
-        if hasattr(proto_data, "vector"):
-            vector_data = Vector(
-                proto_data.vector.x,
-                proto_data.vector.y,
-                proto_data.vector.z,
+        vector_data = VectorData.VectorData()
+        is_unpacked = proto_data.data.Unpack(vector_data)
+        if is_unpacked:
+            vector = Vector(
+                vector_data.x,
+                vector_data.y,
+                vector_data.z,
             )
         else:
-            vector_data = Vector(
-                proto_data.x,
-                proto_data.y,
-                proto_data.z,
-            )
-        return vector_data
+            raise ValueError("Failed to unpack VectorData from protobuf message.")
+        return vector
 
 
 class _ProtoBufferFrame(_ProtoBufferData):
@@ -434,8 +430,8 @@ class _ProtoBufferAny(_ProtoBufferData):
             elif hasattr(obj, "__jsondump__"):
                 obj_dict = {obj.__class__.__name__: obj.__jsondump__()}
                 data_offset = self._fallback_serializer(obj_dict)
-                self._proto_data.type = AnyData.DataType.DICT
-                self._proto_data.dict.CopyFrom(data_offset)
+                self._proto_data.type = self.PB_TYPE
+                self._proto_data.data.Pack(data_offset)
             else:
                 self._proto_data = _ProtoBufferDefault(obj).to_pb()
             return self._proto_data
