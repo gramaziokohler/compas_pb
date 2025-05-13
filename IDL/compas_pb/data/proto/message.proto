@@ -4,20 +4,30 @@ package compas_pb.data;
 
 import "google/protobuf/any.proto";
 
-/* A message to hold any data type */
+/* A message to hold default data type */
 enum DataType {
   UNKNOWN = 0;
   INT = 1;
   FLOAT = 2;
   BOOL = 3;
   STR = 4;
-
-  LIST = 10;
-  DICT = 11;
+  BINARY = 5;
 }
 
+/** a message to hold primitive type */
+message PrimitiveData {
+  DataType type = 1;
+  oneof data {
+    int32 int = 2;
+    float float = 3;
+    bool bool = 4;
+    string str = 5;
+    bytes binary = 6;
+  }
+}
+
+/** any message to hold any data type */
 message AnyData {
-  string type = 1;
   google.protobuf.Any data = 2;
 }
 
