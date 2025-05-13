@@ -13,6 +13,7 @@ from compas_pb.data.proto import message_pb2 as AnyData
 from compas_pb.data.proto import point_pb2 as PointData
 from compas_pb.data.proto import vector_pb2 as VectorData
 
+#NOTE: only implement point, vector, frame!
 
 class _ProtoBufferData(ABC):
     """A abstract class for protobuf data."""
@@ -92,16 +93,21 @@ class _ProtoBufferPoint(_ProtoBufferData):
 
         """
         point_data = PointData.PointData()
-        is_unpacked = proto_data.data.Unpack(point_data)
+        is_unpacked = False
+        if hasattr(proto_data, "data"):
+            is_unpacked = proto_data.data.Unpack(point_data)
+        else:
+            is_unpacked = True
+            point_data = proto_data
         if is_unpacked:
             point = Point(
                 point_data.x,
                 point_data.y,
                 point_data.z,
             )
+            return point
         else:
             raise ValueError("Failed to unpack PointData from protobuf message.")
-        return point
 
 
 class _ProtoBufferLine(_ProtoBufferData):
@@ -220,16 +226,22 @@ class _ProtoBufferVector(_ProtoBufferData):
             :class: `compas.geometry.Vector`
         """
         vector_data = VectorData.VectorData()
-        is_unpacked = proto_data.data.Unpack(vector_data)
+
+        is_unpacked = False
+        if hasattr(proto_data, "data"):
+            is_unpacked = proto_data.data.Unpack(vector_data)
+        else:
+            is_unpacked = True
+            vector_data = proto_data
         if is_unpacked:
             vector = Vector(
                 vector_data.x,
                 vector_data.y,
                 vector_data.z,
             )
+            return vector
         else:
             raise ValueError("Failed to unpack VectorData from protobuf message.")
-        return vector
 
 
 class _ProtoBufferFrame(_ProtoBufferData):
@@ -287,22 +299,21 @@ class _ProtoBufferFrame(_ProtoBufferData):
         Returns:
             :class: `compas.geometry.Frame`
         """
-        if hasattr(proto_data, "frame"):
-            point = _ProtoBufferPoint.from_pb(proto_data.frame.point)
-            xaxis = _ProtoBufferVector.from_pb(proto_data.frame.xaxis)
-            yaxis = _ProtoBufferVector.from_pb(proto_data.frame.yaxis)
+        frame_data = FrameData.FrameData()
+        is_unpacked = proto_data.data.Unpack(frame_data)
+
+        if is_unpacked:
+            point = _ProtoBufferPoint.from_pb(frame_data.point)
+            xaxis = _ProtoBufferVector.from_pb(frame_data.xaxis)
+            yaxis = _ProtoBufferVector.from_pb(frame_data.yaxis)
+            frame = Frame(
+                point=point,
+                xaxis=xaxis,
+                yaxis=yaxis,
+            )
+            return frame
         else:
-            point = _ProtoBufferPoint.from_pb(proto_data.point)
-            xaxis = _ProtoBufferVector.from_pb(proto_data.xaxis)
-            yaxis = _ProtoBufferVector.from_pb(proto_data.yaxis)
-
-        frame = Frame(
-            point=point,
-            xaxis=xaxis,
-            yaxis=yaxis,
-        )
-        return frame
-
+            raise ValueError("Failed to unpack FrameData from protobuf message.")
 
 class _ProtoBufferDefault(_ProtoBufferData):
     """

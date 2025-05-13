@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from compas.geometry import Point
-from compas.geometry import Polyline
+from compas.geometry import Frame
 from compas.geometry import Vector
 
 from compas_pb.data.data_handling import pb_dump
@@ -18,6 +18,7 @@ def main():
     nested_data_diff_types = {
         "point": Point(1.0, 2.0, 3.0),
         "list": [Point(4.0, 5.0, 6.0), [Vector(7.0, 8.0, 9.0)]],  # Nested list
+        "frame": Frame(Point(1.0, 2.0, 3.0), Vector(4.0, 5.0, 6.0), Vector(7.0, 8.0, 9.0)),
         # "polyline": Polyline([[0, 0, 0], [1, 0, 0], [2, 0, 0], [3, 0, 0]]),
         # "list": ["hey", [0.0, 0.5, 1.5], True, 5, 10]
     }
