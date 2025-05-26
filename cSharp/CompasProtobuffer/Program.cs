@@ -1,20 +1,23 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
 using CompasPb.Data;
+using Google.Protobuf;
+
 
 class Program
 {
     public static void Main(string[] args)
     {
         // DataHandler handler = new DataHandler();
-        string filePath;
-        if (args.Length > 0)
-        {
-            filePath = args[0];
-        }
-        filePath = @"C:\Users\ckasirer\repos\compas_pb\examples\temp\data_dict.bin";
-        MessageData data =  DataHandler.PBLoad(filePath);
-        Console.WriteLine($"data tyepe: {data.GetType()}");
-        var datatype = DataProcesser.TryGetValue<Point>(data);
+        string currentPath = Directory.GetCurrentDirectory();
+        string parentPath = Path.GetFullPath(Path.Combine(currentPath, @"..\.."));
+        string filePath = Path.GetFullPath(Path.Combine(parentPath, @"examples\temp\nested_data.bin"));
 
+        // filePath = @"C:\Users\ckasirer\repos\compas_pb\examples\temp\data_dict.bin";
+        MessageData data = DataHandler.PBLoad(filePath);
+        Console.WriteLine($"data tyepe: {data.GetType()}");
+        // var datatype = DataProcesser.TryGetValue<Point>(data);
     }
 }
 

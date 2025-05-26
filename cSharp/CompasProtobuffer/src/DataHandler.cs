@@ -1,6 +1,9 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using CompasPb.Data;
+using Google.Protobuf;
 
 namespace CompasPb.Data
 {
@@ -8,9 +11,9 @@ namespace CompasPb.Data
     {
         private static void ValidateFilePath(string filePath)
         {
-            if (filePath == null)
+            if (!File.Exists(filePath))
             {
-                throw new ArgumentNullException(nameof(filePath), "Please provide file path.");
+                throw new FileNotFoundException($"File not found: {filePath}");
             }
         }
         public static MessageData PBLoad(string filePath)
@@ -18,8 +21,10 @@ namespace CompasPb.Data
 
             ValidateFilePath(filePath);
             Console.WriteLine($"Loading data from: {filePath}");
-            // Implement JSON loading logic here
+
+            byte[] byteData = File.ReadAllBytes(filePath);
             MessageData data = new MessageData();
+            data.MergeFrom(byteData);
             return data;
         }
         public static void PBdump() => Console.WriteLine("dump data to proto");
