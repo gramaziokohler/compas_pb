@@ -28,7 +28,7 @@ message PrimitiveData {
 
 /** any message to hold any data type */
 message AnyData {
-  google.protobuf.Any data = 2;
+  google.protobuf.Any data = 1;
 }
 
 /** repeated serves as a list in protobuf */
