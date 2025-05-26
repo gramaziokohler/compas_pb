@@ -50,12 +50,14 @@ class _ProtoBufferPoint(_ProtoBufferData):
 
     """
 
-    PB_TYPE = "PointData"
-
     def __init__(self, obj=None):
         super().__init__()
         self._obj = obj
         self._proto_data = PointData.PointData()
+
+    @property
+    def proto_data_type(self):
+        return self._proto_data
 
     def to_pb(self) -> PointData.PointData:
         """Convert a Point object to a protobuf message.
@@ -123,12 +125,14 @@ class _ProtoBufferLine(_ProtoBufferData):
 
     """
 
-    PB_TYPE = "LineData"
-
     def __init__(self, obj=None):
         super().__init__()
         self._obj = obj
         self._proto_data = LineData.LineData()
+
+    @property
+    def proto_data_type(self):
+        return self._proto_data
 
     def to_pb(self) -> LineData.LineData:
         """Convert a Line object to a protobuf message.
@@ -193,12 +197,14 @@ class _ProtoBufferVector(_ProtoBufferData):
 
     """
 
-    PB_TYPE = "VectorData"
-
     def __init__(self, obj=None):
         super().__init__()
         self._obj = obj
         self._proto_data = VectorData.VectorData()
+
+    @property
+    def proto_data_type(self):
+        return self._proto_data
 
     def to_pb(self) -> VectorData.VectorData:
         """Convert a Vector object to a protobuf message.
@@ -264,12 +270,14 @@ class _ProtoBufferFrame(_ProtoBufferData):
     -------
     """
 
-    PB_TYPE = "FrameData"
-
     def __init__(self, obj=None):
         super().__init__()
         self._obj = obj
         self._proto_data = FrameData.FrameData()
+
+    @property
+    def proto_data_type(self):
+        return self._proto_data
 
     def to_pb(self) -> FrameData.FrameData:
         """Convert a Frame object to a protobuf message.
@@ -425,7 +433,7 @@ class _ProtoBufferAny(_ProtoBufferData):
         Line: _ProtoBufferLine,
         Frame: _ProtoBufferFrame,
     }
-    DESERIALIZER = {value.PB_TYPE: value for key, value in SERIALIZER.items()}
+    DESERIALIZER = {value()._proto_data.DESCRIPTOR.full_name: value for key, value in SERIALIZER.items()}
 
     def __init__(self, obj=None, fallback_serializer=None):
         super().__init__()
@@ -481,8 +489,7 @@ class _ProtoBufferAny(_ProtoBufferData):
         # such as PointData, VectorData, LineData, FrameData, etc.
 
         # type.googleapis.com/<fully.qualified.message.name>
-        proto_type_namespace = proto_data.data.type_url.split("/")[-1]
-        proto_type = proto_type_namespace.split(".")[-1]
+        proto_type = proto_data.data.type_url.split("/")[-1]
 
         try:
             pb_deserializer_cls = _ProtoBufferAny.DESERIALIZER.get(proto_type)
