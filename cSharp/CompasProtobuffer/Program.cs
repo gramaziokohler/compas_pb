@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using CompasPb.Data;
 using Google.Protobuf;
-
+using Google.Protobuf.WellKnownTypes;
 
 class Program
 {
@@ -13,16 +10,21 @@ class Program
         string currentPath = Directory.GetCurrentDirectory();
         string parentPath = Path.GetFullPath(Path.Combine(currentPath, @"..\.."));
         string filePath = Path.GetFullPath(Path.Combine(parentPath, @"examples\temp\nested_data.bin"));
-
         // filePath = @"C:\Users\ckasirer\repos\compas_pb\examples\temp\data_dict.bin";
-        MessageData data = DataHandler.PBLoad(filePath);
-        Console.WriteLine($"data tyepe: {data.GetType()}");
+        // filePath = @"/Users/weitingchen/project/gkr/compas_pb/examples/temp/nested_data.bin";
+        DataHandler.PBLoad(filePath);
+        // Console.WriteLine(data.GetType());
+        // if (data.Data.Is(DictData.Descriptor))
+        // {
+        //     var dictData = data.Data.Unpack<DictData>();
+        //     Console.WriteLine($"DictData: {dictData}");
+        // }
         // var datatype = DataProcesser.TryGetValue<Point>(data);
     }
 }
 
 // public class Program
-// {
+//
 //     public static void Main(string[] args)
 //     {
 //         Console.WriteLine("Compas Protocol Buffer");

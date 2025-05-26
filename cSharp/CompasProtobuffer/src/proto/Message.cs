@@ -25,33 +25,24 @@ namespace CompasPb.Data {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiJjb21wYXNfcGIvZGF0YS9wcm90by9tZXNzYWdlLnByb3RvEg5jb21wYXNf",
-            "cGIuZGF0YRogY29tcGFzX3BiL2RhdGEvcHJvdG8vcG9pbnQucHJvdG8aIWNv",
-            "bXBhc19wYi9kYXRhL3Byb3RvL3ZlY3Rvci5wcm90bxofY29tcGFzX3BiL2Rh",
-            "dGEvcHJvdG8vbGluZS5wcm90bxoiY29tcGFzX3BiL2RhdGEvcHJvdG8vZWxl",
-            "bWVudC5wcm90bxogY29tcGFzX3BiL2RhdGEvcHJvdG8vZnJhbWUucHJvdG8i",
-            "rAMKB0FueURhdGESJgoEdHlwZRgBIAEoDjIYLmNvbXBhc19wYi5kYXRhLkRh",
-            "dGFUeXBlEioKBXBvaW50GAIgASgLMhkuY29tcGFzX3BiLmRhdGEuUG9pbnRE",
-            "YXRhSAASLAoGdmVjdG9yGAMgASgLMhouY29tcGFzX3BiLmRhdGEuVmVjdG9y",
-            "RGF0YUgAEigKBGxpbmUYBCABKAsyGC5jb21wYXNfcGIuZGF0YS5MaW5lRGF0",
-            "YUgAEioKBWZyYW1lGAUgASgLMhkuY29tcGFzX3BiLmRhdGEuRnJhbWVEYXRh",
-            "SAASLgoHZWxlbWVudBgGIAEoCzIbLmNvbXBhc19wYi5kYXRhLkVsZW1lbnRE",
-            "YXRhSAASKAoEbGlzdBgHIAEoCzIYLmNvbXBhc19wYi5kYXRhLkxpc3REYXRh",
-            "SAASKAoEZGljdBgIIAEoCzIYLmNvbXBhc19wYi5kYXRhLkRpY3REYXRhSAAS",
-            "DQoDaW50GAkgASgFSAASDwoFZmxvYXQYCiABKAJIABIOCgRib29sGAsgASgI",
-            "SAASDQoDc3RyGAwgASgJSABCBgoEZGF0YSIxCghMaXN0RGF0YRIlCgRkYXRh",
-            "GAEgAygLMhcuY29tcGFzX3BiLmRhdGEuQW55RGF0YSKCAQoIRGljdERhdGES",
-            "MAoEZGF0YRgBIAMoCzIiLmNvbXBhc19wYi5kYXRhLkRpY3REYXRhLkRhdGFF",
-            "bnRyeRpECglEYXRhRW50cnkSCwoDa2V5GAEgASgJEiYKBXZhbHVlGAIgASgL",
-            "MhcuY29tcGFzX3BiLmRhdGEuQW55RGF0YToCOAEiNAoLTWVzc2FnZURhdGES",
-            "JQoEZGF0YRgBIAEoCzIXLmNvbXBhc19wYi5kYXRhLkFueURhdGEqiwEKCERh",
-            "dGFUeXBlEgsKB1VOS05PV04QABIJCgVQT0lOVBABEgoKBlZFQ1RPUhACEggK",
-            "BExJTkUQAxIJCgVGUkFNRRAEEgsKB0VMRU1FTlQQBRIICgRMSVNUEAYSCAoE",
-            "RElDVBAHEgcKA0lOVBAIEgkKBUZMT0FUEAkSCAoEQk9PTBAKEgcKA1NUUhAL",
-            "YgZwcm90bzM="));
+            "cGIuZGF0YRoZZ29vZ2xlL3Byb3RvYnVmL2FueS5wcm90byKQAQoNUHJpbWl0",
+            "aXZlRGF0YRImCgR0eXBlGAEgASgOMhguY29tcGFzX3BiLmRhdGEuRGF0YVR5",
+            "cGUSDQoDaW50GAIgASgFSAASDwoFZmxvYXQYAyABKAJIABIOCgRib29sGAQg",
+            "ASgISAASDQoDc3RyGAUgASgJSAASEAoGYmluYXJ5GAYgASgMSABCBgoEZGF0",
+            "YSItCgdBbnlEYXRhEiIKBGRhdGEYASABKAsyFC5nb29nbGUucHJvdG9idWYu",
+            "QW55IjEKCExpc3REYXRhEiUKBGRhdGEYASADKAsyFy5jb21wYXNfcGIuZGF0",
+            "YS5BbnlEYXRhIoIBCghEaWN0RGF0YRIwCgRkYXRhGAEgAygLMiIuY29tcGFz",
+            "X3BiLmRhdGEuRGljdERhdGEuRGF0YUVudHJ5GkQKCURhdGFFbnRyeRILCgNr",
+            "ZXkYASABKAkSJgoFdmFsdWUYAiABKAsyFy5jb21wYXNfcGIuZGF0YS5BbnlE",
+            "YXRhOgI4ASI0CgtNZXNzYWdlRGF0YRIlCgRkYXRhGAEgASgLMhcuY29tcGFz",
+            "X3BiLmRhdGEuQW55RGF0YSpKCghEYXRhVHlwZRILCgdVTktOT1dOEAASBwoD",
+            "SU5UEAESCQoFRkxPQVQQAhIICgRCT09MEAMSBwoDU1RSEAQSCgoGQklOQVJZ",
+            "EAViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::CompasPb.Data.PointReflection.Descriptor, global::CompasPb.Data.VectorReflection.Descriptor, global::CompasPb.Data.LineReflection.Descriptor, global::CompasPb.Data.ElementReflection.Descriptor, global::CompasPb.Data.FrameReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::CompasPb.Data.DataType), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::CompasPb.Data.AnyData), global::CompasPb.Data.AnyData.Parser, new[]{ "Type", "Point", "Vector", "Line", "Frame", "Element", "List", "Dict", "Int", "Float", "Bool", "Str" }, new[]{ "Data" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CompasPb.Data.PrimitiveData), global::CompasPb.Data.PrimitiveData.Parser, new[]{ "Type", "Int", "Float", "Bool", "Str", "Binary" }, new[]{ "Data" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CompasPb.Data.AnyData), global::CompasPb.Data.AnyData.Parser, new[]{ "Data" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CompasPb.Data.ListData), global::CompasPb.Data.ListData.Parser, new[]{ "Data" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CompasPb.Data.DictData), global::CompasPb.Data.DictData.Parser, new[]{ "Data" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
             new pbr::GeneratedClrTypeInfo(typeof(global::CompasPb.Data.MessageData), global::CompasPb.Data.MessageData.Parser, new[]{ "Data" }, null, null, null, null)
@@ -62,37 +53,34 @@ namespace CompasPb.Data {
   }
   #region Enums
   /// <summary>
-  /// A message to hold any data type 
+  /// A message to hold default data type 
   /// </summary>
   public enum DataType {
     [pbr::OriginalName("UNKNOWN")] Unknown = 0,
-    [pbr::OriginalName("POINT")] Point = 1,
-    [pbr::OriginalName("VECTOR")] Vector = 2,
-    [pbr::OriginalName("LINE")] Line = 3,
-    [pbr::OriginalName("FRAME")] Frame = 4,
-    [pbr::OriginalName("ELEMENT")] Element = 5,
-    [pbr::OriginalName("LIST")] List = 6,
-    [pbr::OriginalName("DICT")] Dict = 7,
-    [pbr::OriginalName("INT")] Int = 8,
-    [pbr::OriginalName("FLOAT")] Float = 9,
-    [pbr::OriginalName("BOOL")] Bool = 10,
-    [pbr::OriginalName("STR")] Str = 11,
+    [pbr::OriginalName("INT")] Int = 1,
+    [pbr::OriginalName("FLOAT")] Float = 2,
+    [pbr::OriginalName("BOOL")] Bool = 3,
+    [pbr::OriginalName("STR")] Str = 4,
+    [pbr::OriginalName("BINARY")] Binary = 5,
   }
 
   #endregion
 
   #region Messages
+  /// <summary>
+  ///* a message to hold primitive type 
+  /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class AnyData : pb::IMessage<AnyData>
+  public sealed partial class PrimitiveData : pb::IMessage<PrimitiveData>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<AnyData> _parser = new pb::MessageParser<AnyData>(() => new AnyData());
+    private static readonly pb::MessageParser<PrimitiveData> _parser = new pb::MessageParser<PrimitiveData>(() => new PrimitiveData());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<AnyData> Parser { get { return _parser; } }
+    public static pb::MessageParser<PrimitiveData> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -108,7 +96,7 @@ namespace CompasPb.Data {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AnyData() {
+    public PrimitiveData() {
       OnConstruction();
     }
 
@@ -116,30 +104,9 @@ namespace CompasPb.Data {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AnyData(AnyData other) : this() {
+    public PrimitiveData(PrimitiveData other) : this() {
       type_ = other.type_;
       switch (other.DataCase) {
-        case DataOneofCase.Point:
-          Point = other.Point.Clone();
-          break;
-        case DataOneofCase.Vector:
-          Vector = other.Vector.Clone();
-          break;
-        case DataOneofCase.Line:
-          Line = other.Line.Clone();
-          break;
-        case DataOneofCase.Frame:
-          Frame = other.Frame.Clone();
-          break;
-        case DataOneofCase.Element:
-          Element = other.Element.Clone();
-          break;
-        case DataOneofCase.List:
-          List = other.List.Clone();
-          break;
-        case DataOneofCase.Dict:
-          Dict = other.Dict.Clone();
-          break;
         case DataOneofCase.Int:
           Int = other.Int;
           break;
@@ -152,6 +119,9 @@ namespace CompasPb.Data {
         case DataOneofCase.Str:
           Str = other.Str;
           break;
+        case DataOneofCase.Binary:
+          Binary = other.Binary;
+          break;
       }
 
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -159,8 +129,8 @@ namespace CompasPb.Data {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AnyData Clone() {
-      return new AnyData(this);
+    public PrimitiveData Clone() {
+      return new PrimitiveData(this);
     }
 
     /// <summary>Field number for the "type" field.</summary>
@@ -175,98 +145,8 @@ namespace CompasPb.Data {
       }
     }
 
-    /// <summary>Field number for the "point" field.</summary>
-    public const int PointFieldNumber = 2;
-    /// <summary>
-    /// a meesage to hold COMPAS obejct data types 
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CompasPb.Data.PointData Point {
-      get { return dataCase_ == DataOneofCase.Point ? (global::CompasPb.Data.PointData) data_ : null; }
-      set {
-        data_ = value;
-        dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.Point;
-      }
-    }
-
-    /// <summary>Field number for the "vector" field.</summary>
-    public const int VectorFieldNumber = 3;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CompasPb.Data.VectorData Vector {
-      get { return dataCase_ == DataOneofCase.Vector ? (global::CompasPb.Data.VectorData) data_ : null; }
-      set {
-        data_ = value;
-        dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.Vector;
-      }
-    }
-
-    /// <summary>Field number for the "line" field.</summary>
-    public const int LineFieldNumber = 4;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CompasPb.Data.LineData Line {
-      get { return dataCase_ == DataOneofCase.Line ? (global::CompasPb.Data.LineData) data_ : null; }
-      set {
-        data_ = value;
-        dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.Line;
-      }
-    }
-
-    /// <summary>Field number for the "frame" field.</summary>
-    public const int FrameFieldNumber = 5;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CompasPb.Data.FrameData Frame {
-      get { return dataCase_ == DataOneofCase.Frame ? (global::CompasPb.Data.FrameData) data_ : null; }
-      set {
-        data_ = value;
-        dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.Frame;
-      }
-    }
-
-    /// <summary>Field number for the "element" field.</summary>
-    public const int ElementFieldNumber = 6;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CompasPb.Data.ElementData Element {
-      get { return dataCase_ == DataOneofCase.Element ? (global::CompasPb.Data.ElementData) data_ : null; }
-      set {
-        data_ = value;
-        dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.Element;
-      }
-    }
-
-    /// <summary>Field number for the "list" field.</summary>
-    public const int ListFieldNumber = 7;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CompasPb.Data.ListData List {
-      get { return dataCase_ == DataOneofCase.List ? (global::CompasPb.Data.ListData) data_ : null; }
-      set {
-        data_ = value;
-        dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.List;
-      }
-    }
-
-    /// <summary>Field number for the "dict" field.</summary>
-    public const int DictFieldNumber = 8;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CompasPb.Data.DictData Dict {
-      get { return dataCase_ == DataOneofCase.Dict ? (global::CompasPb.Data.DictData) data_ : null; }
-      set {
-        data_ = value;
-        dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.Dict;
-      }
-    }
-
     /// <summary>Field number for the "int" field.</summary>
-    public const int IntFieldNumber = 9;
-    /// <summary>
-    /// a meesage to hold built-in data types 
-    /// </summary>
+    public const int IntFieldNumber = 2;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int Int {
@@ -292,7 +172,7 @@ namespace CompasPb.Data {
     }
 
     /// <summary>Field number for the "float" field.</summary>
-    public const int FloatFieldNumber = 10;
+    public const int FloatFieldNumber = 3;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float Float {
@@ -318,7 +198,7 @@ namespace CompasPb.Data {
     }
 
     /// <summary>Field number for the "bool" field.</summary>
-    public const int BoolFieldNumber = 11;
+    public const int BoolFieldNumber = 4;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool Bool {
@@ -344,7 +224,7 @@ namespace CompasPb.Data {
     }
 
     /// <summary>Field number for the "str" field.</summary>
-    public const int StrFieldNumber = 12;
+    public const int StrFieldNumber = 5;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Str {
@@ -369,21 +249,41 @@ namespace CompasPb.Data {
       }
     }
 
+    /// <summary>Field number for the "binary" field.</summary>
+    public const int BinaryFieldNumber = 6;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Binary {
+      get { return HasBinary ? (pb::ByteString) data_ : pb::ByteString.Empty; }
+      set {
+        data_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        dataCase_ = DataOneofCase.Binary;
+      }
+    }
+    /// <summary>Gets whether the "binary" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasBinary {
+      get { return dataCase_ == DataOneofCase.Binary; }
+    }
+    /// <summary> Clears the value of the oneof if it's currently set to "binary" </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearBinary() {
+      if (HasBinary) {
+        ClearData();
+      }
+    }
+
     private object data_;
     /// <summary>Enum of possible cases for the "data" oneof.</summary>
     public enum DataOneofCase {
       None = 0,
-      Point = 2,
-      Vector = 3,
-      Line = 4,
-      Frame = 5,
-      Element = 6,
-      List = 7,
-      Dict = 8,
-      Int = 9,
-      Float = 10,
-      Bool = 11,
-      Str = 12,
+      Int = 2,
+      Float = 3,
+      Bool = 4,
+      Str = 5,
+      Binary = 6,
     }
     private DataOneofCase dataCase_ = DataOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -402,12 +302,12 @@ namespace CompasPb.Data {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as AnyData);
+      return Equals(other as PrimitiveData);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(AnyData other) {
+    public bool Equals(PrimitiveData other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -415,17 +315,11 @@ namespace CompasPb.Data {
         return true;
       }
       if (Type != other.Type) return false;
-      if (!object.Equals(Point, other.Point)) return false;
-      if (!object.Equals(Vector, other.Vector)) return false;
-      if (!object.Equals(Line, other.Line)) return false;
-      if (!object.Equals(Frame, other.Frame)) return false;
-      if (!object.Equals(Element, other.Element)) return false;
-      if (!object.Equals(List, other.List)) return false;
-      if (!object.Equals(Dict, other.Dict)) return false;
       if (Int != other.Int) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Float, other.Float)) return false;
       if (Bool != other.Bool) return false;
       if (Str != other.Str) return false;
+      if (Binary != other.Binary) return false;
       if (DataCase != other.DataCase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -435,17 +329,11 @@ namespace CompasPb.Data {
     public override int GetHashCode() {
       int hash = 1;
       if (Type != global::CompasPb.Data.DataType.Unknown) hash ^= Type.GetHashCode();
-      if (dataCase_ == DataOneofCase.Point) hash ^= Point.GetHashCode();
-      if (dataCase_ == DataOneofCase.Vector) hash ^= Vector.GetHashCode();
-      if (dataCase_ == DataOneofCase.Line) hash ^= Line.GetHashCode();
-      if (dataCase_ == DataOneofCase.Frame) hash ^= Frame.GetHashCode();
-      if (dataCase_ == DataOneofCase.Element) hash ^= Element.GetHashCode();
-      if (dataCase_ == DataOneofCase.List) hash ^= List.GetHashCode();
-      if (dataCase_ == DataOneofCase.Dict) hash ^= Dict.GetHashCode();
       if (HasInt) hash ^= Int.GetHashCode();
       if (HasFloat) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Float);
       if (HasBool) hash ^= Bool.GetHashCode();
       if (HasStr) hash ^= Str.GetHashCode();
+      if (HasBinary) hash ^= Binary.GetHashCode();
       hash ^= (int) dataCase_;
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -469,49 +357,25 @@ namespace CompasPb.Data {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
-      if (dataCase_ == DataOneofCase.Point) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Point);
-      }
-      if (dataCase_ == DataOneofCase.Vector) {
-        output.WriteRawTag(26);
-        output.WriteMessage(Vector);
-      }
-      if (dataCase_ == DataOneofCase.Line) {
-        output.WriteRawTag(34);
-        output.WriteMessage(Line);
-      }
-      if (dataCase_ == DataOneofCase.Frame) {
-        output.WriteRawTag(42);
-        output.WriteMessage(Frame);
-      }
-      if (dataCase_ == DataOneofCase.Element) {
-        output.WriteRawTag(50);
-        output.WriteMessage(Element);
-      }
-      if (dataCase_ == DataOneofCase.List) {
-        output.WriteRawTag(58);
-        output.WriteMessage(List);
-      }
-      if (dataCase_ == DataOneofCase.Dict) {
-        output.WriteRawTag(66);
-        output.WriteMessage(Dict);
-      }
       if (HasInt) {
-        output.WriteRawTag(72);
+        output.WriteRawTag(16);
         output.WriteInt32(Int);
       }
       if (HasFloat) {
-        output.WriteRawTag(85);
+        output.WriteRawTag(29);
         output.WriteFloat(Float);
       }
       if (HasBool) {
-        output.WriteRawTag(88);
+        output.WriteRawTag(32);
         output.WriteBool(Bool);
       }
       if (HasStr) {
-        output.WriteRawTag(98);
+        output.WriteRawTag(42);
         output.WriteString(Str);
+      }
+      if (HasBinary) {
+        output.WriteRawTag(50);
+        output.WriteBytes(Binary);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -527,49 +391,25 @@ namespace CompasPb.Data {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
-      if (dataCase_ == DataOneofCase.Point) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Point);
-      }
-      if (dataCase_ == DataOneofCase.Vector) {
-        output.WriteRawTag(26);
-        output.WriteMessage(Vector);
-      }
-      if (dataCase_ == DataOneofCase.Line) {
-        output.WriteRawTag(34);
-        output.WriteMessage(Line);
-      }
-      if (dataCase_ == DataOneofCase.Frame) {
-        output.WriteRawTag(42);
-        output.WriteMessage(Frame);
-      }
-      if (dataCase_ == DataOneofCase.Element) {
-        output.WriteRawTag(50);
-        output.WriteMessage(Element);
-      }
-      if (dataCase_ == DataOneofCase.List) {
-        output.WriteRawTag(58);
-        output.WriteMessage(List);
-      }
-      if (dataCase_ == DataOneofCase.Dict) {
-        output.WriteRawTag(66);
-        output.WriteMessage(Dict);
-      }
       if (HasInt) {
-        output.WriteRawTag(72);
+        output.WriteRawTag(16);
         output.WriteInt32(Int);
       }
       if (HasFloat) {
-        output.WriteRawTag(85);
+        output.WriteRawTag(29);
         output.WriteFloat(Float);
       }
       if (HasBool) {
-        output.WriteRawTag(88);
+        output.WriteRawTag(32);
         output.WriteBool(Bool);
       }
       if (HasStr) {
-        output.WriteRawTag(98);
+        output.WriteRawTag(42);
         output.WriteString(Str);
+      }
+      if (HasBinary) {
+        output.WriteRawTag(50);
+        output.WriteBytes(Binary);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -584,27 +424,6 @@ namespace CompasPb.Data {
       if (Type != global::CompasPb.Data.DataType.Unknown) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
-      if (dataCase_ == DataOneofCase.Point) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Point);
-      }
-      if (dataCase_ == DataOneofCase.Vector) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Vector);
-      }
-      if (dataCase_ == DataOneofCase.Line) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Line);
-      }
-      if (dataCase_ == DataOneofCase.Frame) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Frame);
-      }
-      if (dataCase_ == DataOneofCase.Element) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Element);
-      }
-      if (dataCase_ == DataOneofCase.List) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(List);
-      }
-      if (dataCase_ == DataOneofCase.Dict) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Dict);
-      }
       if (HasInt) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Int);
       }
@@ -617,6 +436,9 @@ namespace CompasPb.Data {
       if (HasStr) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Str);
       }
+      if (HasBinary) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Binary);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -625,7 +447,7 @@ namespace CompasPb.Data {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(AnyData other) {
+    public void MergeFrom(PrimitiveData other) {
       if (other == null) {
         return;
       }
@@ -633,48 +455,6 @@ namespace CompasPb.Data {
         Type = other.Type;
       }
       switch (other.DataCase) {
-        case DataOneofCase.Point:
-          if (Point == null) {
-            Point = new global::CompasPb.Data.PointData();
-          }
-          Point.MergeFrom(other.Point);
-          break;
-        case DataOneofCase.Vector:
-          if (Vector == null) {
-            Vector = new global::CompasPb.Data.VectorData();
-          }
-          Vector.MergeFrom(other.Vector);
-          break;
-        case DataOneofCase.Line:
-          if (Line == null) {
-            Line = new global::CompasPb.Data.LineData();
-          }
-          Line.MergeFrom(other.Line);
-          break;
-        case DataOneofCase.Frame:
-          if (Frame == null) {
-            Frame = new global::CompasPb.Data.FrameData();
-          }
-          Frame.MergeFrom(other.Frame);
-          break;
-        case DataOneofCase.Element:
-          if (Element == null) {
-            Element = new global::CompasPb.Data.ElementData();
-          }
-          Element.MergeFrom(other.Element);
-          break;
-        case DataOneofCase.List:
-          if (List == null) {
-            List = new global::CompasPb.Data.ListData();
-          }
-          List.MergeFrom(other.List);
-          break;
-        case DataOneofCase.Dict:
-          if (Dict == null) {
-            Dict = new global::CompasPb.Data.DictData();
-          }
-          Dict.MergeFrom(other.Dict);
-          break;
         case DataOneofCase.Int:
           Int = other.Int;
           break;
@@ -686,6 +466,9 @@ namespace CompasPb.Data {
           break;
         case DataOneofCase.Str:
           Str = other.Str;
+          break;
+        case DataOneofCase.Binary:
+          Binary = other.Binary;
           break;
       }
 
@@ -712,83 +495,24 @@ namespace CompasPb.Data {
             Type = (global::CompasPb.Data.DataType) input.ReadEnum();
             break;
           }
-          case 18: {
-            global::CompasPb.Data.PointData subBuilder = new global::CompasPb.Data.PointData();
-            if (dataCase_ == DataOneofCase.Point) {
-              subBuilder.MergeFrom(Point);
-            }
-            input.ReadMessage(subBuilder);
-            Point = subBuilder;
-            break;
-          }
-          case 26: {
-            global::CompasPb.Data.VectorData subBuilder = new global::CompasPb.Data.VectorData();
-            if (dataCase_ == DataOneofCase.Vector) {
-              subBuilder.MergeFrom(Vector);
-            }
-            input.ReadMessage(subBuilder);
-            Vector = subBuilder;
-            break;
-          }
-          case 34: {
-            global::CompasPb.Data.LineData subBuilder = new global::CompasPb.Data.LineData();
-            if (dataCase_ == DataOneofCase.Line) {
-              subBuilder.MergeFrom(Line);
-            }
-            input.ReadMessage(subBuilder);
-            Line = subBuilder;
-            break;
-          }
-          case 42: {
-            global::CompasPb.Data.FrameData subBuilder = new global::CompasPb.Data.FrameData();
-            if (dataCase_ == DataOneofCase.Frame) {
-              subBuilder.MergeFrom(Frame);
-            }
-            input.ReadMessage(subBuilder);
-            Frame = subBuilder;
-            break;
-          }
-          case 50: {
-            global::CompasPb.Data.ElementData subBuilder = new global::CompasPb.Data.ElementData();
-            if (dataCase_ == DataOneofCase.Element) {
-              subBuilder.MergeFrom(Element);
-            }
-            input.ReadMessage(subBuilder);
-            Element = subBuilder;
-            break;
-          }
-          case 58: {
-            global::CompasPb.Data.ListData subBuilder = new global::CompasPb.Data.ListData();
-            if (dataCase_ == DataOneofCase.List) {
-              subBuilder.MergeFrom(List);
-            }
-            input.ReadMessage(subBuilder);
-            List = subBuilder;
-            break;
-          }
-          case 66: {
-            global::CompasPb.Data.DictData subBuilder = new global::CompasPb.Data.DictData();
-            if (dataCase_ == DataOneofCase.Dict) {
-              subBuilder.MergeFrom(Dict);
-            }
-            input.ReadMessage(subBuilder);
-            Dict = subBuilder;
-            break;
-          }
-          case 72: {
+          case 16: {
             Int = input.ReadInt32();
             break;
           }
-          case 85: {
+          case 29: {
             Float = input.ReadFloat();
             break;
           }
-          case 88: {
+          case 32: {
             Bool = input.ReadBool();
             break;
           }
-          case 98: {
+          case 42: {
             Str = input.ReadString();
+            break;
+          }
+          case 50: {
+            Binary = input.ReadBytes();
             break;
           }
         }
@@ -814,83 +538,234 @@ namespace CompasPb.Data {
             Type = (global::CompasPb.Data.DataType) input.ReadEnum();
             break;
           }
-          case 18: {
-            global::CompasPb.Data.PointData subBuilder = new global::CompasPb.Data.PointData();
-            if (dataCase_ == DataOneofCase.Point) {
-              subBuilder.MergeFrom(Point);
-            }
-            input.ReadMessage(subBuilder);
-            Point = subBuilder;
-            break;
-          }
-          case 26: {
-            global::CompasPb.Data.VectorData subBuilder = new global::CompasPb.Data.VectorData();
-            if (dataCase_ == DataOneofCase.Vector) {
-              subBuilder.MergeFrom(Vector);
-            }
-            input.ReadMessage(subBuilder);
-            Vector = subBuilder;
-            break;
-          }
-          case 34: {
-            global::CompasPb.Data.LineData subBuilder = new global::CompasPb.Data.LineData();
-            if (dataCase_ == DataOneofCase.Line) {
-              subBuilder.MergeFrom(Line);
-            }
-            input.ReadMessage(subBuilder);
-            Line = subBuilder;
-            break;
-          }
-          case 42: {
-            global::CompasPb.Data.FrameData subBuilder = new global::CompasPb.Data.FrameData();
-            if (dataCase_ == DataOneofCase.Frame) {
-              subBuilder.MergeFrom(Frame);
-            }
-            input.ReadMessage(subBuilder);
-            Frame = subBuilder;
-            break;
-          }
-          case 50: {
-            global::CompasPb.Data.ElementData subBuilder = new global::CompasPb.Data.ElementData();
-            if (dataCase_ == DataOneofCase.Element) {
-              subBuilder.MergeFrom(Element);
-            }
-            input.ReadMessage(subBuilder);
-            Element = subBuilder;
-            break;
-          }
-          case 58: {
-            global::CompasPb.Data.ListData subBuilder = new global::CompasPb.Data.ListData();
-            if (dataCase_ == DataOneofCase.List) {
-              subBuilder.MergeFrom(List);
-            }
-            input.ReadMessage(subBuilder);
-            List = subBuilder;
-            break;
-          }
-          case 66: {
-            global::CompasPb.Data.DictData subBuilder = new global::CompasPb.Data.DictData();
-            if (dataCase_ == DataOneofCase.Dict) {
-              subBuilder.MergeFrom(Dict);
-            }
-            input.ReadMessage(subBuilder);
-            Dict = subBuilder;
-            break;
-          }
-          case 72: {
+          case 16: {
             Int = input.ReadInt32();
             break;
           }
-          case 85: {
+          case 29: {
             Float = input.ReadFloat();
             break;
           }
-          case 88: {
+          case 32: {
             Bool = input.ReadBool();
             break;
           }
-          case 98: {
+          case 42: {
             Str = input.ReadString();
+            break;
+          }
+          case 50: {
+            Binary = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  ///* any message to hold any data type 
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class AnyData : pb::IMessage<AnyData>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<AnyData> _parser = new pb::MessageParser<AnyData>(() => new AnyData());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<AnyData> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CompasPb.Data.MessageReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AnyData() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AnyData(AnyData other) : this() {
+      data_ = other.data_ != null ? other.data_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AnyData Clone() {
+      return new AnyData(this);
+    }
+
+    /// <summary>Field number for the "data" field.</summary>
+    public const int DataFieldNumber = 1;
+    private global::Google.Protobuf.WellKnownTypes.Any data_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Any Data {
+      get { return data_; }
+      set {
+        data_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as AnyData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(AnyData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Data, other.Data)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (data_ != null) hash ^= Data.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (data_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Data);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (data_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Data);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (data_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Data);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(AnyData other) {
+      if (other == null) {
+        return;
+      }
+      if (other.data_ != null) {
+        if (data_ == null) {
+          Data = new global::Google.Protobuf.WellKnownTypes.Any();
+        }
+        Data.MergeFrom(other.Data);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (data_ == null) {
+              Data = new global::Google.Protobuf.WellKnownTypes.Any();
+            }
+            input.ReadMessage(Data);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (data_ == null) {
+              Data = new global::Google.Protobuf.WellKnownTypes.Any();
+            }
+            input.ReadMessage(Data);
             break;
           }
         }
@@ -918,7 +793,7 @@ namespace CompasPb.Data {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CompasPb.Data.MessageReflection.Descriptor.MessageTypes[1]; }
+      get { return global::CompasPb.Data.MessageReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1105,7 +980,7 @@ namespace CompasPb.Data {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CompasPb.Data.MessageReflection.Descriptor.MessageTypes[2]; }
+      get { return global::CompasPb.Data.MessageReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1295,7 +1170,7 @@ namespace CompasPb.Data {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CompasPb.Data.MessageReflection.Descriptor.MessageTypes[3]; }
+      get { return global::CompasPb.Data.MessageReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

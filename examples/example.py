@@ -14,41 +14,11 @@ from compas_pb.data.data_handling import pb_load_json
 
 
 def main():
-    # Example nested data structure
-    # element = Element(frame, 1.0, 2.0, 3.0, name="Element")
-    # nested_data = {
-    # "point": Point(1.0, 2.0, 3.0),
-    # "line": Line(Point(1.0, 2.0, 3.0), Point(4.0, 5.0, 6.0)),
-    # "list": [Point(4.0, 5.0, 6.0), [Vector(7.0, 8.0, 9.0)]],  # Nested list
-    # "frame": Frame(point=Point(1.0, 2.0, 3.0), xaxis=Vector(4.0, 5.0, 6.0), yaxis=Vector(7.0, 8.0, 9.0)),
-    # "polyline": Polyline([[0, 0, 0], [1, 0, 0], [2, 0, 0], [3, 0, 0]])
-    # "element": element,
-    # }
 
-    nested_list = [
-        Point(1.0, 2.0, 3.0),
-        Polyline([[0, 0, 0], [1, 0, 0], [2, 0, 0], [3, 0, 0]]),
-        Frame(point=Point(1.0, 2.0, 3.0), xaxis=Vector(4.0, 5.0, 6.0), yaxis=Vector(7.0, 8.0, 9.0)),
-        ["hey", 1.0, 0.5, 1.5, True, 5, 10],
-    ]
-
-    point_list = [
-        Point(1.0, 2.0, 3.0),
-        Point(4.0, 5.0, 6.0),
-        Point(7.0, 8.0, 9.0),
-        Point(10.0, 11.0, 12.0),
-        Point(13.0, 14.0, 15.0),
-    ]
-
-    data_dict = {
-        "some": "value",
-        "another": 123,
-    }
-
-    FILEPATH = Path(__file__).parent / "temp" / "data_dict.bin"
+    FILEPATH = Path(__file__).parent / "temp" / "nested_data.bin"
 
     # LOAD THE DATA FROM THE FILE
-    pb_dump(data_dict, filepath=FILEPATH.as_posix())
+    # pb_dump(data_dict, filepath=FILEPATH.as_posix())
 
     # DESERIALIZE THE DATA
     loaded_data = pb_load(filepath=FILEPATH.as_posix())

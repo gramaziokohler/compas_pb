@@ -35,7 +35,7 @@ invoke protobuf.generate-proto-classes
 #### Re-generate `.proto` files to cSharp Classes
 
 ```bash
-./proto/win64/bin/protoc.exe --proto_path=./IDL --csharp_out=./cSharp/CompasProtobuffer/src/proto ./IDL/compas_pb/data/proto/*.proto 
+./proto/win64/bin/protoc.exe --proto_path=./IDL --csharp_out=./cSharp/CompasProtobuffer/src/proto ./IDL/compas_pb/data/proto/*.proto
 ```
 
 
