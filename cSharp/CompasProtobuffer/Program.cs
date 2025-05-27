@@ -1,4 +1,5 @@
 using CompasPb.Data;
+using CompassPb.Data;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
@@ -14,6 +15,12 @@ class Program
         string filePath = @"C:\Users\weitingchen\project\compas_pb\examples\temp\example_dict.bin";
 
         var data = DataHandler.PBLoad(filePath);
+        Console.WriteLine(data.GetType());
+        var dict = DataProcessor.TryGetValue<DictData>(data);
+        Console.WriteLine($"Dict :{dict}");
+
+        var point = DataProcessor.TryGetValue<PointData>(data);
+        Console.WriteLine($"Point: {point}");
 
         // var point = TryGetValue<Point>(data);
         // var dict = TryGetValue<Dict<string, object>>(data);

@@ -8,19 +8,21 @@ namespace CompassPb.Data
 {
     public class DataProcessor
     {
-        public static bool TryGetValue<T>(AnyData obj, out T result)
-        // BUG
+        public static T TryGetValue<T>(AnyData data) where T: class, Google.Protobuf.IMessage, new()
         {
             try
             {
-                result = (T)(object)obj;
-                return true;
+                if (data.Data.Is(new T().Descriptor))
+                {
+                    return data.Data.Unpack<T>();
+                }
+                else
+                {
+                    throw new InvalidCastException($"Cannot find {data.Data.GetType()} to {typeof(T)}");
+                }
             }
-            catch (InvalidCastException)
-            {
-                result = default(T);
-                return false;
-            }
+            catch { }
+            return default(T);
         }
     }
 
