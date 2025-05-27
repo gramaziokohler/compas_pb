@@ -24,7 +24,7 @@ pip install -e ".[dev]"
 uv pip install -e . --upgrade
 ```
 
-- Protobuf version 6.30.2
+- Protobuf version 6.31.0(Supported any data type)
 
 #### Re-generate `.proto` files to Python Classes
 
