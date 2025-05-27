@@ -51,7 +51,6 @@ def pb_load(filepath: str) -> Data | Dict | List:
 
     with open_file(filepath, "rb") as f:
         message_bts = f.read()
-        print(message_bts)
         message = DataDeserializer(message_bts).deserialize_message()
         return message
 

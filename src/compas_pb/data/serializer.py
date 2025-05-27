@@ -129,7 +129,7 @@ class DataDeserializer:
         if not self._data:
             raise ValueError("Binary data is empty.")
         binary_data = self._data
-
+        print(binary_data)
         any_data = MessageData.MessageData()
         any_data.ParseFromString(binary_data)
         return any_data.data
