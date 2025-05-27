@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 using CompasPb.Data;
 
 namespace CompasPb.Data
@@ -17,35 +13,13 @@ namespace CompasPb.Data
             }
         }
 
-        public static void PBLoad(string filePath)
+        public static AnyData PBLoad(string filePath)
         {
             ValidateFilePath(filePath);
             Console.WriteLine($"Loading data from: {filePath}");
-
             byte[] byteData = File.ReadAllBytes(filePath);
-            Console.WriteLine(byteData);
-            var message = AnyData.Parser.ParseFrom(byteData);
-
-            Console.WriteLine($"Root Any type: {message.Data.TypeUrl}");
-
-            // The root should be DictData based on your data
-            if (message.Data.Is(DictData.Descriptor))
-            {
-                var rootDict = message.Data.Unpack<DictData>();
-                Console.WriteLine($"DictData: {rootDict}");
-            }
-            else
-            {
-                Console.WriteLine($"Expected DictData but got: {message.Data.TypeUrl}");
-            }
-
-            // Console.WriteLine($"Message descriptor: {message.Descriptor?.Name ?? "Unknown"}");
-
-            // Any anyMessage = message.Data.Data;
-            // Console.WriteLine(anyMessage.GetType());
-            // var anyMessage = Any.Parser.ParseFrom(message.Data);
-            // Any.Parser.
-            // Console.WriteLine(anyMessage);
+            MessageData message = MessageData.Parser.ParseFrom(byteData);
+            return message.Data;
         }
 
         public static void PBdump() => Console.WriteLine("dump data to proto");
@@ -54,7 +28,7 @@ namespace CompasPb.Data
         {
             ValidateFilePath(filePath);
             Console.WriteLine($"Loading JSON data from: {filePath}");
-            // Implement JSON loading logic here
+            // Implement JSON loading logic herek
         }
 
         public static void PBdumpJSON() => Console.WriteLine("dump data to JSON");
@@ -62,8 +36,8 @@ namespace CompasPb.Data
         public static void PBLoadBytes(string filePath)
         {
             ValidateFilePath(filePath);
-            Console.WriteLine($"Loading data from bytes: {filePath}");
-            // Implement byte loading logic here
+            Console.WriteLine($"Loading data from: {filePath}");
+            // Implement here
         }
 
         public static void PBdumpBytes() => Console.WriteLine("dump data to bytes");
