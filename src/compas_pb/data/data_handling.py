@@ -1,9 +1,11 @@
-from typing import Dict, List
+from typing import Dict
+from typing import List
 
 from compas.data import Data
-from compas_pb.data.serializer import DataSerializer, DataDeserializer
 
 from compas_pb.data.io_tool import open_file
+from compas_pb.data.serializer import DataDeserializer
+from compas_pb.data.serializer import DataSerializer
 
 
 def pb_dump(data: Data | Dict[str, Data] | List[Data], filepath: str) -> None:
