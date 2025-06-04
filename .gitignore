@@ -149,3 +149,5 @@ examples/temp/*
 
 cSharp/**/bin/*
 cSharp/**/obj/*
+
+*.bin
