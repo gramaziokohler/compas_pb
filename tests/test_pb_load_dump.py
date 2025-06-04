@@ -7,11 +7,7 @@ from compas.geometry import Vector
 from compas.geometry import Line
 
 from compas_pb.data.data_handling import pb_dump
-from compas_pb.data.data_handling import pb_dump_bts
-from compas_pb.data.data_handling import pb_dump_json
 from compas_pb.data.data_handling import pb_load
-from compas_pb.data.data_handling import pb_load_bts
-from compas_pb.data.data_handling import pb_load_json
 
 
 @pytest.fixture

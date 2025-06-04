@@ -103,13 +103,13 @@ replace = "[{new_version}] {now:%Y-%m-%d}"
 # ============================================================================
 
 [tool.black]
-line-length = 179
+extend-exclude = '(/[a-zA-Z\./]*[\s]?)'  # exclude everything, black should be removed..
 
 [tool.ruff]
 line-length = 179
 indent-width = 4
 target-version = "py39"
-exclude = ["src/compas_pb/data/proto/*_pb2.py"]
+exclude = ["src/compas_pb/data/proto/"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]

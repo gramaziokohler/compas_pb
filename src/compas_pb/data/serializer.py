@@ -155,7 +155,7 @@ class DataDeserializer:
 
         return self._deserialize_any(any_data.data)
 
-    def _deserialize_any(self, data: MessageData.AnyData | MessageData.ListData | MessageData.DictData ) -> list | dict:
+    def _deserialize_any(self, data: MessageData.AnyData | MessageData.ListData | MessageData.DictData) -> list | dict:
         """Deserialize a protobuf message to COMPAS object."""
 
         if data.data.Is(MessageData.ListData.DESCRIPTOR):
