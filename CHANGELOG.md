@@ -11,5 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+* Changed to use the native protobuf Any to deal with our arbitrary data.
+
 ### Removed
 
