@@ -17,8 +17,7 @@ def generate_compiler_path():
 
 @invoke.task(help={"target_language": "Directory containing the .proto files"})
 def generate_proto_classes(ctx, target_language: str = "python"):
-    idl_root = Path("./IDL")
-    idl_dir = idl_root / "compas_pb" / "data" / "proto"
+    idl_dir = Path("./IDL") / "compas_pb" / "generated"
     out_dir = Path("./src")
 
     path_to_compiler = generate_compiler_path()
