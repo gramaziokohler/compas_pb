@@ -11,6 +11,7 @@ from .data_handling import pb_load_json
 from .data import _ProtoBufferData
 from .data import _ProtoBufferFrame
 from .data import _ProtoBufferAny
+from .data import ProtoBufManager
 
 
 __all__ = [
@@ -23,4 +24,5 @@ __all__ = [
     "_ProtoBufferData",
     "_ProtoBufferFrame",
     "_ProtoBufferAny",
+    "ProtoBufManager",
 ]
