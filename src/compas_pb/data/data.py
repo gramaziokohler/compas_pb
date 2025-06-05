@@ -6,11 +6,11 @@ from compas.geometry import Line
 from compas.geometry import Point
 from compas.geometry import Vector
 
-from compas_pb.data.proto import frame_pb2 as FrameData
-from compas_pb.data.proto import line_pb2 as LineData
-from compas_pb.data.proto import message_pb2 as MessageData
-from compas_pb.data.proto import point_pb2 as PointData
-from compas_pb.data.proto import vector_pb2 as VectorData
+from compas_pb.generated import frame_pb2 as FrameData
+from compas_pb.generated import line_pb2 as LineData
+from compas_pb.generated import message_pb2 as MessageData
+from compas_pb.generated import point_pb2 as PointData
+from compas_pb.generated import vector_pb2 as VectorData
 
 
 # NOTE: PUT More Docstring in the class docstring
@@ -320,9 +320,12 @@ class _ProtoBufferFrame(_ProtoBufferData):
         """
         # NOTE: Should test with Beam.
         frame_data = FrameData.FrameData()
-        is_unpacked = proto_data.data.Unpack(frame_data)
+        if hasattr(proto_data, "data"):
+            proto_data.data.Unpack(frame_data)
+        else:
+            frame_data = proto_data
 
-        if is_unpacked:
+        if frame_data.IsInitialized():
             point = _ProtoBufferPoint.from_pb(frame_data.point)
             xaxis = _ProtoBufferVector.from_pb(frame_data.xaxis)
             yaxis = _ProtoBufferVector.from_pb(frame_data.yaxis)
