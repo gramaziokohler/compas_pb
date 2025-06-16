@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package compas_pb.data;
 
-import "compas_pb/data/proto/point.proto";
-import "compas_pb/data/proto/vector.proto";
+import "compas_pb/generated/point.proto";
+import "compas_pb/generated/vector.proto";
 
 message FrameData {
   string guid = 1;

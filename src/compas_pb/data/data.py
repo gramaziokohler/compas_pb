@@ -1,16 +1,18 @@
 from abc import ABC
 from abc import abstractmethod
+from typing import Any
 
 from compas.geometry import Frame
 from compas.geometry import Line
 from compas.geometry import Point
 from compas.geometry import Vector
+from compas.plugins import pluggable
 
-from compas_pb.data.proto import frame_pb2 as FrameData
-from compas_pb.data.proto import line_pb2 as LineData
-from compas_pb.data.proto import message_pb2 as MessageData
-from compas_pb.data.proto import point_pb2 as PointData
-from compas_pb.data.proto import vector_pb2 as VectorData
+from compas_pb.generated import frame_pb2 as FrameData
+from compas_pb.generated import line_pb2 as LineData
+from compas_pb.generated import message_pb2 as MessageData
+from compas_pb.generated import point_pb2 as PointData
+from compas_pb.generated import vector_pb2 as VectorData
 
 
 # NOTE: PUT More Docstring in the class docstring
@@ -320,9 +322,12 @@ class _ProtoBufferFrame(_ProtoBufferData):
         """
         # NOTE: Should test with Beam.
         frame_data = FrameData.FrameData()
-        is_unpacked = proto_data.data.Unpack(frame_data)
+        if hasattr(proto_data, "data"):
+            proto_data.data.Unpack(frame_data)
+        else:
+            frame_data = proto_data
 
-        if is_unpacked:
+        if frame_data.IsInitialized():
             point = _ProtoBufferPoint.from_pb(frame_data.point)
             xaxis = _ProtoBufferVector.from_pb(frame_data.xaxis)
             yaxis = _ProtoBufferVector.from_pb(frame_data.yaxis)
@@ -411,7 +416,30 @@ class _ProtoBufferDefault(_ProtoBufferData):
             raise TypeError(f"Unsupported type: {primitive_data_type}: {e}")
 
 
-class _ProtoBufferAny(_ProtoBufferData):
+class ProtoBufManager(ABC):
+    """Interface for plugins to use. An instance of an object implementing this interface is passed to all  ``register_serializers`` plugins."""
+
+    @staticmethod
+    def register(native_type: Any, serializer: _ProtoBufferData) -> None:
+        """Register a native type and its corresponding protobuf type.
+
+        Parameters
+        ----------
+        native_type : :class:`~compas.data.Data`
+            The native type to register.
+        protobuf_type : _ProtoBufferData
+            The protobuf type to register.
+        """
+        raise NotImplementedError
+
+
+@pluggable(category="factories", selector="collect_all")
+def register_serializers(manager: ProtoBufManager) -> None:
+    """Collects all the plugins which register custom serializers with _ProtoBufferAny."""
+    pass
+
+
+class _ProtoBufferAny(_ProtoBufferData, ProtoBufManager):
     """A class to hold the protobuf data for any object.
 
     Parameters
@@ -434,12 +462,32 @@ class _ProtoBufferAny(_ProtoBufferData):
         Frame: _ProtoBufferFrame,
     }
     DESERIALIZER = {value()._proto_data.DESCRIPTOR.full_name: value for key, value in SERIALIZER.items()}
+    _INITIALIZED = False
 
     def __init__(self, obj=None, fallback_serializer=None):
         super().__init__()
         self._obj = obj
         self._proto_data = MessageData.AnyData()
         self._fallback_serializer = fallback_serializer
+        if not _ProtoBufferAny._INITIALIZED:
+            register_serializers(_ProtoBufferAny)
+            _ProtoBufferAny._INITIALIZED = True
+
+    @staticmethod
+    def register(native_type, serializer) -> None:
+        """Register a native type and its corresponding protobuf type.
+
+        Parameters
+        ----------
+        native_type : :class:`~compas.data.Data`
+            The native type to register.
+        serializer : _ProtoBufferData
+            The serializer class to register for the native type.
+        """
+        if native_type in _ProtoBufferAny.SERIALIZER:
+            raise ValueError(f"{native_type} is already registered.")
+        _ProtoBufferAny.SERIALIZER[native_type] = serializer
+        _ProtoBufferAny.DESERIALIZER[serializer().proto_data_type.DESCRIPTOR.full_name] = serializer
 
     def to_pb(self) -> MessageData.AnyData:
         """Convert a any object to a protobuf any message.
