@@ -14,13 +14,40 @@ class Program
         // string filePath = @"C:\Users\ckasirer\repos\compas_pb\examples\temp\data_dict.bin";
         string filePath = @"C:\Users\weitingchen\project\compas_pb\examples\temp\example_dict.bin";
 
-        var data = DataHandler.PBLoad(filePath);
-        Console.WriteLine(data.GetType());
-        var dict = DataProcessor.TryGetValue<DictData>(data);
-        Console.WriteLine($"Dict :{dict}");
+        // data.Data: AnyData
+        // example #1: traverse without any abstraction, and no knowledge of the data structure
 
-        var point = DataProcessor.TryGetValue<PointData>(data);
-        Console.WriteLine($"Point: {point}");
+        byte[] byteData = File.ReadAllBytes(filePath);
+        MessageData message = MessageData.Parser.ParseFrom(byteData);
+        Console.WriteLine($"MessageData: {message.Data}");
+        Console.WriteLine($"MessageData Type: {message.Data.GetType()}");
+
+        // example #1.5: traverse without any abstraction, but with knowledge of the data structure
+        AnyData data = message.Data;
+        Console.WriteLine($"Data Type: {data.GetType()}");
+        // have to checkt if the data is of a specific type before unpacking
+        if (data.Data.Is(DictData.Descriptor))
+        {
+            var dictData = data.Data.Unpack<DictData>();
+            Console.WriteLine($"DictData: {dictData}");
+            foreach (var kvp in dictData.Data)
+            {
+                Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
+            }
+        }
+
+        // example #2: traverse with abstraction, 1 level deep
+        //      data: Dictionary<string, AnyData> -> TryGetValue<Dictionary<string, object>>(data) ?
+        //      data: Dictionary<string, AnyData> -> TryGetValue<LineData>(data) ?
+        //      data: Dictionary<string, AnyData> -> TryGetValue<List<object>>(data) ?
+
+        // var data = DataHandler.PBLoad(filePath);
+        // Console.WriteLine(data.GetType());
+        // var dict = DataProcessor.TryGetValue<DictData>(data);
+        // Console.WriteLine($"Dict :{dict}");
+
+        // var point = DataProcessor.TryGetValue<PointData>(data);
+        // Console.WriteLine($"Point: {point}");
 
         // var point = TryGetValue<Point>(data);
         // var dict = TryGetValue<Dict<string, object>>(data);
