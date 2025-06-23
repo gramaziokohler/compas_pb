@@ -149,3 +149,5 @@ cSharp/**/bin/*
 cSharp/**/obj/*
 
 *.bin
+
+proto/*
