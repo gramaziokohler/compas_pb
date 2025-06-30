@@ -17,16 +17,8 @@ def main():
     # Example nested data structure
     example_dict = {
         # single object
-        "point": Point(1.0, 2.0, 3.0),
-        "line": [Point(1.0, 2.0, 3.0), Point(4.0, 5.0, 6.0)],
-        "frame": Frame(Point(1.0, 2.0, 3.0), Vector(4.0, 5.0, 6.0), Vector(7.0, 8.0, 9.0)),
-        "polyline": Polyline([[0, 0, 0], [1, 0, 0], [2, 0, 0], [3, 0, 0]]),
-        # list of objects
-        "list of object ": [Point(4.0, 5.0, 6.0), [Vector(7.0, 8.0, 9.0)]],
-        # Nested list
-        "nested list": [[Point(1.0, 2.0, 3.0), Point(4.0, 5.0, 6.0)], [Point(7.0, 8.0, 9.0), Point(10.0, 11.0, 12.0)]],
+        "list of object ": [Point(4.0, 5.0, 6.0), Vector(7.0, 8.0, 9.0), Frame(Point(1.0, 2.0, 3.0), Vector(4.0, 5.0, 6.0), Vector(7.0, 8.0, 9.0)),],
     }
-
     FILEPATH = Path(__file__).parent / "temp" / "example_dict.bin"
 
     # Dump the data to a binary file
