@@ -1,6 +1,6 @@
 import pytest
 
-from compas.geometry import Box, Frame
+from compas.geometry import Box
 from compas.datastructures import Mesh
 from compas_pb.data import pb_dump_bts, pb_load_bts
 
