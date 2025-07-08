@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 from invoke.collection import Collection
 
 from compas_invocations2 import build
@@ -21,5 +23,7 @@ ns = Collection(
     build.clean,
     build.release,
 )
+
+ns.configure({ "base_folder": Path(__file__).parent.parent })
 
 ns.add_collection(Collection.from_module(compile_protos), name="protobuf")
