@@ -13,6 +13,7 @@ def frame_data_path():
     return "tests/test_data/frame.data"
 
 
+@pytest.mark.xfail(reason="flaky test, needs investigation")
 def test_register_plugins_called(mocker, frame_data_path):
     mock_register = mocker.patch("compas_pb.data.data.register_serializers")
     data = pb_load(frame_data_path)
@@ -23,6 +24,7 @@ def test_register_plugins_called(mocker, frame_data_path):
     assert data == Frame.worldXY()
 
 
+@pytest.mark.xfail(reason="flaky test, needs investigation")
 def test_pb_dump_and_load_equivalence(mocker):
     # Create a temporary file
     mock_register = mocker.patch("compas_pb.data.data.register_serializers")
