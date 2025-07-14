@@ -2,7 +2,7 @@ from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import Parse
 
 from compas_pb.data.data import _ProtoBufferAny
-from compas_pb.data.proto import message_pb2 as MessageData
+from compas_pb.generated import message_pb2 as MessageData
 
 
 class DataSerializer:
@@ -68,7 +68,7 @@ class DataSerializer:
         """ "Serialize a COMPAS object to protobuf message."""
         any_data = MessageData.AnyData()
 
-        if isinstance(obj, list):
+        if isinstance(obj, (list, tuple)):
             data_offset = self._serialize_list(obj)
             any_data.data.Pack(data_offset)
         elif isinstance(obj, dict):
@@ -157,6 +157,7 @@ class DataDeserializer:
 
     def _deserialize_any(self, data: MessageData.AnyData | MessageData.ListData | MessageData.DictData) -> list | dict:
         """Deserialize a protobuf message to COMPAS object."""
+        _ProtoBufferAny()  # HACK: plugins only registers on creation of instance, make more explicit
 
         if data.data.Is(MessageData.ListData.DESCRIPTOR):
             data_offset = self._deserialize_list(data)
