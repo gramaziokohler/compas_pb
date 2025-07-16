@@ -7,14 +7,16 @@ from compas.geometry import Frame
 from compas_pb.data import pb_dump
 from compas_pb.data import pb_load
 
+from compas_pb.data import _ProtoBufferAny
+
 
 @pytest.fixture
 def frame_data_path():
     return "tests/test_data/frame.data"
 
 
-@pytest.mark.xfail(reason="flaky test, needs investigation")
 def test_register_plugins_called(mocker, frame_data_path):
+    _ProtoBufferAny._INITIALIZED = False
     mock_register = mocker.patch("compas_pb.data.data.register_serializers")
     data = pb_load(frame_data_path)
 
@@ -24,9 +26,8 @@ def test_register_plugins_called(mocker, frame_data_path):
     assert data == Frame.worldXY()
 
 
-@pytest.mark.xfail(reason="flaky test, needs investigation")
 def test_pb_dump_and_load_equivalence(mocker):
-    # Create a temporary file
+    _ProtoBufferAny._INITIALIZED = False
     mock_register = mocker.patch("compas_pb.data.data.register_serializers")
 
     with tempfile.TemporaryDirectory() as tmpdir:
