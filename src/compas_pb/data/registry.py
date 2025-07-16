@@ -1,4 +1,3 @@
-import sys
 from typing import Any
 from typing import Callable
 from typing import Dict
@@ -30,8 +29,7 @@ def pb_deserializer(pb_type: Type):
     """Decorator which registers a deserializer for the protobuf module."""
 
     def wrapper(func):
-        module = sys.modules[pb_type.__module__]
-        type_url = f"{module.DESCRIPTOR.package}.{pb_type.DESCRIPTOR.name}"
+        type_url = pb_type.DESCRIPTOR.full_name
         try:
             _DESERIALIZERS[type_url] = func
         except AttributeError:
