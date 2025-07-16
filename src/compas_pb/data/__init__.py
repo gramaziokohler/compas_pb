@@ -32,7 +32,6 @@ __all__ = [
     "pb_dump_json",
     "pb_load_json",
     "_ProtoBufferData",
-    "_ProtoBufferFrame",
     "_ProtoBufferAny",
     "pb_deserializer",
     "pb_serializer",
