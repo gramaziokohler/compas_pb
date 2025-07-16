@@ -3,7 +3,7 @@ from __future__ import print_function
 import os
 
 # this is imported for side effects, to register the protobuf types
-import compas_pb.data._data  # type: ignore # noqa: F401
+import compas_pb.data.conversions  # type: ignore # noqa: F401
 
 
 __author__ = ["Chen Kasirer"]
