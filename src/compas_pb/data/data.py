@@ -1,7 +1,5 @@
 from abc import ABC
 from abc import abstractmethod
-from typing import Any
-from typing import Optional
 
 from compas.plugins import pluggable
 
@@ -11,7 +9,7 @@ from .registry import SerialzerRegistry
 
 
 # NOTE: PUT More Docstring in the class docstring
-class _ProtoBufferData(ABC):
+class ProtoBufferData(ABC):
     """A abstract class for protobuf data."""
 
     @abstractmethod
@@ -35,7 +33,9 @@ class _ProtoBufferData(ABC):
         raise NotImplementedError("Subclasses implement this method")
 
 
-class _ProtoBufferDefault(_ProtoBufferData):
+# TODO: eventually make this class just `primitive_to_pb` and `primitive_from_pb`
+# TODO: the state is not really needed here
+class ProtoBufferDefault(ProtoBufferData):
     """
     A class to hold the protobuf data for python native types.
 
@@ -43,8 +43,6 @@ class _ProtoBufferDefault(_ProtoBufferData):
     ----------
         obj : :class: `int`, `float`, `bool`, `str`
     """
-
-    PB_TYPE = "PrimitiveData"
 
     PY_TYPES_SERIALIZER = {
         int: MessageData.DataType.INT,
@@ -124,7 +122,9 @@ def register_serializers() -> None:
     pass
 
 
-class _ProtoBufferAny(_ProtoBufferData):
+# TODO: eventually make this class just `any_to_pb` and `any_from_pb`
+# TODO: the state is not really needed here
+class ProtoBufferAny(ProtoBufferData):
     """A class to hold the protobuf data for any object.
 
     Parameters
@@ -147,9 +147,9 @@ class _ProtoBufferAny(_ProtoBufferData):
         self._obj = obj
         self._proto_data = MessageData.AnyData()
         self._fallback_serializer = fallback_serializer
-        if not _ProtoBufferAny._INITIALIZED:
+        if not ProtoBufferAny._INITIALIZED:
             register_serializers()
-            _ProtoBufferAny._INITIALIZED = True
+            ProtoBufferAny._INITIALIZED = True
 
     def to_pb(self) -> MessageData.AnyData:
         """Convert a any object to a protobuf any message.
@@ -177,20 +177,10 @@ class _ProtoBufferAny(_ProtoBufferData):
                 data_offset = self._fallback_serializer(obj_dict)
                 self._proto_data.data.Pack(data_offset)
             else:
-                self._proto_data = _ProtoBufferDefault(obj).to_pb()
+                self._proto_data = ProtoBufferDefault(obj).to_pb()
             return self._proto_data
         except TypeError as e:
             raise TypeError(f"Unsupported type: {type(obj)}: {e}")
-
-    @staticmethod
-    def _get_serializer(obj: Any) -> Optional[_ProtoBufferData]:
-        result = None
-        for cls in type(obj).mro():
-            result = _ProtoBufferAny.SERIALIZER.get(cls)
-            if result:
-                break
-
-        return result
 
     @staticmethod
     def from_pb(proto_data: MessageData.AnyData) -> list | dict | object:
@@ -218,7 +208,7 @@ class _ProtoBufferAny(_ProtoBufferData):
                 _ = proto_data.data.Unpack(unpacked_instance)
                 data_offset = deserializer(unpacked_instance)
             else:
-                data_offset = _ProtoBufferDefault.from_pb(proto_data)
+                data_offset = ProtoBufferDefault.from_pb(proto_data)
             return data_offset
         except TypeError as e:
             raise TypeError(f"Unsupported type: {proto_type}: {e}")
