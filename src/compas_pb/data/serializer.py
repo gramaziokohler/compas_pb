@@ -1,8 +1,9 @@
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import Parse
 
-from compas_pb.data.data import ProtoBufferAny
 from compas_pb.generated import message_pb2
+
+from .data import ProtoBufferAny
 
 
 class DataSerializer:
