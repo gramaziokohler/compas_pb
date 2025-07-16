@@ -9,7 +9,6 @@ from .data_handling import pb_load_bts
 from .data_handling import pb_dump_json
 from .data_handling import pb_load_json
 from .data import _ProtoBufferData
-from .data import _ProtoBufferFrame
 from .data import _ProtoBufferAny
 from .data import ProtoBufManager
 

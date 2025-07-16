@@ -25,20 +25,19 @@ def point_to_pb(obj: Point) -> point_pb2.PointData:
     return proto_data
 
 
-@pb_deserializer(point_pb2)
+@pb_deserializer(point_pb2.PointData)
 def point_from_pb(proto_data: point_pb2.PointData) -> Point:
     return Point(
         x=proto_data.x,
         y=proto_data.y,
         z=proto_data.z,
-        guid=proto_data.guid,
         name=proto_data.name
     )
 
 
 @pb_serializer(Line)
-def line_to_pb(line_obj: Line) -> point_pb2.LineData:
-    proto_data = point_pb2.LineData()
+def line_to_pb(line_obj: Line) -> line_pb2.LineData:
+    proto_data = line_pb2.LineData()
     proto_data.guid = str(line_obj.guid)
     proto_data.name = line_obj.name
 
@@ -51,15 +50,14 @@ def line_to_pb(line_obj: Line) -> point_pb2.LineData:
     return proto_data
 
 
-@pb_deserializer(line_pb2)
-def line_from_pb(proto_data: point_pb2.LineData) -> Line:
+@pb_deserializer(line_pb2.LineData)
+def line_from_pb(proto_data: line_pb2.LineData) -> Line:
     start = point_from_pb(proto_data.start)
     end = point_from_pb(proto_data.end)
 
     return Line(
         start=start,
         end=end,
-        guid=proto_data.guid,
         name=proto_data.name
     )
 
@@ -67,7 +65,6 @@ def line_from_pb(proto_data: point_pb2.LineData) -> Line:
 @pb_serializer(Vector)
 def vector_to_pb(obj: Vector) -> vector_pb2.VectorData:
     proto_data = vector_pb2.VectorData()
-    proto_data.guid = str(obj.guid)
     proto_data.name = obj.name
     proto_data.x = obj.x
     proto_data.y = obj.y
@@ -75,51 +72,47 @@ def vector_to_pb(obj: Vector) -> vector_pb2.VectorData:
     return proto_data
 
 
-@pb_deserializer(vector_pb2)
+@pb_deserializer(vector_pb2.VectorData)
 def vector_from_pb(proto_data: vector_pb2.VectorData) -> Vector:
     return Vector(
         x=proto_data.x,
         y=proto_data.y,
         z=proto_data.z,
-        guid=proto_data.guid,
         name=proto_data.name
     )
 
 
-@pb_serializer(frame_pb2.FrameData)
-def frame_to_pb(frame_obj: frame_pb2.FrameData) -> frame_pb2.FrameData
+@pb_serializer(Frame)
+def frame_to_pb(frame_obj: Frame) -> frame_pb2.FrameData:
     proto_data = frame_pb2.FrameData()
     proto_data.guid = str(frame_obj.guid)
     proto_data.name = frame_obj.name
 
-    origin = point_to_pb(frame_obj.origin)
+    origin = point_to_pb(frame_obj.point)
     xaxis = vector_to_pb(frame_obj.xaxis)
     yaxis = vector_to_pb(frame_obj.yaxis)
-    zaxis = vector_to_pb(frame_obj.zaxis)
 
-    proto_data.origin.CopyFrom(origin)
+    proto_data.point.CopyFrom(origin)
     proto_data.xaxis.CopyFrom(xaxis)
     proto_data.yaxis.CopyFrom(yaxis)
-    proto_data.zaxis.CopyFrom(zaxis)
 
     return proto_data
 
 
-@pb_deserializer(frame_pb2)
+@pb_deserializer(frame_pb2.FrameData)
 def frame_from_pb(proto_data: frame_pb2.FrameData) -> Frame:
-    origin = point_from_pb(proto_data.origin)
+    origin = point_from_pb(proto_data.point)
     xaxis = vector_from_pb(proto_data.xaxis)
     yaxis = vector_from_pb(proto_data.yaxis)
     return Frame(
         point=origin,
         xaxis=xaxis,
         yaxis=yaxis,
-        guid=proto_data.guid,
         name=proto_data.name
     )
 
 
-@pb_serializer(mesh_pb2.MeshData)
+@pb_serializer(Mesh)
 def mesh_to_pb(mesh: Mesh) -> mesh_pb2.MeshData:
     proto_data = mesh_pb2.MeshData()
     proto_data.guid = str(mesh.guid)
@@ -140,7 +133,7 @@ def mesh_to_pb(mesh: Mesh) -> mesh_pb2.MeshData:
     return proto_data
 
 
-@pb_deserializer(mesh_pb2)
+@pb_deserializer(mesh_pb2.MeshData)
 def from_pb(proto_data: mesh_pb2.MeshData) -> Mesh:
 
     mesh = Mesh(guid=proto_data.guid, name=proto_data.name)

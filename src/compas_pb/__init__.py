@@ -2,6 +2,8 @@ from __future__ import print_function
 
 import os
 
+import compas_pb.data._data  # type: ignore
+
 
 __author__ = ["Chen Kasirer"]
 __copyright__ = "Gramazio Kohler Research"
@@ -17,6 +19,5 @@ DATA = os.path.abspath(os.path.join(HOME, "data"))
 DOCS = os.path.abspath(os.path.join(HOME, "docs"))
 TEMP = os.path.abspath(os.path.join(HOME, "temp"))
 IDL = os.path.abspath(os.path.join(HOME, "IDL"))
-
 
 __all__ = ["HOME", "DATA", "DOCS", "TEMP"]
