@@ -1,14 +1,13 @@
 import sys
-
 from typing import Any
 from typing import Callable
 from typing import Dict
 from typing import Type
-from types import ModuleType
 
 
 class PbSerializerRegistrationError(Exception):
     """Custom exception for errors in Protocol Buffer serializer registration."""
+
     pass
 
 
@@ -18,15 +17,18 @@ _DESERIALIZERS: Dict[str, Callable] = {}
 
 def pb_serializer(obj_type: Type):
     """Decorator which registers a serializer for ``obj_type`` to its protobuf."""
+
     def wrapper(func):
         print(f"Registering serializer for {obj_type.__name__}")
         _SERIALIZERS[obj_type] = func
         return func
+
     return wrapper
 
 
 def pb_deserializer(pb_type: Type):
     """Decorator which registers a deserializer for the protobuf module."""
+
     def wrapper(func):
         module = sys.modules[pb_type.__module__]
         type_url = f"{module.DESCRIPTOR.package}.{pb_type.DESCRIPTOR.name}"
@@ -38,6 +40,7 @@ def pb_deserializer(pb_type: Type):
             # used for unpacking Any
             func.__deserializer_type__ = pb_type
         return func
+
     return wrapper
 
 

@@ -42,6 +42,7 @@ def test_serialize_vector():
     assert new_vector.y == vector.y
     assert new_vector.z == vector.z
 
+
 def test_serialize_line():
     line = Line(Point(1, 2, 3), Point(4, 5, 6))
 
@@ -65,14 +66,14 @@ def test_serialize_nested_data():
     bts = pb_dump_bts(nested_data)
     new_data = pb_load_bts(bts)
 
-    assert isinstance(new_data['point'], Point)
-    assert isinstance(new_data['line'], list) and all(isinstance(pt, Point) for pt in new_data['line'])
-    assert isinstance(new_data['list of Object'], list)
-    assert isinstance(new_data['frame'], Frame)
-    assert isinstance(new_data['list of primitive'], list)
-    assert new_data['point'] == nested_data['point']
-    assert new_data['line'] == nested_data['line']
-    assert new_data['list of Object'] == nested_data['list of Object']
-    assert new_data['frame'].point == nested_data['frame'].point
-    assert new_data['frame'].xaxis == nested_data['frame'].xaxis
-    assert new_data['frame'].yaxis == nested_data['frame'].yaxis
+    assert isinstance(new_data["point"], Point)
+    assert isinstance(new_data["line"], list) and all(isinstance(pt, Point) for pt in new_data["line"])
+    assert isinstance(new_data["list of Object"], list)
+    assert isinstance(new_data["frame"], Frame)
+    assert isinstance(new_data["list of primitive"], list)
+    assert new_data["point"] == nested_data["point"]
+    assert new_data["line"] == nested_data["line"]
+    assert new_data["list of Object"] == nested_data["list of Object"]
+    assert new_data["frame"].point == nested_data["frame"].point
+    assert new_data["frame"].xaxis == nested_data["frame"].xaxis
+    assert new_data["frame"].yaxis == nested_data["frame"].yaxis

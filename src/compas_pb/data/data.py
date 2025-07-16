@@ -3,11 +3,6 @@ from abc import abstractmethod
 from typing import Any
 from typing import Optional
 
-from compas.datastructures import Mesh
-from compas.geometry import Frame
-from compas.geometry import Line
-from compas.geometry import Point
-from compas.geometry import Vector
 from compas.plugins import pluggable
 
 from compas_pb.generated import message_pb2 as MessageData
@@ -260,4 +255,3 @@ class _ProtoBufferAny(_ProtoBufferData, ProtoBufManager):
             return data_offset
         except TypeError as e:
             raise TypeError(f"Unsupported type: {proto_type}: {e}")
-

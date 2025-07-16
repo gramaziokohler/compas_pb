@@ -1,17 +1,17 @@
 from compas.datastructures import Mesh
-from compas.geometry import Point
-from compas.geometry import Line
-from compas.geometry import Vector
 from compas.geometry import Frame
+from compas.geometry import Line
+from compas.geometry import Point
+from compas.geometry import Vector
 
-from compas_pb.generated import point_pb2
-from compas_pb.generated import line_pb2
-from compas_pb.generated import vector_pb2
 from compas_pb.generated import frame_pb2
+from compas_pb.generated import line_pb2
 from compas_pb.generated import mesh_pb2
+from compas_pb.generated import point_pb2
+from compas_pb.generated import vector_pb2
 
-from .registry import pb_serializer
 from .registry import pb_deserializer
+from .registry import pb_serializer
 
 
 @pb_serializer(Point)
@@ -27,12 +27,7 @@ def point_to_pb(obj: Point) -> point_pb2.PointData:
 
 @pb_deserializer(point_pb2.PointData)
 def point_from_pb(proto_data: point_pb2.PointData) -> Point:
-    return Point(
-        x=proto_data.x,
-        y=proto_data.y,
-        z=proto_data.z,
-        name=proto_data.name
-    )
+    return Point(x=proto_data.x, y=proto_data.y, z=proto_data.z, name=proto_data.name)
 
 
 @pb_serializer(Line)
@@ -55,11 +50,7 @@ def line_from_pb(proto_data: line_pb2.LineData) -> Line:
     start = point_from_pb(proto_data.start)
     end = point_from_pb(proto_data.end)
 
-    return Line(
-        start=start,
-        end=end,
-        name=proto_data.name
-    )
+    return Line(start=start, end=end, name=proto_data.name)
 
 
 @pb_serializer(Vector)
@@ -74,12 +65,7 @@ def vector_to_pb(obj: Vector) -> vector_pb2.VectorData:
 
 @pb_deserializer(vector_pb2.VectorData)
 def vector_from_pb(proto_data: vector_pb2.VectorData) -> Vector:
-    return Vector(
-        x=proto_data.x,
-        y=proto_data.y,
-        z=proto_data.z,
-        name=proto_data.name
-    )
+    return Vector(x=proto_data.x, y=proto_data.y, z=proto_data.z, name=proto_data.name)
 
 
 @pb_serializer(Frame)
@@ -104,12 +90,7 @@ def frame_from_pb(proto_data: frame_pb2.FrameData) -> Frame:
     origin = point_from_pb(proto_data.point)
     xaxis = vector_from_pb(proto_data.xaxis)
     yaxis = vector_from_pb(proto_data.yaxis)
-    return Frame(
-        point=origin,
-        xaxis=xaxis,
-        yaxis=yaxis,
-        name=proto_data.name
-    )
+    return Frame(point=origin, xaxis=xaxis, yaxis=yaxis, name=proto_data.name)
 
 
 @pb_serializer(Mesh)
@@ -135,7 +116,6 @@ def mesh_to_pb(mesh: Mesh) -> mesh_pb2.MeshData:
 
 @pb_deserializer(mesh_pb2.MeshData)
 def from_pb(proto_data: mesh_pb2.MeshData) -> Mesh:
-
     mesh = Mesh(guid=proto_data.guid, name=proto_data.name)
     vertex_map = []
 
@@ -149,4 +129,3 @@ def from_pb(proto_data: mesh_pb2.MeshData) -> Mesh:
         mesh.add_face(indices)
 
     return mesh
-
