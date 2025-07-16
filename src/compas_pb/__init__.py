@@ -18,5 +18,4 @@ DOCS = os.path.abspath(os.path.join(HOME, "docs"))
 TEMP = os.path.abspath(os.path.join(HOME, "temp"))
 IDL = os.path.abspath(os.path.join(HOME, "IDL"))
 
-
 __all__ = ["HOME", "DATA", "DOCS", "TEMP"]
