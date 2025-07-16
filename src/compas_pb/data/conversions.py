@@ -115,7 +115,7 @@ def mesh_to_pb(mesh: Mesh) -> mesh_pb2.MeshData:
 
 
 @pb_deserializer(mesh_pb2.MeshData)
-def from_pb(proto_data: mesh_pb2.MeshData) -> Mesh:
+def mesh_from_pb(proto_data: mesh_pb2.MeshData) -> Mesh:
     mesh = Mesh(guid=proto_data.guid, name=proto_data.name)
     vertex_map = []
 

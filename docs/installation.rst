@@ -20,7 +20,7 @@ The latest version can be installed from local source.
 .. code-block:: bash
 
     git clone https://github.com/gramaziokohler/compas_pb.git
-    cd compas_tna
+    cd compas_pb
     pip install -e .
 
 
@@ -32,5 +32,5 @@ To install `compas_pb` for development, install from local source with the "dev"
 .. code-block:: bash
 
     git clone https://github.com/gramaziokohler/compas_pb.git
-    cd compas_tna
+    cd compas_pb
     pip install -e ".[dev]"
