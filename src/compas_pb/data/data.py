@@ -118,30 +118,13 @@ class _ProtoBufferDefault(_ProtoBufferData):
         return data_offset
 
 
-class ProtoBufManager(ABC):
-    """Interface for plugins to use. An instance of an object implementing this interface is passed to all  ``register_serializers`` plugins."""
-
-    @staticmethod
-    def register(native_type: Any, serializer: _ProtoBufferData) -> None:
-        """Register a native type and its corresponding protobuf type.
-
-        Parameters
-        ----------
-        native_type : :class:`~compas.data.Data`
-            The native type to register.
-        protobuf_type : _ProtoBufferData
-            The protobuf type to register.
-        """
-        raise NotImplementedError
-
-
 @pluggable(category="factories", selector="collect_all")
-def register_serializers(manager: ProtoBufManager) -> None:
+def register_serializers() -> None:
     """Collects all the plugins which register custom serializers with _ProtoBufferAny."""
     pass
 
 
-class _ProtoBufferAny(_ProtoBufferData, ProtoBufManager):
+class _ProtoBufferAny(_ProtoBufferData):
     """A class to hold the protobuf data for any object.
 
     Parameters
@@ -165,24 +148,8 @@ class _ProtoBufferAny(_ProtoBufferData, ProtoBufManager):
         self._proto_data = MessageData.AnyData()
         self._fallback_serializer = fallback_serializer
         if not _ProtoBufferAny._INITIALIZED:
-            register_serializers(_ProtoBufferAny)
+            register_serializers()
             _ProtoBufferAny._INITIALIZED = True
-
-    @staticmethod
-    def register(native_type, serializer) -> None:
-        """Register a native type and its corresponding protobuf type.
-
-        Parameters
-        ----------
-        native_type : :class:`~compas.data.Data`
-            The native type to register.
-        serializer : _ProtoBufferData
-            The serializer class to register for the native type.
-        """
-        if native_type in _ProtoBufferAny.SERIALIZER:
-            raise ValueError(f"{native_type} is already registered.")
-        _ProtoBufferAny.SERIALIZER[native_type] = serializer
-        _ProtoBufferAny.DESERIALIZER[serializer().proto_data_type.DESCRIPTOR.full_name] = serializer
 
     def to_pb(self) -> MessageData.AnyData:
         """Convert a any object to a protobuf any message.
