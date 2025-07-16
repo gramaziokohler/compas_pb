@@ -6,6 +6,8 @@ from compas_pb.generated import message_pb2
 from .data import ProtoBufferAny
 
 
+# TODO: make this class just `serialize_message` and `deserialize_message`
+# TODO: move into module `data`
 class DataSerializer:
     """Data Encoder for COMPAS objects to protobuf messages.
 
@@ -97,6 +99,8 @@ class DataSerializer:
         return dict_data
 
 
+# TODO: make this class just `deserialize_message` and `deserialize_message_bts` functions
+# TODO: move into module `data`
 class DataDeserializer:
     """Data Decoder for protobuf messages to objects."""
 
