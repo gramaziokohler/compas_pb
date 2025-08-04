@@ -8,8 +8,10 @@ from .data_handling import pb_dump_bts
 from .data_handling import pb_load_bts
 from .data_handling import pb_dump_json
 from .data_handling import pb_load_json
-from .data import ProtoBufferData
-from .data import ProtoBufferAny
+from .data import primitive_to_pb
+from .data import primitive_from_pb
+from .data import any_to_pb
+from .data import any_from_pb
 
 from .registry import pb_deserializer
 from .registry import pb_serializer
@@ -31,8 +33,10 @@ __all__ = [
     "pb_load_bts",
     "pb_dump_json",
     "pb_load_json",
-    "ProtoBufferData",
-    "ProtoBufferAny",
+    "primitive_to_pb",
+    "primitive_from_pb",
+    "any_to_pb",
+    "any_from_pb",
     "pb_deserializer",
     "pb_serializer",
     "line_to_pb",

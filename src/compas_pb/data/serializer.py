@@ -1,9 +1,9 @@
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import Parse
 
+from compas_pb.data.data import any_from_pb
+from compas_pb.data.data import any_to_pb
 from compas_pb.generated import message_pb2
-
-from .data import ProtoBufferAny
 
 
 # TODO: make this class just `serialize_message` and `deserialize_message`
@@ -79,7 +79,7 @@ class DataSerializer:
             any_data.data.Pack(data_offset)
         else:
             # check if it is COMPAS object or Python native type or fallback to dictionary.
-            any_data = ProtoBufferAny(obj, fallback_serializer=self._serialize_dict).to_pb()
+            any_data = any_to_pb(obj, fallback_serializer=self._serialize_dict)
         return any_data
 
     def _serialize_list(self, data_list) -> message_pb2.ListData:
@@ -118,7 +118,7 @@ class DataDeserializer:
 
         """
         message_data = self.deserialize_message_bts()
-        return self._deserialize_any(message_data)
+        return self._deserialize_any(message_data)  # type: ignore
 
     def deserialize_message_bts(self) -> message_pb2.MessageData:
         """Deserialize a binary data into bytes string.
@@ -162,14 +162,13 @@ class DataDeserializer:
 
     def _deserialize_any(self, data: message_pb2.AnyData | message_pb2.ListData | message_pb2.DictData) -> list | dict:
         """Deserialize a protobuf message to COMPAS object."""
-        ProtoBufferAny()  # HACK: plugins only registers on creation of instance, make more explicit
 
         if data.data.Is(message_pb2.ListData.DESCRIPTOR):
             data_offset = self._deserialize_list(data)
         elif data.data.Is(message_pb2.DictData.DESCRIPTOR):
             data_offset = self._deserialize_dict(data)
         else:
-            data_offset = ProtoBufferAny.from_pb(data)
+            data_offset = any_from_pb(data)
         return data_offset
 
     def _deserialize_list(self, data_list: message_pb2.ListData) -> list:

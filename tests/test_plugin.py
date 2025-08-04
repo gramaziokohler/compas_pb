@@ -15,9 +15,7 @@ def frame_data_path():
 
 
 def test_register_plugins_called(mocker, frame_data_path):
-    """Test that register_serializers is called during pb_load."""
-    ProtoBufferAny._INITIALIZED = False
-    mock_register = mocker.patch("compas_pb.data.data.register_serializers")
+    mock_register = mocker.patch("compas_pb.data.data._discover_serializers")
     data = pb_load(frame_data_path)
 
     # register_serializers should be called at least once during deserialization
@@ -31,7 +29,7 @@ def test_pb_dump_and_load_equivalence(mocker):
     """Test that pb_dump and pb_load work correctly together."""
     ProtoBufferAny._INITIALIZED = False
     # Create a temporary file
-    mock_register = mocker.patch("compas_pb.data.data.register_serializers")
+    mock_register = mocker.patch("compas_pb.data.data._discover_serializers")
 
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp_path = Path(tmpdir) / "frame_out.data"
