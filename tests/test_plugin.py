@@ -6,7 +6,6 @@ from compas.geometry import Frame
 
 from compas_pb.data import pb_dump
 from compas_pb.data import pb_load
-from compas_pb.data import ProtoBufferAny
 
 
 @pytest.fixture
@@ -27,8 +26,6 @@ def test_register_plugins_called(mocker, frame_data_path):
 
 def test_pb_dump_and_load_equivalence(mocker):
     """Test that pb_dump and pb_load work correctly together."""
-    ProtoBufferAny._INITIALIZED = False
-    # Create a temporary file
     mock_register = mocker.patch("compas_pb.data.data._discover_serializers")
 
     with tempfile.TemporaryDirectory() as tmpdir:
