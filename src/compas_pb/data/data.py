@@ -2,7 +2,7 @@ from typing import Any
 
 from compas.plugins import pluggable
 
-from compas_pb.generated import message_pb2 as MessageData
+from compas_pb.generated import message_pb2
 
 from .registry import SerialzerRegistry
 
@@ -26,16 +26,16 @@ def _discover_serializers() -> None:
 
 
 PY_TYPES_SERIALIZER = {
-    int: MessageData.DataType.INT,
-    float: MessageData.DataType.FLOAT,
-    bool: MessageData.DataType.BOOL,
-    str: MessageData.DataType.STR,
+    int: message_pb2.DataType.INT,
+    float: message_pb2.DataType.FLOAT,
+    bool: message_pb2.DataType.BOOL,
+    str: message_pb2.DataType.STR,
 }
 
 PY_TYPES_DESERIALIZER = {key.__name__.lower(): value for key, value in PY_TYPES_SERIALIZER.items()}
 
 
-def primitive_to_pb(obj: Any) -> MessageData.AnyData:
+def primitive_to_pb(obj: Any) -> message_pb2.AnyData:
     """
     Convert a python native type to a protobuf message.
 
@@ -52,12 +52,12 @@ def primitive_to_pb(obj: Any) -> MessageData.AnyData:
         obj = "None"  # HACK: find proper way to handle None
         # raise ValueError("No object provided for conversion.")
 
-    proto_data = MessageData.AnyData()
+    proto_data = message_pb2.AnyData()
 
     try:
         type_obj = PY_TYPES_SERIALIZER.get(type(obj))
-        field_name = MessageData.DataType.Name(type_obj).lower()
-        data_offset = MessageData.PrimitiveData()
+        field_name = message_pb2.DataType.Name(type_obj).lower()
+        data_offset = message_pb2.PrimitiveData()
         setattr(data_offset, field_name, obj)
         proto_data.data.Pack(data_offset)
         return proto_data
@@ -66,7 +66,7 @@ def primitive_to_pb(obj: Any) -> MessageData.AnyData:
         raise TypeError(f"Unsupported type: {type(obj)}: {e}")
 
 
-def primitive_from_pb(proto_data: MessageData.PrimitiveData) -> int | float | bool | str | bytes:
+def primitive_from_pb(proto_data: message_pb2.PrimitiveData) -> int | float | bool | str | bytes:
     """Convert a protobuf message to a python native type.
 
     Parameters
@@ -79,7 +79,7 @@ def primitive_from_pb(proto_data: MessageData.PrimitiveData) -> int | float | bo
         data_offset : python object
             The converted python native type.
     """
-    primitive_data = MessageData.PrimitiveData()
+    primitive_data = message_pb2.PrimitiveData()
     is_unpacked = proto_data.data.Unpack(primitive_data)
     if not is_unpacked:
         # TODO: this really shouldn't be reached. if we're here it means it's some type which is not a primitive and hasn't been registered
@@ -99,7 +99,7 @@ def primitive_from_pb(proto_data: MessageData.PrimitiveData) -> int | float | bo
     return data_offset
 
 
-def any_to_pb(obj: Any, fallback_serializer=None) -> MessageData.AnyData:
+def any_to_pb(obj: Any, fallback_serializer=None) -> message_pb2.AnyData:
     """Convert any object to a protobuf any message.
 
     Parameters
@@ -117,7 +117,7 @@ def any_to_pb(obj: Any, fallback_serializer=None) -> MessageData.AnyData:
             The protobuf message type of AnyData.
     """
     _discover_serializers()
-    proto_data = MessageData.AnyData()
+    proto_data = message_pb2.AnyData()
 
     if obj is None:
         obj = "None"  # HACK: find proper way to handle None
@@ -139,7 +139,7 @@ def any_to_pb(obj: Any, fallback_serializer=None) -> MessageData.AnyData:
         raise TypeError(f"Unsupported type: {type(obj)}: {e}")
 
 
-def any_from_pb(proto_data: MessageData.AnyData) -> list | dict | object:
+def any_from_pb(proto_data: message_pb2.AnyData) -> list | dict | object:
     """Convert a protobuf message to a supported COMPAS object.
 
     Parameters
