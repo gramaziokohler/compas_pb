@@ -4,8 +4,10 @@ from typing import List
 from compas.data import Data
 
 from compas_pb.data.io_tool import open_file
-from compas_pb.data.serializer import DataDeserializer
-from compas_pb.data.serializer import DataSerializer
+from compas_pb.data.serializer import serialize_message_bts
+from compas_pb.data.serializer import serialize_message_to_json
+from compas_pb.data.serializer import deserialize_message
+from compas_pb.data.serializer import deserialize_message_from_json
 
 
 def pb_dump(data: Data | Dict[str, Data] | List[Data], filepath: str) -> None:
@@ -28,7 +30,7 @@ def pb_dump(data: Data | Dict[str, Data] | List[Data], filepath: str) -> None:
     pass
 
     """
-    message_bts = DataSerializer(data).serialize_message_bts()
+    message_bts = serialize_message_bts(data)
 
     with open_file(filepath, "wb") as f:
         f.write(message_bts)
@@ -53,7 +55,7 @@ def pb_load(filepath: str) -> Data | Dict | List:
 
     with open_file(filepath, "rb") as f:
         message_bts = f.read()
-        message = DataDeserializer(message_bts).deserialize_message()
+        message = deserialize_message(message_bts)
         return message
 
 
@@ -79,7 +81,7 @@ def pb_dump_json(data: Data | Dict | List) -> str:
     pass
 
     """
-    json_str = DataSerializer(data).serialize_message_to_json()
+    json_str = serialize_message_to_json(data)
     return json_str
 
 
@@ -106,7 +108,7 @@ def pb_load_json(data: str) -> Data | Dict | List:
     pass
 
     """
-    message = DataDeserializer(data).deserialize_message_from_json()
+    message = deserialize_message_from_json(data)
     return message
 
 
@@ -130,7 +132,7 @@ def pb_dump_bts(data: Data | Dict | list) -> bytes:
     pass
 
     """
-    message_bts = DataSerializer(data).serialize_message_bts()
+    message_bts = serialize_message_bts(data)
 
     return message_bts
 
@@ -150,5 +152,5 @@ def pb_load_bts(data: bytes) -> Data | Dict | List:
         The (COMPAS) object(s) contained in the file.
 
     """
-    message_bts = DataDeserializer(data).deserialize_message()
+    message_bts = deserialize_message(data)
     return message_bts
