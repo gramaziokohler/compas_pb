@@ -1,10 +1,10 @@
 ********************************************************************************
-compas_pb.data.io_tool
+compas_pb.core
 ********************************************************************************
 
-.. currentmodule:: compas_pb.data.io_tool
+.. currentmodule:: compas_pb.core
 
-This module provides utility functions for file I/O operations.
+This module contains the core classes for Protocol Buffer data conversion.
 
 Functions
 =========
@@ -13,4 +13,8 @@ Functions
     :toctree: generated/
     :nosignatures:
 
-    open_file
+    primitive_to_pb
+    primitive_from_pb
+    any_to_pb
+    any_from_pb
+    register_serializers

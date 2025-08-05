@@ -4,13 +4,18 @@ compas_pb
 
 .. currentmodule:: compas_pb
 
-.. toctree::
-    :maxdepth: 2
+This module provides high-level functions for reading and writing COMPAS objects to and from files using Protocol Buffers.
 
-    compas_pb.data
-    compas_pb.data.data
-    compas_pb.data.data_handling
-    compas_pb.data.serializer
-    compas_pb.data.registry
-    compas_pb.data.conversions
-    compas_pb.data.io_tool
+Functions
+=========
+
+.. autosummary::
+    :toctree: generated/
+    :nosignatures:
+
+    pb_dump
+    pb_load
+    pb_dump_bts
+    pb_load_bts
+    pb_dump_json
+    pb_load_json

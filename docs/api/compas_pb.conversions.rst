@@ -1,8 +1,8 @@
 ********************************************************************************
-compas_pb.data.conversions
+compas_pb.conversions
 ********************************************************************************
 
-.. currentmodule:: compas_pb.data.conversions
+.. currentmodule:: compas_pb.conversions
 
 This module provides conversion functions for COMPAS geometry objects to and from Protocol Buffer messages.
 

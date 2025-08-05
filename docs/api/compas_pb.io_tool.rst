@@ -1,17 +1,16 @@
 ********************************************************************************
-compas_pb.data.serializer
+compas_pb.io_tool
 ********************************************************************************
 
-.. currentmodule:: compas_pb.data.serializer
+.. currentmodule:: compas_pb.io_tool
 
-This module provides classes for serializing and deserializing data using Protocol Buffers.
+This module provides utility functions for file I/O operations.
 
-Classes
-=======
+Functions
+=========
 
 .. autosummary::
     :toctree: generated/
     :nosignatures:
 
-    DataSerializer
-    DataDeserializer
+    open_file
