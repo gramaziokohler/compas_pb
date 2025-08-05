@@ -33,4 +33,4 @@ To install `compas_pb` for development, install from local source with the "dev"
 
     git clone https://github.com/gramaziokohler/compas_pb.git
     cd compas_pb
-    pip install -e ".[dev]"
+    pip install -e .[dev]
