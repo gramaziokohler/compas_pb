@@ -11,7 +11,8 @@ name = "compas_pb"
 description = "Protobuf extension for COMPAS Data"
 keywords = []
 authors = [
-    { name = "Chen Kasirer", email = "kasirer@arch.ethz.ch" },
+    { name = "Wei-Ting Chen", email = "chenwei@arch.ethz.ch" },
+    { name = "Chen Kasirer", email = "kasirer@arch.ethz.ch" }
 ]
 license = { file = "LICENSE" }
 readme = "README.md"
