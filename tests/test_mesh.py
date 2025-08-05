@@ -2,7 +2,8 @@ import pytest
 
 from compas.geometry import Box
 from compas.datastructures import Mesh
-from compas_pb.data import pb_dump_bts, pb_load_bts
+from compas_pb import pb_dump_bts
+from compas_pb import pb_load_bts
 
 
 @pytest.fixture

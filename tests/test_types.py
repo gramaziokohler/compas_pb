@@ -3,8 +3,8 @@ from compas.geometry import Frame
 from compas.geometry import Vector
 from compas.geometry import Line
 
-from compas_pb.data import pb_dump_bts
-from compas_pb.data import pb_load_bts
+from compas_pb import pb_dump_bts
+from compas_pb import pb_load_bts
 
 
 def test_serialize_frame():

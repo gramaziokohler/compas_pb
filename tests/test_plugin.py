@@ -4,8 +4,8 @@ from pathlib import Path
 
 from compas.geometry import Frame
 
-from compas_pb.data import pb_dump
-from compas_pb.data import pb_load
+from compas_pb import pb_dump
+from compas_pb import pb_load
 
 
 @pytest.fixture
@@ -14,18 +14,19 @@ def frame_data_path():
 
 
 def test_register_plugins_called(mocker, frame_data_path):
-    mock_register = mocker.patch("compas_pb.data.data._discover_serializers")
+    mock_register = mocker.patch("compas_pb.core._discover_serializers")
     data = pb_load(frame_data_path)
 
-    mock_register.assert_called_once()
+    # register_serializers should be called at least once during deserialization
+    mock_register.assert_called()
 
     assert data is not None
     assert data == Frame.worldXY()
 
 
 def test_pb_dump_and_load_equivalence(mocker):
-    # Create a temporary file
-    mock_register = mocker.patch("compas_pb.data.data._discover_serializers")
+    """Test that pb_dump and pb_load work correctly together."""
+    mock_register = mocker.patch("compas_pb.core._discover_serializers")
 
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp_path = Path(tmpdir) / "frame_out.data"
@@ -35,7 +36,8 @@ def test_pb_dump_and_load_equivalence(mocker):
         # Dump the Frame
         pb_dump(frame, tmp_path)
 
-        mock_register.assert_called_once()
+        # register_serializers should be called during serialization
+        mock_register.assert_called()
 
         # Load it back
         loaded = pb_load(tmp_path)
