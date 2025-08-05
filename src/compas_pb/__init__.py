@@ -2,7 +2,8 @@ from __future__ import print_function
 
 import os
 
-import compas_pb.conversions  # noqa: F401
+# please don't remove me! I trigger the registration of all the core serializers
+import compas_pb.conversions  # noqa: F401  #
 
 from .api import pb_load
 from .api import pb_dump

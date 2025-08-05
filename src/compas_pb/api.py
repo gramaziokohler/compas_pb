@@ -3,17 +3,16 @@ from typing import List
 
 from compas.data import Data
 
-from compas_pb.io_tool import open_file
-from compas_pb.serializer import serialize_message_bts
-from compas_pb.serializer import serialize_message_to_json
-from compas_pb.serializer import deserialize_message
-from compas_pb.serializer import deserialize_message_from_json
+from compas_pb.core import deserialize_message
+from compas_pb.core import deserialize_message_from_json
+from compas_pb.core import serialize_message_bts
+from compas_pb.core import serialize_message_to_json
 
 
 def pb_dump(data: Data | Dict[str, Data] | List[Data], filepath: str) -> None:
     """Write a collection of COMPAS object to a binary file.
 
-    Parameters:
+    Parameters
     ----------
     data : Data | Dict | List
         Any  protobuffer serializable object.
@@ -32,14 +31,14 @@ def pb_dump(data: Data | Dict[str, Data] | List[Data], filepath: str) -> None:
     """
     message_bts = serialize_message_bts(data)
 
-    with open_file(filepath, "wb") as f:
+    with open(filepath, "wb") as f:
         f.write(message_bts)
 
 
 def pb_load(filepath: str) -> Data | Dict | List:
     """Read a collection of COMPAS object from a binary file.
 
-    Parameters:
+    Parameters
     ----------
     filepath : path string or file-like object
 
@@ -53,7 +52,7 @@ def pb_load(filepath: str) -> Data | Dict | List:
 
     """
 
-    with open_file(filepath, "rb") as f:
+    with open(filepath, "rb") as f:
         message_bts = f.read()
         message = deserialize_message(message_bts)
         return message
@@ -63,7 +62,7 @@ def pb_dump_json(data: Data | Dict | List) -> str:
     """Write a collection of COMPAS object to a JSON string.
 
 
-    Parameters:
+    Parameters
     ----------
     data : Data | Dict | List
 
@@ -89,7 +88,7 @@ def pb_load_json(data: str) -> Data | Dict | List:
     """Read a collection of COMPAS object from a JSON string.
 
 
-    Parameters:
+    Parameters
     ----------
     data : str
 
@@ -116,7 +115,7 @@ def pb_dump_bts(data: Data | Dict | list) -> bytes:
     """Write a collection of COMPAS object to a btye string.
 
 
-    Parameters:
+    Parameters
     ----------
     data : Data | Dict | List
 
@@ -140,7 +139,7 @@ def pb_dump_bts(data: Data | Dict | list) -> bytes:
 def pb_load_bts(data: bytes) -> Data | Dict | List:
     """Read a collection of COMPAS object from a binary file.
 
-    Parameters:
+    Parameters
     ----------
     filepath : path string or file-like object
         A readable file-like object or the path to a file.

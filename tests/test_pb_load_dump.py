@@ -10,8 +10,8 @@ from compas_pb import pb_dump
 from compas_pb import pb_load
 from compas_pb import pb_dump_json
 from compas_pb import pb_load_json
-from compas_pb.serializer import serialize_message_to_json
-from compas_pb.serializer import deserialize_message_from_json
+from compas_pb.core import serialize_message_to_json
+from compas_pb.core import deserialize_message_from_json
 
 
 @pytest.fixture
