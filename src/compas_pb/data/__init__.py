@@ -2,12 +2,12 @@
 
 from __future__ import absolute_import
 
-from .data_handling import pb_dump
-from .data_handling import pb_load
-from .data_handling import pb_dump_bts
-from .data_handling import pb_load_bts
-from .data_handling import pb_dump_json
-from .data_handling import pb_load_json
+from .api import pb_dump
+from .api import pb_load
+from .api import pb_dump_bts
+from .api import pb_load_bts
+from .api import pb_dump_json
+from .api import pb_load_json
 from .data import primitive_to_pb
 from .data import primitive_from_pb
 from .data import any_to_pb
