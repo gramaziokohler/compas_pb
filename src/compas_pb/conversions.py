@@ -3,12 +3,14 @@ from compas.geometry import Frame
 from compas.geometry import Line
 from compas.geometry import Point
 from compas.geometry import Vector
+from compas.geometry import Circle
 
 from compas_pb.generated import frame_pb2
 from compas_pb.generated import line_pb2
 from compas_pb.generated import mesh_pb2
 from compas_pb.generated import point_pb2
 from compas_pb.generated import vector_pb2
+from compas_pb.generated import circle_pb2
 
 from .registry import pb_deserializer
 from .registry import pb_serializer
@@ -129,3 +131,21 @@ def mesh_from_pb(proto_data: mesh_pb2.MeshData) -> Mesh:
         mesh.add_face(indices)
 
     return mesh
+
+
+@pb_serializer(Circle)
+def circle_to_pb(circle: Circle) -> circle_pb2.CircleData:
+    result = circle_pb2.CircleData()
+    result.guid = str(circle.guid)
+    result.name = circle.name or "Circle"
+    result.radius = circle.radius
+    result.frame.CopyFrom(frame_to_pb(circle.frame))
+    return result
+
+
+@pb_deserializer(circle_pb2.CircleData)
+def circle_from_pb(proto_data: circle_pb2.CircleData) -> Circle:
+    frame = frame_from_pb(proto_data.frame)
+    result = Circle(radius=proto_data.radius, frame=frame, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
