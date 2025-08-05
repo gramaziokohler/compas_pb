@@ -71,7 +71,7 @@ def primitive_to_pb(obj: Any) -> message_pb2.AnyData:
         raise TypeError(f"Unsupported type: {type(obj)}: {e}")
 
 
-def primitive_from_pb(proto_data: message_pb2.PrimitiveData) -> int | float | bool | str | bytes:
+def primitive_from_pb(primitive: message_pb2.PrimitiveData) -> int | float | bool | str | bytes:
     """Convert a protobuf message to a python native type.
 
     Parameters
@@ -84,22 +84,17 @@ def primitive_from_pb(proto_data: message_pb2.PrimitiveData) -> int | float | bo
     data_offset : int | float | bool | str | bytes
         The converted python native type.
     """
-    primitive_data = message_pb2.PrimitiveData()
-    is_unpacked = proto_data.data.Unpack(primitive_data)
-    if not is_unpacked:
-        # TODO: this really shouldn't be reached. if we're here it means it's some type which is not a primitive and hasn't been registered
-        raise ValueError(f"Unknown data type: {proto_data.data.type_url}")
-    type_ = primitive_data.WhichOneof("data")
+    type_ = primitive.WhichOneof("data")
     if type_ == "int":
-        data_offset = primitive_data.int
+        data_offset = primitive.int
     elif type_ == "float":
-        data_offset = primitive_data.float
+        data_offset = primitive.float
     elif type_ == "bool":
-        data_offset = primitive_data.bool
+        data_offset = primitive.bool
     elif type_ == "str":
-        data_offset = primitive_data.str
+        data_offset = primitive.str
     elif type_ == "bytes":
-        data_offset = primitive_data.bytes
+        data_offset = primitive.bytes
     else:
         raise ValueError(f"Unsupported primitive type: {type_}")
 
@@ -142,7 +137,7 @@ def any_to_pb(obj: compas.data.Data | list | dict | int | float | bool | str, fa
         raise TypeError(f"Unsupported type: {type(obj)}: {e}")
 
 
-def any_from_pb(proto_data: message_pb2.AnyData) -> compas.data.Data | list | dict | int | float | bool | str:
+def any_from_pb(proto_data: message_pb2.AnyData) -> compas.data.Data | int | float | bool | str | bytes:
     """Convert a protobuf message to a supported object.
 
     Parameters
@@ -159,17 +154,22 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> compas.data.Data | list | di
 
     # type.googleapis.com/<fully.qualified.message.name>
     proto_type = proto_data.data.type_url.split("/")[-1]
-    try:
-        deserializer = SerialzerRegistry.get_deserializer(proto_type)
-        if deserializer:
-            unpacked_instance = deserializer.__deserializer_type__()
-            _ = proto_data.data.Unpack(unpacked_instance)
-            data_offset = deserializer(unpacked_instance)
-        else:
-            data_offset = primitive_from_pb(proto_data)
-        return data_offset
-    except TypeError as e:
-        raise TypeError(f"Unsupported type: {proto_type}: {e}")
+
+    if proto_type == "compas_pb.data.PrimitiveData":
+        primitive_data = message_pb2.PrimitiveData()
+        is_unpacked = proto_data.data.Unpack(primitive_data)
+        if not is_unpacked:
+            raise TypeError(f"Unsupported proto type: {proto_type}")
+
+        return primitive_from_pb(primitive_data)
+
+    deserializer = SerialzerRegistry.get_deserializer(proto_type)
+    if not deserializer:
+        raise TypeError(f"Unsupported proto type: {proto_type}")
+
+    unpacked_instance = deserializer.__deserializer_type__()
+    _ = proto_data.data.Unpack(unpacked_instance)
+    return  deserializer(unpacked_instance)
 
 
 def serialize_message(data) -> message_pb2.MessageData:
