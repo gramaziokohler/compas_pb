@@ -1,8 +1,8 @@
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import Parse
 
-from compas_pb.data.data import any_from_pb
-from compas_pb.data.data import any_to_pb
+from compas_pb.core import any_from_pb
+from compas_pb.core import any_to_pb
 from compas_pb.generated import message_pb2
 
 

@@ -6,12 +6,12 @@ from compas.geometry import Frame
 from compas.geometry import Vector
 from compas.geometry import Line
 
-from compas_pb.data import pb_dump
-from compas_pb.data import pb_load
-from compas_pb.data import pb_dump_json
-from compas_pb.data import pb_load_json
-from compas_pb.data.serializer import serialize_message_to_json
-from compas_pb.data.serializer import deserialize_message_from_json
+from compas_pb import pb_dump
+from compas_pb import pb_load
+from compas_pb import pb_dump_json
+from compas_pb import pb_load_json
+from compas_pb.serializer import serialize_message_to_json
+from compas_pb.serializer import deserialize_message_from_json
 
 
 @pytest.fixture
@@ -61,26 +61,23 @@ def nested_dict():
     }
 
 
-data = nested_dict
-
-
-def test_pb_dump(temp_file, data):
+def test_pb_dump(temp_file, nested_dict):
     # Test pb_dump with a file path
-    pb_dump(data, filepath=temp_file.as_posix())
+    pb_dump(nested_dict, filepath=temp_file.as_posix())
     assert temp_file.exists()
 
 
-def test_pb_load(temp_file, data):
+def test_pb_load(temp_file, nested_dict):
     # Test pb_load with a file path
-    pb_dump(data, filepath=temp_file.as_posix())
+    pb_dump(nested_dict, filepath=temp_file.as_posix())
     loaded_data = pb_load(filepath=temp_file.as_posix())
-    assert loaded_data == data
+    assert loaded_data == nested_dict
 
 
-def test_serialize_message_to_json(data):
+def test_serialize_message_to_json(nested_dict):
     """Test serialize_message_to_json function with various data types."""
     # Test with nested dictionary
-    json_string = serialize_message_to_json(data)
+    json_string = serialize_message_to_json(nested_dict)
     assert isinstance(json_string, str)
     assert len(json_string) > 0
     assert '"data"' in json_string  # Should contain protobuf message structure
@@ -108,12 +105,12 @@ def test_serialize_message_to_json(data):
     assert '"data"' in json_string
 
 
-def test_deserialize_message_from_json(data):
+def test_deserialize_message_from_json(nested_dict):
     """Test deserialize_message_from_json function with various data types."""
     # Test with nested dictionary
-    json_string = serialize_message_to_json(data)
+    json_string = serialize_message_to_json(nested_dict)
     loaded_data = deserialize_message_from_json(json_string)
-    assert loaded_data == data
+    assert loaded_data == nested_dict
 
     # Test with simple point
     point = Point(1, 2, 3)
@@ -139,9 +136,9 @@ def test_deserialize_message_from_json(data):
     assert abs(loaded_primitive[3] - primitive[3]) < 1e-6  # float with tolerance
 
 
-def test_pb_dump_json(data):
+def test_pb_dump_json(nested_dict):
     """Test pb_dump_json function."""
-    json_string = pb_dump_json(data)
+    json_string = pb_dump_json(nested_dict)
     assert isinstance(json_string, str)
     assert len(json_string) > 0
     assert '"data"' in json_string  # Should contain protobuf message structure
@@ -152,11 +149,11 @@ def test_pb_dump_json(data):
     assert "data" in parsed_json
 
 
-def test_pb_load_json(data):
+def test_pb_load_json(nested_dict):
     """Test pb_load_json function."""
-    json_string = pb_dump_json(data)
+    json_string = pb_dump_json(nested_dict)
     loaded_data = pb_load_json(json_string)
-    assert loaded_data == data
+    assert loaded_data == nested_dict
 
 
 def test_json_structure_validation():

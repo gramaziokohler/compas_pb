@@ -2,6 +2,15 @@ from __future__ import print_function
 
 import os
 
+import compas_pb.conversions  # noqa: F401
+
+from .api import pb_load
+from .api import pb_dump
+from .api import pb_dump_bts
+from .api import pb_load_bts
+from .api import pb_dump_json
+from .api import pb_load_json
+
 
 __author__ = ["Chen Kasirer"]
 __copyright__ = "Gramazio Kohler Research"
@@ -18,4 +27,16 @@ DOCS = os.path.abspath(os.path.join(HOME, "docs"))
 TEMP = os.path.abspath(os.path.join(HOME, "temp"))
 IDL = os.path.abspath(os.path.join(HOME, "IDL"))
 
-__all__ = ["HOME", "DATA", "DOCS", "TEMP"]
+__all__ = [
+    "HOME",
+    "DATA",
+    "DOCS",
+    "TEMP",
+    "IDL",
+    "pb_load",
+    "pb_dump",
+    "pb_dump_bts",
+    "pb_load_bts",
+    "pb_dump_json",
+    "pb_load_json",
+]

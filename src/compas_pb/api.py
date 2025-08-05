@@ -3,11 +3,11 @@ from typing import List
 
 from compas.data import Data
 
-from compas_pb.data.io_tool import open_file
-from compas_pb.data.serializer import serialize_message_bts
-from compas_pb.data.serializer import serialize_message_to_json
-from compas_pb.data.serializer import deserialize_message
-from compas_pb.data.serializer import deserialize_message_from_json
+from compas_pb.io_tool import open_file
+from compas_pb.serializer import serialize_message_bts
+from compas_pb.serializer import serialize_message_to_json
+from compas_pb.serializer import deserialize_message
+from compas_pb.serializer import deserialize_message_from_json
 
 
 def pb_dump(data: Data | Dict[str, Data] | List[Data], filepath: str) -> None:
