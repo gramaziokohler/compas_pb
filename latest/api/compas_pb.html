@@ -59,7 +59,7 @@
         </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="License" href="../license.html" />
+    <link rel="next" title="pb_dump" href="generated/compas_pb.pb_dump.html" />
     <link rel="prev" title="API Reference" href="../api.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -165,8 +165,8 @@
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../tutorial.html">
-                        Tutorial
+                      <a class="nav-link nav-internal" href="../developer_guide.html">
+                        Developer Guide
                       </a>
                     </li>
                 
@@ -302,6 +302,10 @@ document.write(`
   
 
   
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
     </nav>
@@ -342,8 +346,8 @@ document.write(`
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../tutorial.html">
-                        Tutorial
+                      <a class="nav-link nav-internal" href="../developer_guide.html">
+                        Developer Guide
                       </a>
                     </li>
                 
@@ -461,10 +465,49 @@ document.write(`
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_guide.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../api.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">compas_pb</a></li>
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">compas_pb</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.pb_dump.html">pb_dump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.pb_load.html">pb_load</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.pb_dump_bts.html">pb_dump_bts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.pb_load_bts.html">pb_load_bts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.pb_dump_json.html">pb_dump_json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.pb_load_json.html">pb_load_json</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="compas_pb.core.html">compas_pb.core</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.core.primitive_to_pb.html">primitive_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.core.primitive_from_pb.html">primitive_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.core.any_to_pb.html">any_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.core.any_from_pb.html">any_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.core.register_serializers.html">register_serializers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.core.serialize_message_to_json.html">serialize_message_to_json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.core.deserialize_message_from_json.html">deserialize_message_from_json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.core.serialize_message_bts.html">serialize_message_bts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.core.deserialize_message_bts.html">deserialize_message_bts</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="compas_pb.registry.html">compas_pb.registry</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.registry.PbSerializerRegistrationError.html">PbSerializerRegistrationError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.registry.SerialzerRegistry.html">SerialzerRegistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.registry.pb_serializer.html">pb_serializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.registry.pb_deserializer.html">pb_deserializer</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="compas_pb.conversions.html">compas_pb.conversions</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.conversions.point_to_pb.html">point_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.conversions.point_from_pb.html">point_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.conversions.vector_to_pb.html">vector_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.conversions.vector_from_pb.html">vector_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.conversions.line_to_pb.html">line_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.conversions.line_from_pb.html">line_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.conversions.frame_to_pb.html">frame_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.conversions.frame_from_pb.html">frame_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.conversions.mesh_to_pb.html">mesh_to_pb</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
@@ -533,8 +576,32 @@ document.write(`
                   
   <section id="compas-pb">
 <h1>compas_pb</h1>
-<div class="toctree-wrapper compound">
-</div>
+<p>This module provides high-level functions for reading and writing COMPAS objects to and from files using Protocol Buffers.</p>
+<section id="functions">
+<h2>Functions</h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_pb.pb_dump.html" title="compas_pb.pb_dump"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pb_dump</span></code></a></p></td>
+<td><p>Write a collection of COMPAS object to a binary file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_pb.pb_load.html" title="compas_pb.pb_load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pb_load</span></code></a></p></td>
+<td><p>Read a collection of COMPAS object from a binary file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_pb.pb_dump_bts.html" title="compas_pb.pb_dump_bts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pb_dump_bts</span></code></a></p></td>
+<td><p>Write a collection of COMPAS object to a btye string.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_pb.pb_load_bts.html" title="compas_pb.pb_load_bts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pb_load_bts</span></code></a></p></td>
+<td><p>Read a collection of COMPAS object from a binary file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_pb.pb_dump_json.html" title="compas_pb.pb_dump_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pb_dump_json</span></code></a></p></td>
+<td><p>Write a collection of COMPAS object to a JSON string.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_pb.pb_load_json.html" title="compas_pb.pb_load_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pb_load_json</span></code></a></p></td>
+<td><p>Read a collection of COMPAS object from a JSON string.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 
 
@@ -549,6 +616,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -7,8 +7,9 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; compas_pb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <link rel="icon" href="_static/compas.ico" type="image/x-icon">
+    <title>Developer Guide &#8212; compas_pb</title>
   
   
   
@@ -51,13 +52,15 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/design-tabs.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'developer_guide';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/gramaziokohler/compas_pb/gh-pages/versions.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'latest';
         </script>
-    <link rel="index" title="Index" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -161,8 +164,8 @@
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="developer_guide.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         Developer Guide
                       </a>
                     </li>
@@ -299,6 +302,10 @@ document.write(`
   
 
   
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
     </nav>
@@ -338,8 +345,8 @@ document.write(`
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="developer_guide.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         Developer Guide
                       </a>
                     </li>
@@ -455,10 +462,10 @@ document.write(`
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/compas_pb.html">compas_pb</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -530,7 +537,33 @@ document.write(`
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article"></div>
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Developer Guide</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
               
               
               
@@ -538,158 +571,81 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
+  <section id="developer-guide">
+<h1>Developer Guide</h1>
+<p>This guide explains how to extend compas_pb with custom serializers and deserializers for your own types.</p>
+<section id="creating-new-serializers">
+<h2>Creating New Serializers</h2>
+<section id="create-a-new-type">
+<h3>1. Create a new type</h3>
+<p>For this example class we will create a serializer for a custom point type.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compas.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Point</span>
 
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- <a href="#A"><strong>A</strong></a>
- | <a href="#D"><strong>D</strong></a>
- | <a href="#F"><strong>F</strong></a>
- | <a href="#G"><strong>G</strong></a>
- | <a href="#L"><strong>L</strong></a>
- | <a href="#M"><strong>M</strong></a>
- | <a href="#P"><strong>P</strong></a>
- | <a href="#R"><strong>R</strong></a>
- | <a href="#S"><strong>S</strong></a>
- | <a href="#V"><strong>V</strong></a>
- 
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomPoint</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">special_attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">special_attr</span> <span class="o">=</span> <span class="n">special_attr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">point</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
 </div>
-<h2 id="A">A</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.core.any_from_pb.html#compas_pb.core.any_from_pb">any_from_pb() (in module compas_pb.core)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.core.any_to_pb.html#compas_pb.core.any_to_pb">any_to_pb() (in module compas_pb.core)</a>
-</li>
-  </ul></td>
-</tr></table>
+</section>
+<section id="create-a-protobuf-definition-for-the-new-type">
+<h3>2. Create a protobuf definition for the new type</h3>
+<p>Create a protobuf definition for the new type you wish to add. This should be placed in <code class="docutils literal notranslate"><span class="pre">IDL/compas_pb/generated/</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">IDL/compas_pb/generated/custom_point.proto</span></div>
+<div class="highlight-protobuf notranslate"><div class="highlight"><pre><span></span><span class="k">syntax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;proto3&quot;</span><span class="p">;</span>
 
-<h2 id="D">D</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.core.deserialize_message_bts.html#compas_pb.core.deserialize_message_bts">deserialize_message_bts() (in module compas_pb.core)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.core.deserialize_message_from_json.html#compas_pb.core.deserialize_message_from_json">deserialize_message_from_json() (in module compas_pb.core)</a>
-</li>
-  </ul></td>
-</tr></table>
+<span class="kn">package</span><span class="w"> </span><span class="nn">compas_pb</span><span class="o">.</span><span class="n">data</span><span class="p">;</span>
 
-<h2 id="F">F</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.conversions.frame_from_pb.html#compas_pb.conversions.frame_from_pb">frame_from_pb() (in module compas_pb.conversions)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.conversions.frame_to_pb.html#compas_pb.conversions.frame_to_pb">frame_to_pb() (in module compas_pb.conversions)</a>
-</li>
-  </ul></td>
-</tr></table>
+<span class="k">import</span><span class="w"> </span><span class="s">&quot;compas_pb/generated/point.proto&quot;</span><span class="p">;</span>
 
-<h2 id="G">G</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.registry.SerialzerRegistry.get_deserializer.html#compas_pb.registry.SerialzerRegistry.get_deserializer">get_deserializer() (compas_pb.registry.SerialzerRegistry static method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.registry.SerialzerRegistry.get_serializer.html#compas_pb.registry.SerialzerRegistry.get_serializer">get_serializer() (compas_pb.registry.SerialzerRegistry static method)</a>
-</li>
-  </ul></td>
-</tr></table>
+<span class="kd">message</span><span class="w"> </span><span class="nc">CustomPointData</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="na">special_attr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">PointData</span><span class="w"> </span><span class="na">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="generate-the-python-code-for-the-new-type">
+<h3>3. Generate the python code for the new type</h3>
+<p>Now run the following command to generate the python code:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>invoke<span class="w"> </span>protobuf.generate-proto-classes<span class="w"> </span>-t<span class="w"> </span>python
+</pre></div>
+</div>
+<p>A new module called <code class="docutils literal notranslate"><span class="pre">custom_point_pb2</span></code> should now be available in <code class="docutils literal notranslate"><span class="pre">compas_pb/generated/</span></code>.</p>
+</section>
+<section id="create-a-serializer-for-the-new-type">
+<h3>4. Create a serializer for the new type</h3>
+<p>To create a serializer for a custom type, use the <code class="docutils literal notranslate"><span class="pre">&#64;pb_serializer</span></code> decorator. This decorator will be used to register the serializer with the plugin system.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">compas_pb/conversions.py</span></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compas_pb.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">pb_serializer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas_pb.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">pb_deserializer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas_pb.generated</span><span class="w"> </span><span class="kn">import</span> <span class="n">custom_point_pb2</span>
 
-<h2 id="L">L</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.conversions.line_from_pb.html#compas_pb.conversions.line_from_pb">line_from_pb() (in module compas_pb.conversions)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.conversions.line_to_pb.html#compas_pb.conversions.line_to_pb">line_to_pb() (in module compas_pb.conversions)</a>
-</li>
-  </ul></td>
-</tr></table>
 
-<h2 id="M">M</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.conversions.mesh_to_pb.html#compas_pb.conversions.mesh_to_pb">mesh_to_pb() (in module compas_pb.conversions)</a>
-</li>
-  </ul></td>
-</tr></table>
+<span class="nd">@pb_serializer</span><span class="p">(</span><span class="n">CustomPoint</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_custom_point_to_pb</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">CustomPoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">custom_point_pb2</span><span class="o">.</span><span class="n">CustomPointData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert CustomPoint to protobuf message.&quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">custom_point_pb2</span><span class="o">.</span><span class="n">CustomPointData</span><span class="p">()</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">special_attr</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">special_attr</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">point</span> <span class="o">=</span> <span class="n">point_to_pb</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">point</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
 
-<h2 id="P">P</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.registry.pb_deserializer.html#compas_pb.registry.pb_deserializer">pb_deserializer() (in module compas_pb.registry)</a>
-</li>
-      <li><a href="api/generated/compas_pb.pb_dump.html#compas_pb.pb_dump">pb_dump() (in module compas_pb)</a>
-</li>
-      <li><a href="api/generated/compas_pb.pb_dump_bts.html#compas_pb.pb_dump_bts">pb_dump_bts() (in module compas_pb)</a>
-</li>
-      <li><a href="api/generated/compas_pb.pb_dump_json.html#compas_pb.pb_dump_json">pb_dump_json() (in module compas_pb)</a>
-</li>
-      <li><a href="api/generated/compas_pb.pb_load.html#compas_pb.pb_load">pb_load() (in module compas_pb)</a>
-</li>
-      <li><a href="api/generated/compas_pb.pb_load_bts.html#compas_pb.pb_load_bts">pb_load_bts() (in module compas_pb)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.pb_load_json.html#compas_pb.pb_load_json">pb_load_json() (in module compas_pb)</a>
-</li>
-      <li><a href="api/generated/compas_pb.registry.pb_serializer.html#compas_pb.registry.pb_serializer">pb_serializer() (in module compas_pb.registry)</a>
-</li>
-      <li><a href="api/generated/compas_pb.registry.PbSerializerRegistrationError.html#compas_pb.registry.PbSerializerRegistrationError">PbSerializerRegistrationError</a>
-</li>
-      <li><a href="api/generated/compas_pb.conversions.point_from_pb.html#compas_pb.conversions.point_from_pb">point_from_pb() (in module compas_pb.conversions)</a>
-</li>
-      <li><a href="api/generated/compas_pb.conversions.point_to_pb.html#compas_pb.conversions.point_to_pb">point_to_pb() (in module compas_pb.conversions)</a>
-</li>
-      <li><a href="api/generated/compas_pb.core.primitive_from_pb.html#compas_pb.core.primitive_from_pb">primitive_from_pb() (in module compas_pb.core)</a>
-</li>
-      <li><a href="api/generated/compas_pb.core.primitive_to_pb.html#compas_pb.core.primitive_to_pb">primitive_to_pb() (in module compas_pb.core)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="R">R</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.core.register_serializers.html#compas_pb.core.register_serializers">register_serializers() (in module compas_pb.core)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="S">S</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.core.serialize_message_bts.html#compas_pb.core.serialize_message_bts">serialize_message_bts() (in module compas_pb.core)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.core.serialize_message_to_json.html#compas_pb.core.serialize_message_to_json">serialize_message_to_json() (in module compas_pb.core)</a>
-</li>
-      <li><a href="api/generated/compas_pb.registry.SerialzerRegistry.html#compas_pb.registry.SerialzerRegistry">SerialzerRegistry (class in compas_pb.registry)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="V">V</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.conversions.vector_from_pb.html#compas_pb.conversions.vector_from_pb">vector_from_pb() (in module compas_pb.conversions)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.conversions.vector_to_pb.html#compas_pb.conversions.vector_to_pb">vector_to_pb() (in module compas_pb.conversions)</a>
-</li>
-  </ul></td>
-</tr></table>
-
+<span class="nd">@pb_deserializer</span><span class="p">(</span><span class="n">custom_point_pb2</span><span class="o">.</span><span class="n">CustomPointData</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_custom_point_from_pb</span><span class="p">(</span><span class="n">proto_data</span><span class="p">:</span> <span class="n">custom_point_pb2</span><span class="o">.</span><span class="n">CustomPointData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CustomPoint</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert protobuf message to CustomPoint.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">CustomPoint</span><span class="p">(</span>
+        <span class="n">special_attr</span><span class="o">=</span><span class="n">proto_data</span><span class="o">.</span><span class="n">special_attr</span><span class="p">,</span>
+        <span class="n">point</span><span class="o">=</span><span class="n">point_from_pb</span><span class="p">(</span><span class="n">proto_data</span><span class="o">.</span><span class="n">point</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
 
 
                 </article>
@@ -703,6 +659,26 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-new-serializers">Creating New Serializers</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-type">1. Create a new type</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-protobuf-definition-for-the-new-type">2. Create a protobuf definition for the new type</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-the-python-code-for-the-new-type">3. Generate the python code for the new type</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-serializer-for-the-new-type">4. Create a serializer for the new type</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

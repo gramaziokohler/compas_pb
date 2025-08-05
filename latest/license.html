@@ -59,7 +59,7 @@
         </script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="compas_pb" href="api/compas_pb.html" />
+    <link rel="prev" title="mesh_to_pb" href="api/generated/compas_pb.conversions.mesh_to_pb.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -164,8 +164,8 @@
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="tutorial.html">
-                        Tutorial
+                      <a class="nav-link nav-internal" href="developer_guide.html">
+                        Developer Guide
                       </a>
                     </li>
                 
@@ -341,8 +341,8 @@ document.write(`
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="tutorial.html">
-                        Tutorial
+                      <a class="nav-link nav-internal" href="developer_guide.html">
+                        Developer Guide
                       </a>
                     </li>
                 
@@ -460,10 +460,49 @@ document.write(`
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/compas_pb.html">compas_pb</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/compas_pb.html">compas_pb</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.pb_dump.html">pb_dump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.pb_load.html">pb_load</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.pb_dump_bts.html">pb_dump_bts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.pb_load_bts.html">pb_load_bts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.pb_dump_json.html">pb_dump_json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.pb_load_json.html">pb_load_json</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/compas_pb.core.html">compas_pb.core</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.core.primitive_to_pb.html">primitive_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.core.primitive_from_pb.html">primitive_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.core.any_to_pb.html">any_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.core.any_from_pb.html">any_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.core.register_serializers.html">register_serializers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.core.serialize_message_to_json.html">serialize_message_to_json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.core.deserialize_message_from_json.html">deserialize_message_from_json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.core.serialize_message_bts.html">serialize_message_bts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.core.deserialize_message_bts.html">deserialize_message_bts</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/compas_pb.registry.html">compas_pb.registry</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.PbSerializerRegistrationError.html">PbSerializerRegistrationError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.SerialzerRegistry.html">SerialzerRegistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.pb_serializer.html">pb_serializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.pb_deserializer.html">pb_deserializer</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/compas_pb.conversions.html">compas_pb.conversions</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.conversions.point_to_pb.html">point_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.conversions.point_from_pb.html">point_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.conversions.vector_to_pb.html">vector_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.conversions.vector_from_pb.html">vector_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.conversions.line_to_pb.html">line_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.conversions.line_from_pb.html">line_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.conversions.frame_to_pb.html">frame_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.conversions.frame_from_pb.html">frame_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.conversions.mesh_to_pb.html">mesh_to_pb</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">License</a></li>
