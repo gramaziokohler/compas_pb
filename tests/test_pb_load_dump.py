@@ -5,6 +5,7 @@ from compas.geometry import Point
 from compas.geometry import Frame
 from compas.geometry import Vector
 from compas.geometry import Line
+from compas.geometry import Circle
 
 from compas_pb import pb_dump
 from compas_pb import pb_load
@@ -59,6 +60,7 @@ def nested_dict():
         "frame": Frame(Point(1.0, 2.0, 3.0), Vector(4.0, 5.0, 6.0), Vector(7.0, 8.0, 9.0)),
         "list of primtive": ["I am String", [0.0, 0.5, 1.5], True, 5, 10],
         "bytestream": b"this is a byte stream",
+        "circle": Circle.from_point_and_radius(Point(1.0, 2.0, 3.0), 5.0),
     }
 
 
