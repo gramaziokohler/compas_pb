@@ -11,7 +11,7 @@ enum DataType {
   FLOAT = 2;
   BOOL = 3;
   STR = 4;
-  BINARY = 5;
+  BYTES = 5;
 }
 
 /** a message to hold primitive type */
@@ -22,7 +22,7 @@ message PrimitiveData {
     float float = 3;
     bool bool = 4;
     string str = 5;
-    bytes binary = 6;
+    bytes bytes = 6;
   }
 }
 

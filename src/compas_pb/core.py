@@ -33,6 +33,7 @@ PY_TYPES_SERIALIZER = {
     float: message_pb2.DataType.FLOAT,
     bool: message_pb2.DataType.BOOL,
     str: message_pb2.DataType.STR,
+    bytes: message_pb2.DataType.BYTES
 }
 
 PY_TYPES_DESERIALIZER = {key.__name__.lower(): value for key, value in PY_TYPES_SERIALIZER.items()}
@@ -97,6 +98,8 @@ def primitive_from_pb(proto_data: message_pb2.PrimitiveData) -> int | float | bo
         data_offset = primitive_data.bool
     elif type_ == "str":
         data_offset = primitive_data.str
+    elif type_ == "bytes":
+        data_offset = primitive_data.bytes
     else:
         raise ValueError(f"Unsupported primitive type: {type_}")
 
