@@ -18,7 +18,6 @@ def pb_serializer(obj_type: Type):
     """Decorator which registers a serializer for ``obj_type`` to its protobuf."""
 
     def wrapper(func):
-        print(f"Registering serializer for {obj_type.__name__}")
         _SERIALIZERS[obj_type] = func
         return func
 
