@@ -1,5 +1,3 @@
-from typing import Any
-
 import compas
 from compas.plugins import pluggable
 from google.protobuf.json_format import MessageToJson
@@ -33,7 +31,7 @@ PY_TYPES_SERIALIZER = {
     float: message_pb2.DataType.FLOAT,
     bool: message_pb2.DataType.BOOL,
     str: message_pb2.DataType.STR,
-    bytes: message_pb2.DataType.BYTES
+    bytes: message_pb2.DataType.BYTES,
 }
 
 PY_TYPES_DESERIALIZER = {key.__name__.lower(): value for key, value in PY_TYPES_SERIALIZER.items()}
@@ -173,7 +171,7 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> compas.data.Data | int | flo
 
     unpacked_instance = deserializer.__deserializer_type__()
     _ = proto_data.data.Unpack(unpacked_instance)
-    return  deserializer(unpacked_instance)
+    return deserializer(unpacked_instance)
 
 
 def serialize_message(data) -> message_pb2.MessageData:

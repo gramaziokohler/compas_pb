@@ -1,16 +1,16 @@
 from compas.datastructures import Mesh
+from compas.geometry import Circle
 from compas.geometry import Frame
 from compas.geometry import Line
 from compas.geometry import Point
 from compas.geometry import Vector
-from compas.geometry import Circle
 
+from compas_pb.generated import circle_pb2
 from compas_pb.generated import frame_pb2
 from compas_pb.generated import line_pb2
 from compas_pb.generated import mesh_pb2
 from compas_pb.generated import point_pb2
 from compas_pb.generated import vector_pb2
-from compas_pb.generated import circle_pb2
 
 from .registry import pb_deserializer
 from .registry import pb_serializer
