@@ -54,12 +54,11 @@ from compas_pb import pb_load_bts
 
 data = {
     "direction": Vector(1.0, 2.0, 3.0),
-    "outlines": {
+    "outlines": 
         [
             Polyline([0, 0, 0], [1, 1, 1], [2, 2, 2]), 
             Polyline([3, 3, 3], [4, 4, 4], [5, 5, 5])
         ],
-    }
 }
 
 pb_data = pb_dump_bts(data)

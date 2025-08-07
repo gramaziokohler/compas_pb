@@ -123,8 +123,8 @@ def docs(ctx, doctest=False, rebuild=False, check_links=False):
     from compas_invocations2.docs import docs
 
     protoc_path = setup_protoc()
-    idl_dir = Path("../IDL") / "compas_pb" / "generated" / "*.proto"
-    target_dir = Path("../docs") / "_static" / "protobuf"
+    idl_dir = Path(ctx.base_folder) / "IDL" / "compas_pb" / "generated" / "*.proto"
+    target_dir = Path(ctx.base_folder) / "docs" / "_static" / "protobuf"
     target_dir.mkdir(parents=True, exist_ok=True)
 
     plugin_switch = f"--plugin=protoc-gen-doc={protoc_path.parent / 'protoc-gen-doc.exe'}"
