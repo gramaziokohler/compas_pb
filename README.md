@@ -29,7 +29,7 @@ loaded_vector = pb_load(PATH)
 
 ```
 
-### (de)Serialize to bytes
+### (De)serialize to bytes
 
 ```python
 from compas.geometry import Vector
