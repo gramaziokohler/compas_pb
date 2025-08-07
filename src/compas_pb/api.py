@@ -20,13 +20,9 @@ def pb_dump(data: Data | Dict[str, Data] | List[Data], filepath: str) -> None:
     filepath : path string or file-like object
         A writeable file-like object or the path to a file.
 
-    Returns:
+    Returns
     -------
     None
-
-    Example:
-    --------
-    pass
 
     """
     message_bts = serialize_message_bts(data)
@@ -44,7 +40,7 @@ def pb_load(filepath: str) -> Data | Dict | List:
 
         A readable file-like object or the path to a file.
 
-    Returns:
+    Returns
     -------
     Data | Dict | List
 
@@ -69,15 +65,11 @@ def pb_dump_json(data: Data | Dict | List) -> str:
         Any  protobuffer serializable object. This includes any (combination of) COMPAS object(s).
 
 
-    Returns:
+    Returns
     -------
     string
 
         The JSON string representation of the data.
-
-    Example:
-    --------
-    pass
 
     """
     json_str = serialize_message_to_json(data)
@@ -95,16 +87,12 @@ def pb_load_json(data: str) -> Data | Dict | List:
         A JSON string representation of the data.
 
 
-    Returns:
+    Returns
     -------
     Data | Dict | List
 
 
         The (COMPAS) object(s) contained in the JSON string.
-
-    Example:
-    --------
-    pass
 
     """
     message = deserialize_message_from_json(data)
@@ -122,13 +110,9 @@ def pb_dump_bts(data: Data | Dict | list) -> bytes:
         Any  protobuffer serializable object.
         This includes any (combination of) COMPAS object(s).
 
-    Returns:
+    Returns
     -------
     None
-
-    Example:
-    --------
-    pass
 
     """
     message_bts = serialize_message_bts(data)
@@ -145,7 +129,7 @@ def pb_load_bts(data: bytes) -> Data | Dict | List:
         A readable file-like object or the path to a file.
 
 
-    Returns:
+    Returns
     -------
     Data | Dict | List
         The (COMPAS) object(s) contained in the file.

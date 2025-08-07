@@ -177,12 +177,12 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> compas.data.Data | int | flo
 def serialize_message(data) -> message_pb2.MessageData:
     """Serialize a top-level protobuf message.
 
-    Parameters:
+    Parameters
     ----------
     data : object
         The data to be serialized. This can be a COMPAS object, a list of objects, or a dictionary.
 
-    Returns:
+    Returns
     -------
     message : message_pb2.MessageData
 
@@ -198,12 +198,12 @@ def serialize_message(data) -> message_pb2.MessageData:
 def serialize_message_bts(data) -> bytes:
     """Serialize a top-level protobuf message.
 
-    Parameters:
+    Parameters
     ----------
     data : object
         The data to be serialized. This can be a COMPAS object, a list of objects, or a dictionary.
 
-    Returns:
+    Returns
     -------
     message : bytes
         The serialized protobuf message as bytes.
@@ -217,12 +217,12 @@ def serialize_message_bts(data) -> bytes:
 def serialize_message_to_json(data) -> dict:
     """Serialize a top-level protobuf message.
 
-    Parameters:
+    Parameters
     ----------
     data : object
         The data to be serialized. This can be a COMPAS object, a list of objects, or a dictionary.
 
-    Returns:
+    Returns
     -------
     message : dict
         The serialized protobuf message as a dictionary.
@@ -270,12 +270,12 @@ def _serialize_dict(data_dict) -> message_pb2.DictData:
 def deserialize_message(binary_data) -> list | dict:
     """Deserialize a top-level protobuf message.
 
-    Parameters:
+    Parameters
     ----------
     binary_data : bytes
         The binary data to be deserialized.
 
-    Returns:
+    Returns
     -------
     message : list | dict
         The deserialized protobuf message.
@@ -288,12 +288,12 @@ def deserialize_message(binary_data) -> list | dict:
 def deserialize_message_bts(binary_data) -> message_pb2.MessageData:
     """Deserialize a binary data into bytes string.
 
-    Parameters:
+    Parameters
     ----------
     binary_data : bytes
         The binary data to be deserialized.
 
-    Returns:
+    Returns
     -------
     message_data : message_pb2.MessageData
         The protobuf message data.
@@ -310,12 +310,12 @@ def deserialize_message_bts(binary_data) -> message_pb2.MessageData:
 def deserialize_message_from_json(json_data: str) -> dict:
     """Deserialize a top-level protobuf message into dictionary.
 
-    Parameters:
+    Parameters
     ----------
     json_data : str
         A JSON string representation of the data.
 
-    Returns:
+    Returns
     -------
     message : dict
         The deserialized protobuf message as a dictionary.
