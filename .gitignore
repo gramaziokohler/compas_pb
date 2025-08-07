@@ -131,6 +131,9 @@ src/.build/**
 
 docs/api/generated/
 
+# auto-generated protobuf docs gets added here
+docs/_static/protobuf/
+
 scripts/
 
 .ruff_cache
