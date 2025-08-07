@@ -1,3 +1,5 @@
+import os
+import stat
 from pathlib import Path
 import invoke
 import platform
@@ -60,6 +62,7 @@ def _download_and_extract_docsplugin(url, extract_path):
 
 def _download_and_extract_protoc(url, extract_path):
     archive_path = extract_path / "protoc.zip"
+    print(f"Downloading protoc from {url} to {archive_path}")
     urllib.request.urlretrieve(url, archive_path)
 
     with zipfile.ZipFile(archive_path, 'r') as zip_ref:
@@ -77,6 +80,10 @@ def setup_protoc():
 
         url = _get_protoc_download_url()
         _download_and_extract_protoc(url, cache_dir)
+
+        if platform.system() == "Linux":
+            mode = os.stat(protoc_bin)
+            os.chmod(protoc_bin, mode.st_mode | stat.S_IEXEC)
 
         docsplugin_url = _get_docsplugin_download_url()
         _download_and_extract_docsplugin(docsplugin_url, protoc_bin.parent)
@@ -123,6 +130,7 @@ def docs(ctx, doctest=False, rebuild=False, check_links=False):
     plugin_switch = f"--plugin=protoc-gen-doc={protoc_path.parent / 'protoc-gen-doc.exe'}"
 
     cmd = f'"{protoc_path}" {plugin_switch} --proto_path=../IDL --doc_out={target_dir} --doc_opt=html,index.html {idl_dir}'
+    print(f"Generating protobuf docs with command: {cmd}")
     ctx.run(cmd)
 
     # now call the original docs task
