@@ -10,13 +10,58 @@ Stable releases can be installed from PyPI.
 pip install compas_pb
 ```
 
-To install the latest version for development, do:
+## Basic Usage
 
-```bash
-git clone https://github.com/gramaziokohler/compas_pb.git
-cd compas_pb
-pip install -e ".[dev]"
+Using `compas_pb` you can serialize COMPAS types using `protobuf`.
+
+### Serialize to file
+
+```python
+from compas.geometry import Vector
+from compas_pb import pb_dump
+from compas_pb import pb_load
+
+PATH = "vector.data"
+
+vector = Vector(1.0, 2.0, 3.0)
+
+pb_dump(vector, PATH)
+
+loaded_vector = pb_load(PATH)
+
 ```
+
+### (de)Serialize to bytes
+
+```python
+from compas.geometry import Vector
+from compas_pb import pb_dump_bts
+from compas_pb import pb_load_bts
+
+vector = Vector(1.0, 2.0, 3.0)
+
+bytes_vector = pb_dump_bts(vector)
+
+loaded_vector = pb_load_bts(bytes_vector)
+
+```
+
+### Serialization of arbitrarily nested data structures
+
+```python
+from compas.geometry import Vector
+from compas.geometry import Polyline
+from compas_pb import pb_dump
+from compas_pb import pb_load
+data = {
+    "direction": Vector(1.0, 2.0, 3.0),
+    "outlines": {
+        [
+            Polyline([0, 0, 0], [1, 1, 1], [2, 2, 2]), 
+            Polyline([3, 3, 3], [4, 4, 4], [5, 5, 5])
+        ],
+    }
+}
 
 ## Development
 

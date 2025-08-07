@@ -5,12 +5,12 @@ from compas.geometry import Point
 from compas.geometry import Polyline
 from compas.geometry import Vector
 
-from compas_pb.data.data_handling import pb_dump
-from compas_pb.data.data_handling import pb_dump_bts
-from compas_pb.data.data_handling import pb_dump_json
-from compas_pb.data.data_handling import pb_load
-from compas_pb.data.data_handling import pb_load_bts
-from compas_pb.data.data_handling import pb_load_json
+from compas_pb import pb_dump
+from compas_pb import pb_dump_bts
+from compas_pb import pb_dump_json
+from compas_pb import pb_load
+from compas_pb import pb_load_bts
+from compas_pb import pb_load_json
 
 
 def main():
