@@ -1,6 +1,6 @@
 # compas_pb
 
-Protobuf extension for COMPAS Data
+A COMPAS extension which lets you serialize and deserialize COMPAS `Data` types using protobuf.
 
 ## Installation
 
@@ -11,8 +11,6 @@ pip install compas_pb
 ```
 
 ## Basic Usage
-
-Using `compas_pb` you can serialize COMPAS types using `protobuf`.
 
 ### Serialize to file
 
@@ -63,21 +61,7 @@ data = {
     }
 }
 
-## Development
-
 ```
-uv pip install -e . --upgrade
-```
-
-- Protobuf version 6.30.2
-
-#### Re-generate `.proto` files to Python Classes
-
-```bash
-invoke protobuf.generate-proto-classes
-
-```
-
 
 ## Documentation
 
