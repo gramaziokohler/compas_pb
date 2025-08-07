@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Latest",
+    "version": "latest",
+    "url": "/latest/"
+  },
+  {
+    "name": "0.1.0 (stable)",
+    "version": "0.1.0",
+    "url": "/0.1.0/"
+  }
+]
