@@ -6,10 +6,6 @@ compas_pb
 
 Protobuf extension for COMPAS Data
 
-.. .. figure:: /_images/
-     :figclass: figure
-     :class: figure-img img-fluid
-
 
 Table of Contents
 =================
@@ -20,7 +16,7 @@ Table of Contents
 
    Introduction <self>
    installation
-   developer_guide
+   missing_compas_type
    examples
    api
    protobuf
