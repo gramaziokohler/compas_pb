@@ -123,13 +123,14 @@ def docs(ctx, doctest=False, rebuild=False, check_links=False):
     from compas_invocations2.docs import docs
 
     protoc_path = setup_protoc()
-    idl_dir = Path(ctx.base_folder) / "IDL" / "compas_pb" / "generated" / "*.proto"
+    idl_dir = Path(ctx.base_folder) / "IDL"
+    proto_files = idl_dir / "compas_pb" / "generated" / "*.proto"
     target_dir = Path(ctx.base_folder) / "docs" / "_static" / "protobuf"
     target_dir.mkdir(parents=True, exist_ok=True)
 
     plugin_switch = f"--plugin=protoc-gen-doc={protoc_path.parent / 'protoc-gen-doc.exe'}"
 
-    cmd = f'"{protoc_path}" {plugin_switch} --proto_path=../IDL --doc_out={target_dir} --doc_opt=html,index.html {idl_dir}'
+    cmd = f'"{protoc_path}" {plugin_switch} --proto_path={idl_dir} --doc_out={target_dir} --doc_opt=html,index.html {proto_files}'
     print(f"Generating protobuf docs with command: {cmd}")
     ctx.run(cmd)
 
