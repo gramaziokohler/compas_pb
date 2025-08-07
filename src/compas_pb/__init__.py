@@ -13,7 +13,7 @@ from .api import pb_dump_json
 from .api import pb_load_json
 
 
-__author__ = ["Chen Kasirer"]
+__author__ = ["Wei-Ting Chen", "Chen Kasirer"]
 __copyright__ = "Gramazio Kohler Research"
 __license__ = "MIT License"
 __email__ = "kasirer@arch.ethz.ch"
