@@ -73,6 +73,11 @@ def _download_and_extract_protoc(url, extract_path):
 
 def setup_protoc():
     protoc_bin, cache_dir = _get_cached_protoc_path()
+    plugin_executable = protoc_bin.parent / "protoc-gen-doc"
+
+    if platform.system() == "Windows":
+        plugin_executable = plugin_executable.with_suffix(".exe")
+        protoc_bin = protoc_bin.with_suffix(".exe")
 
     if not protoc_bin.exists():
         print(f"protoc not found in cache. Downloading to: {cache_dir}")
@@ -81,12 +86,15 @@ def setup_protoc():
         url = _get_protoc_download_url()
         _download_and_extract_protoc(url, cache_dir)
 
+        docsplugin_url = _get_docsplugin_download_url()
+        _download_and_extract_docsplugin(docsplugin_url, protoc_bin.parent)
+
         if platform.system() == "Linux":
             mode = os.stat(protoc_bin)
             os.chmod(protoc_bin, mode.st_mode | stat.S_IEXEC)
 
-        docsplugin_url = _get_docsplugin_download_url()
-        _download_and_extract_docsplugin(docsplugin_url, protoc_bin.parent)
+            mode = os.stat(plugin_executable)
+            os.chmod(plugin_executable, mode.st_mode | stat.S_IEXEC)
 
         if not protoc_bin.exists():
             raise FileNotFoundError("Failed to find protoc binary after extraction.")
@@ -94,12 +102,12 @@ def setup_protoc():
     else:
         print(f"Using cached protoc at: {protoc_bin}")
 
-    return protoc_bin
+    return protoc_bin, plugin_executable
 
 
 @invoke.task(help={"target_language": "Output language for generated classes (e.g., 'python')"})
 def generate_proto_classes(ctx, target_language: str = "python"):
-    protoc_path = setup_protoc()
+    protoc_path, _ = setup_protoc()
 
     idl_dir = Path("./IDL") / "compas_pb" / "generated"
     out_dir = Path("./src")
@@ -122,13 +130,13 @@ def docs(ctx, doctest=False, rebuild=False, check_links=False):
     # the single html file is linked to from the main docs site
     from compas_invocations2.docs import docs
 
-    protoc_path = setup_protoc()
+    protoc_path, plugin_path = setup_protoc()
     idl_dir = Path(ctx.base_folder) / "IDL"
     proto_files = idl_dir / "compas_pb" / "generated" / "*.proto"
     target_dir = Path(ctx.base_folder) / "docs" / "_static" / "protobuf"
     target_dir.mkdir(parents=True, exist_ok=True)
 
-    plugin_switch = f"--plugin=protoc-gen-doc={protoc_path.parent / 'protoc-gen-doc.exe'}"
+    plugin_switch = f"--plugin=protoc-gen-doc={plugin_path}"
 
     cmd = f'"{protoc_path}" {plugin_switch} --proto_path={idl_dir} --doc_out={target_dir} --doc_opt=html,index.html {proto_files}'
     print(f"Generating protobuf docs with command: {cmd}")
