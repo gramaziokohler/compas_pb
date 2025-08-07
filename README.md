@@ -49,8 +49,9 @@ loaded_vector = pb_load_bts(bytes_vector)
 ```python
 from compas.geometry import Vector
 from compas.geometry import Polyline
-from compas_pb import pb_dump
-from compas_pb import pb_load
+from compas_pb import pb_dump_bts
+from compas_pb import pb_load_bts
+
 data = {
     "direction": Vector(1.0, 2.0, 3.0),
     "outlines": {
@@ -60,6 +61,10 @@ data = {
         ],
     }
 }
+
+pb_data = pb_dump_bts(data)
+
+loaded_data = pb_load_bts(pb_data)
 
 ```
 
