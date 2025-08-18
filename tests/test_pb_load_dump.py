@@ -254,14 +254,14 @@ def test_json_roundtrip_complex_data(nested_dict, nested_list, primitive_data):
 
     # Test with nested list
     json_string = serialize_message_to_json(nested_list)
-    assert '"data"' in json_string  # ListData structure
-    assert '"data"' in json_string  # Nested data field
+    assert '"items"' in json_string  # ListData structure
+    assert '"items"' in json_string  # Nested data field
     loaded_list = deserialize_message_from_json(json_string)
     assert loaded_list == nested_list
 
     # Test with primitive data (accounting for tuple vs list conversion)
     json_string = serialize_message_to_json(primitive_data)
-    assert '"data"' in json_string  # ListData structure
+    assert '"items"' in json_string  # ListData structure
     loaded_primitive = deserialize_message_from_json(json_string)
     # primitive_data is a tuple, but deserialization returns a list
     # Convert tuple to list for comparison
