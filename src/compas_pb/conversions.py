@@ -1,15 +1,23 @@
 from compas.datastructures import Mesh
+from compas.geometry import Arc
+from compas.geometry import Box
 from compas.geometry import Circle
 from compas.geometry import Frame
 from compas.geometry import Line
+from compas.geometry import Plane
 from compas.geometry import Point
+from compas.geometry import Polygon
 from compas.geometry import Vector
 
+from compas_pb.generated import arc_pb2
+from compas_pb.generated import box_pb2
 from compas_pb.generated import circle_pb2
 from compas_pb.generated import frame_pb2
 from compas_pb.generated import line_pb2
 from compas_pb.generated import mesh_pb2
+from compas_pb.generated import plane_pb2
 from compas_pb.generated import point_pb2
+from compas_pb.generated import polygon_pb2
 from compas_pb.generated import vector_pb2
 
 from .registry import pb_deserializer
@@ -147,5 +155,104 @@ def circle_to_pb(circle: Circle) -> circle_pb2.CircleData:
 def circle_from_pb(proto_data: circle_pb2.CircleData) -> Circle:
     frame = frame_from_pb(proto_data.frame)
     result = Circle(radius=proto_data.radius, frame=frame, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
+
+
+@pb_serializer(Plane)
+def plane_to_pb(plane: Plane) -> plane_pb2.PlaneData:
+    """Convert Plane to protobuf message."""
+    proto_data = plane_pb2.PlaneData()
+    proto_data.guid = str(plane.guid)
+    proto_data.name = plane.name
+    
+    point = point_to_pb(plane.point)
+    normal = vector_to_pb(plane.normal)
+    
+    proto_data.point.CopyFrom(point)
+    proto_data.normal.CopyFrom(normal)
+    
+    return proto_data
+
+
+@pb_deserializer(plane_pb2.PlaneData)
+def plane_from_pb(proto_data: plane_pb2.PlaneData) -> Plane:
+    """Convert protobuf message to Plane."""
+    point = point_from_pb(proto_data.point)
+    normal = vector_from_pb(proto_data.normal)
+    result = Plane(point=point, normal=normal, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
+
+
+@pb_serializer(Polygon)
+def polygon_to_pb(polygon: Polygon) -> polygon_pb2.PolygonData:
+    """Convert Polygon to protobuf message."""
+    proto_data = polygon_pb2.PolygonData()
+    proto_data.guid = str(polygon.guid)
+    proto_data.name = polygon.name
+    
+    for point in polygon.points:
+        proto_point = point_to_pb(point)
+        proto_data.points.append(proto_point)
+    
+    return proto_data
+
+
+@pb_deserializer(polygon_pb2.PolygonData)
+def polygon_from_pb(proto_data: polygon_pb2.PolygonData) -> Polygon:
+    """Convert protobuf message to Polygon."""
+    points = [point_from_pb(proto_point) for proto_point in proto_data.points]
+    result = Polygon(points=points, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
+
+
+@pb_serializer(Box)
+def box_to_pb(box: Box) -> box_pb2.BoxData:
+    """Convert Box to protobuf message."""
+    proto_data = box_pb2.BoxData()
+    proto_data.guid = str(box.guid)
+    proto_data.name = box.name
+    proto_data.xsize = box.xsize
+    proto_data.ysize = box.ysize
+    proto_data.zsize = box.zsize
+    
+    frame = frame_to_pb(box.frame)
+    proto_data.frame.CopyFrom(frame)
+    
+    return proto_data
+
+
+@pb_deserializer(box_pb2.BoxData)
+def box_from_pb(proto_data: box_pb2.BoxData) -> Box:
+    """Convert protobuf message to Box."""
+    frame = frame_from_pb(proto_data.frame)
+    result = Box(frame=frame, xsize=proto_data.xsize, ysize=proto_data.ysize, zsize=proto_data.zsize, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
+
+
+@pb_serializer(Arc)
+def arc_to_pb(arc: Arc) -> arc_pb2.ArcData:
+    """Convert Arc to protobuf message."""
+    proto_data = arc_pb2.ArcData()
+    proto_data.guid = str(arc.guid)
+    proto_data.name = arc.name
+    proto_data.start_angle = arc.start_angle
+    proto_data.end_angle = arc.end_angle
+    
+    circle = circle_to_pb(arc.circle)
+    proto_data.circle.CopyFrom(circle)
+    
+    return proto_data
+
+
+@pb_deserializer(arc_pb2.ArcData)
+def arc_from_pb(proto_data: arc_pb2.ArcData) -> Arc:
+    """Convert protobuf message to Arc."""
+    circle = circle_from_pb(proto_data.circle)
+    result = Arc.from_circle(circle, proto_data.start_angle, proto_data.end_angle)
+    result.name = proto_data.name
     result._guid = proto_data.guid
     return result

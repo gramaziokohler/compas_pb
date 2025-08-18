@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/generated/circle.proto";
+
+message ArcData {
+  string guid = 1;
+  string name = 2;
+  CircleData circle = 3;
+  float start_angle = 4;
+  float end_angle = 5;
+}
