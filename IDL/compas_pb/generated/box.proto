@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/generated/frame.proto";
+
+message BoxData {
+  string guid = 1;
+  string name = 2;
+  FrameData frame = 3;
+  float xsize = 4;
+  float ysize = 5;
+  float zsize = 6;
+}
