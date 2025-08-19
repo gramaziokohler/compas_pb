@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* Added support for `compas.geometry.Plane` serialization and deserialization.
+* Added support for `compas.geometry.Polygon` serialization and deserialization.
+* Added support for `compas.geometry.Box` serialization and deserialization.
+* Added support for `compas.geometry.Arc` serialization and deserialization.
+
 ### Changed
 
 ### Removed
