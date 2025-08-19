@@ -230,7 +230,7 @@ def test_json_exact_match():
         "data": {
             "data": {
                 "@type": "type.googleapis.com/compas_pb.data.ListData",
-                "data": [
+                "items": [
                     {"data": {"@type": "type.googleapis.com/compas_pb.data.PrimitiveData", "str": "test"}},
                     {"data": {"@type": "type.googleapis.com/compas_pb.data.PrimitiveData", "int": 123}},
                     {"data": {"@type": "type.googleapis.com/compas_pb.data.PrimitiveData", "bool": True}},
@@ -247,8 +247,8 @@ def test_json_roundtrip_complex_data(nested_dict, nested_list, primitive_data):
     """Test JSON serialization/deserialization roundtrip with complex data structures."""
     # Test with nested dictionary
     json_string = serialize_message_to_json(nested_dict)
-    assert '"data"' in json_string  # DictData structure
-    assert '"data"' in json_string  # Nested data field
+    assert '"items"' in json_string  # DictData structure
+    assert '"items"' in json_string  # Nested data field
     loaded_dict = deserialize_message_from_json(json_string)
     assert loaded_dict == nested_dict
 

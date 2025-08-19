@@ -37,7 +37,7 @@ message ListData {
 }
 
 message DictData {
-  map<string, AnyData> data = 1;
+  map<string, AnyData> items = 1;
 }
 
 /** root serialization element */

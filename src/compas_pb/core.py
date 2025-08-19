@@ -263,7 +263,7 @@ def _serialize_dict(data_dict) -> message_pb2.DictData:
     dict_data = message_pb2.DictData()
     for key, value in data_dict.items():
         data_offset = _serializer_any(value)
-        dict_data.data[key].CopyFrom(data_offset)
+        dict_data.items[key].CopyFrom(data_offset)
     return dict_data
 
 
@@ -348,7 +348,7 @@ def _deserialize_list(data_list: message_pb2.ListData) -> list:
     """Deserialize a protobuf ListData message to Python list."""
     data_offset = []
     list_data = message_pb2.ListData()
-    data_list.items.Unpack(list_data)
+    data_list.data.Unpack(list_data)
     for item in list_data.items:
         data_offset.append(_deserialize_any(item))
     return data_offset
@@ -359,6 +359,6 @@ def _deserialize_dict(data_dict: message_pb2.AnyData) -> dict:
     data_offset = {}
     dict_data = message_pb2.DictData()
     data_dict.data.Unpack(dict_data)
-    for key, value in dict_data.data.items():
+    for key, value in dict_data.items.items():
         data_offset[key] = _deserialize_any(value)
     return data_offset
