@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/generated/frame.proto";
+
+message TorusData {
+    string guid = 1;
+    string name = 2;
+    float radius_axis = 3;
+    float radius_pipe = 4;
+    FrameData frame = 5;
+}

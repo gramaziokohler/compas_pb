@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/generated/frame.proto";
+
+message CylinderData {
+    string guid = 1;
+    string name = 2;
+    float radius = 3;
+    float height = 4;
+    FrameData frame = 5;
+}
