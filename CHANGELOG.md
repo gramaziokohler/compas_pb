@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* change `ListData.data` and `DictData.data` to better naming of `ListData.items` `DictData.items`.
 * Added support for `compas.geometry.Plane` serialization and deserialization.
 * Added support for `compas.geometry.Polygon` serialization and deserialization.
 * Added support for `compas.geometry.Box` serialization and deserialization.

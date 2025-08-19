@@ -33,11 +33,11 @@ message AnyData {
 
 /** repeated serves as a list in protobuf */
 message ListData {
-  repeated AnyData data = 1;
+  repeated AnyData items = 1;
 }
 
 message DictData {
-  map<string, AnyData> data = 1;
+  map<string, AnyData> items = 1;
 }
 
 /** root serialization element */

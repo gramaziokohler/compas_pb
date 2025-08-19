@@ -25,27 +25,27 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import any_pb2 as google_dot_protobuf_dot_any__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!compas_pb/generated/message.proto\x12\x0e\x63ompas_pb.data\x1a\x19google/protobuf/any.proto\"\x8f\x01\n\rPrimitiveData\x12&\n\x04type\x18\x01 \x01(\x0e\x32\x18.compas_pb.data.DataType\x12\r\n\x03int\x18\x02 \x01(\x05H\x00\x12\x0f\n\x05\x66loat\x18\x03 \x01(\x02H\x00\x12\x0e\n\x04\x62ool\x18\x04 \x01(\x08H\x00\x12\r\n\x03str\x18\x05 \x01(\tH\x00\x12\x0f\n\x05\x62ytes\x18\x06 \x01(\x0cH\x00\x42\x06\n\x04\x64\x61ta\"-\n\x07\x41nyData\x12\"\n\x04\x64\x61ta\x18\x01 \x01(\x0b\x32\x14.google.protobuf.Any\"1\n\x08ListData\x12%\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x17.compas_pb.data.AnyData\"\x82\x01\n\x08\x44ictData\x12\x30\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\".compas_pb.data.DictData.DataEntry\x1a\x44\n\tDataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12&\n\x05value\x18\x02 \x01(\x0b\x32\x17.compas_pb.data.AnyData:\x02\x38\x01\"4\n\x0bMessageData\x12%\n\x04\x64\x61ta\x18\x01 \x01(\x0b\x32\x17.compas_pb.data.AnyData*I\n\x08\x44\x61taType\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x07\n\x03INT\x10\x01\x12\t\n\x05\x46LOAT\x10\x02\x12\x08\n\x04\x42OOL\x10\x03\x12\x07\n\x03STR\x10\x04\x12\t\n\x05\x42YTES\x10\x05\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!compas_pb/generated/message.proto\x12\x0e\x63ompas_pb.data\x1a\x19google/protobuf/any.proto\"\x8f\x01\n\rPrimitiveData\x12&\n\x04type\x18\x01 \x01(\x0e\x32\x18.compas_pb.data.DataType\x12\r\n\x03int\x18\x02 \x01(\x05H\x00\x12\x0f\n\x05\x66loat\x18\x03 \x01(\x02H\x00\x12\x0e\n\x04\x62ool\x18\x04 \x01(\x08H\x00\x12\r\n\x03str\x18\x05 \x01(\tH\x00\x12\x0f\n\x05\x62ytes\x18\x06 \x01(\x0cH\x00\x42\x06\n\x04\x64\x61ta\"-\n\x07\x41nyData\x12\"\n\x04\x64\x61ta\x18\x01 \x01(\x0b\x32\x14.google.protobuf.Any\"2\n\x08ListData\x12&\n\x05items\x18\x01 \x03(\x0b\x32\x17.compas_pb.data.AnyData\"\x85\x01\n\x08\x44ictData\x12\x32\n\x05items\x18\x01 \x03(\x0b\x32#.compas_pb.data.DictData.ItemsEntry\x1a\x45\n\nItemsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12&\n\x05value\x18\x02 \x01(\x0b\x32\x17.compas_pb.data.AnyData:\x02\x38\x01\"4\n\x0bMessageData\x12%\n\x04\x64\x61ta\x18\x01 \x01(\x0b\x32\x17.compas_pb.data.AnyData*I\n\x08\x44\x61taType\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x07\n\x03INT\x10\x01\x12\t\n\x05\x46LOAT\x10\x02\x12\x08\n\x04\x42OOL\x10\x03\x12\x07\n\x03STR\x10\x04\x12\t\n\x05\x42YTES\x10\x05\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'compas_pb.generated.message_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_DICTDATA_DATAENTRY']._loaded_options = None
-  _globals['_DICTDATA_DATAENTRY']._serialized_options = b'8\001'
-  _globals['_DATATYPE']._serialized_start=511
-  _globals['_DATATYPE']._serialized_end=584
+  _globals['_DICTDATA_ITEMSENTRY']._loaded_options = None
+  _globals['_DICTDATA_ITEMSENTRY']._serialized_options = b'8\001'
+  _globals['_DATATYPE']._serialized_start=515
+  _globals['_DATATYPE']._serialized_end=588
   _globals['_PRIMITIVEDATA']._serialized_start=81
   _globals['_PRIMITIVEDATA']._serialized_end=224
   _globals['_ANYDATA']._serialized_start=226
   _globals['_ANYDATA']._serialized_end=271
   _globals['_LISTDATA']._serialized_start=273
-  _globals['_LISTDATA']._serialized_end=322
-  _globals['_DICTDATA']._serialized_start=325
-  _globals['_DICTDATA']._serialized_end=455
-  _globals['_DICTDATA_DATAENTRY']._serialized_start=387
-  _globals['_DICTDATA_DATAENTRY']._serialized_end=455
-  _globals['_MESSAGEDATA']._serialized_start=457
-  _globals['_MESSAGEDATA']._serialized_end=509
+  _globals['_LISTDATA']._serialized_end=323
+  _globals['_DICTDATA']._serialized_start=326
+  _globals['_DICTDATA']._serialized_end=459
+  _globals['_DICTDATA_ITEMSENTRY']._serialized_start=390
+  _globals['_DICTDATA_ITEMSENTRY']._serialized_end=459
+  _globals['_MESSAGEDATA']._serialized_start=461
+  _globals['_MESSAGEDATA']._serialized_end=513
 # @@protoc_insertion_point(module_scope)
