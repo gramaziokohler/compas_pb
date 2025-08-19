@@ -22,3 +22,14 @@ Functions
     frame_to_pb
     frame_from_pb
     mesh_to_pb
+    mesh_from_pb
+    circle_to_pb
+    circle_from_pb
+    plane_to_pb
+    plane_from_pb
+    polygon_to_pb
+    polygon_from_pb
+    box_to_pb
+    box_from_pb
+    arc_to_pb
+    arc_from_pb
