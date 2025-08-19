@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
     <link rel="icon" href="../../_static/compas.ico" type="image/x-icon">
-    <title>pb_dump &#8212; compas_pb</title>
+    <title>box_from_pb &#8212; compas_pb</title>
   
   
   
@@ -52,15 +52,15 @@
     <script src="../../_static/togglebutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/compas_pb.pb_dump';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/compas_pb.conversions.box_from_pb';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/gramaziokohler/compas_pb/gh-pages/versions.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'latest';
         </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pb_load" href="compas_pb.pb_load.html" />
-    <link rel="prev" title="compas_pb" href="../compas_pb.html" />
+    <link rel="next" title="arc_to_pb" href="compas_pb.conversions.arc_to_pb.html" />
+    <link rel="prev" title="box_to_pb" href="compas_pb.conversions.box_to_pb.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -482,8 +482,8 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../missing_compas_type.html">Missing COMPAS Type?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../api.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="../compas_pb.html">compas_pb</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">pb_dump</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../compas_pb.html">compas_pb</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.pb_dump.html">pb_dump</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.pb_load.html">pb_load</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.pb_dump_bts.html">pb_dump_bts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.pb_load_bts.html">pb_load_bts</a></li>
@@ -510,7 +510,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.registry.pb_deserializer.html">pb_deserializer</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../compas_pb.conversions.html">compas_pb.conversions</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../compas_pb.conversions.html">compas_pb.conversions</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.point_to_pb.html">point_to_pb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.point_from_pb.html">point_from_pb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.vector_to_pb.html">vector_to_pb</a></li>
@@ -528,7 +528,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.polygon_to_pb.html">polygon_to_pb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.polygon_from_pb.html">polygon_from_pb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.box_to_pb.html">box_to_pb</a></li>
-<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.box_from_pb.html">box_from_pb</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">box_from_pb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.arc_to_pb.html">arc_to_pb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.arc_from_pb.html">arc_from_pb</a></li>
 </ul>
@@ -584,9 +584,9 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../api.html" class="nav-link">API Reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../compas_pb.html" class="nav-link">compas_pb</a></li>
+    <li class="breadcrumb-item"><a href="../compas_pb.conversions.html" class="nav-link">compas_pb.conversions</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pb_dump</li>
+    <li class="breadcrumb-item active" aria-current="page">box_from_pb</li>
   </ul>
 </nav>
 </div>
@@ -603,25 +603,23 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="pb-dump">
-<h1>pb_dump</h1>
+  <section id="box-from-pb">
+<h1>box_from_pb</h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="compas_pb.pb_dump">
-<span class="sig-prename descclassname"><span class="pre">compas_pb.</span></span><span class="sig-name descname"><span class="pre">pb_dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Write a collection of COMPAS object to a binary file.</p>
+<dt class="sig sig-object py" id="compas_pb.conversions.box_from_pb">
+<span class="sig-prename descclassname"><span class="pre">compas_pb.conversions.</span></span><span class="sig-name descname"><span class="pre">box_from_pb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proto_data</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Convert a protobuf message to COMPAS Box.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">Data | Dict | List</span></dt><dd><p>Any  protobuffer serializable object.
-This includes any (combination of) COMPAS object(s).</p>
-</dd>
-<dt><strong>filepath</strong><span class="classifier">path string or file-like object</span></dt><dd><p>A writeable file-like object or the path to a file.</p>
+<dt><strong>proto_data</strong><span class="classifier">box_pb2.BoxData</span></dt><dd><p>The protobuf message representing a Box.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>None</dt><dd></dd>
+<dt>Box</dt><dd><p>The deserialized COMPAS Box object.</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -650,7 +648,7 @@ This includes any (combination of) COMPAS object(s).</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compas_pb.pb_dump"><code class="docutils literal notranslate"><span class="pre">pb_dump()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compas_pb.conversions.box_from_pb"><code class="docutils literal notranslate"><span class="pre">box_from_pb()</span></code></a></li>
 </ul>
   </nav></div>
 

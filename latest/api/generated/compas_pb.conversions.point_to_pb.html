@@ -520,6 +520,17 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.frame_to_pb.html">frame_to_pb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.frame_from_pb.html">frame_from_pb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.mesh_to_pb.html">mesh_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.mesh_from_pb.html">mesh_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.circle_to_pb.html">circle_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.circle_from_pb.html">circle_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.plane_to_pb.html">plane_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.plane_from_pb.html">plane_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.polygon_to_pb.html">polygon_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.polygon_from_pb.html">polygon_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.box_to_pb.html">box_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.box_from_pb.html">box_from_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.arc_to_pb.html">arc_to_pb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.conversions.arc_from_pb.html">arc_from_pb</a></li>
 </ul>
 </li>
 </ul>
@@ -597,7 +608,20 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="compas_pb.conversions.point_to_pb">
 <span class="sig-prename descclassname"><span class="pre">compas_pb.conversions.</span></span><span class="sig-name descname"><span class="pre">point_to_pb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span></dt>
-<dd><dl class="field-list simple">
+<dd><p>Convert a COMPAS Point to protobuf message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>obj</strong><span class="classifier">Point</span></dt><dd><p>The COMPAS Point object to serialize.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>point_pb2.PointData</dt><dd><p>The protobuf message representing the Point.</p>
+</dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 

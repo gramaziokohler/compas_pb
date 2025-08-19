@@ -175,6 +175,36 @@
         
           
           <li>
+            <a href="#compas_pb%2fgenerated%2farc.proto">compas_pb/generated/arc.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#compas_pb.data.ArcData"><span class="badge">M</span>ArcData</a>
+                </li>
+              
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#compas_pb%2fgenerated%2fbox.proto">compas_pb/generated/box.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#compas_pb.data.BoxData"><span class="badge">M</span>BoxData</a>
+                </li>
+              
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
             <a href="#compas_pb%2fgenerated%2fcircle.proto">compas_pb/generated/circle.proto</a>
             <ul>
               
@@ -278,11 +308,41 @@
         
           
           <li>
+            <a href="#compas_pb%2fgenerated%2fplane.proto">compas_pb/generated/plane.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#compas_pb.data.PlaneData"><span class="badge">M</span>PlaneData</a>
+                </li>
+              
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
             <a href="#compas_pb%2fgenerated%2fpoint.proto">compas_pb/generated/point.proto</a>
             <ul>
               
                 <li>
                   <a href="#compas_pb.data.PointData"><span class="badge">M</span>PointData</a>
+                </li>
+              
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#compas_pb%2fgenerated%2fpolygon.proto">compas_pb/generated/polygon.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#compas_pb.data.PolygonData"><span class="badge">M</span>PolygonData</a>
                 </li>
               
               
@@ -310,6 +370,145 @@
       </ul>
     </div>
 
+    
+      
+      <div class="file-heading">
+        <h2 id="compas_pb/generated/arc.proto">compas_pb/generated/arc.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="compas_pb.data.ArcData">ArcData</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>guid</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>circle</td>
+                  <td><a href="#compas_pb.data.CircleData">CircleData</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>start_angle</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>end_angle</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+    
+      
+      <div class="file-heading">
+        <h2 id="compas_pb/generated/box.proto">compas_pb/generated/box.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="compas_pb.data.BoxData">BoxData</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>guid</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>frame</td>
+                  <td><a href="#compas_pb.data.FrameData">FrameData</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>xsize</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>ysize</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>zsize</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
     
       
       <div class="file-heading">
@@ -827,6 +1026,65 @@
     
       
       <div class="file-heading">
+        <h2 id="compas_pb/generated/plane.proto">compas_pb/generated/plane.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="compas_pb.data.PlaneData">PlaneData</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>guid</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>point</td>
+                  <td><a href="#compas_pb.data.PointData">PointData</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>normal</td>
+                  <td><a href="#compas_pb.data.VectorData">VectorData</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+    
+      
+      <div class="file-heading">
         <h2 id="compas_pb/generated/point.proto">compas_pb/generated/point.proto</h2><a href="#title">Top</a>
       </div>
       <p></p>
@@ -874,6 +1132,58 @@
                   <td>z</td>
                   <td><a href="#float">float</a></td>
                   <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+    
+      
+      <div class="file-heading">
+        <h2 id="compas_pb/generated/polygon.proto">compas_pb/generated/polygon.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="compas_pb.data.PolygonData">PolygonData</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>guid</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>points</td>
+                  <td><a href="#compas_pb.data.PointData">PointData</a></td>
+                  <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
               
