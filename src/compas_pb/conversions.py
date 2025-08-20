@@ -44,6 +44,11 @@ from .registry import pb_deserializer
 from .registry import pb_serializer
 
 
+# =============================================================================
+# Point
+# =============================================================================
+
+
 @pb_serializer(Point)
 def point_to_pb(obj: Point) -> point_pb2.PointData:
     """
@@ -84,6 +89,11 @@ def point_from_pb(proto_data: point_pb2.PointData) -> Point:
         The deserialized COMPAS Point object.
     """
     return Point(x=proto_data.x, y=proto_data.y, z=proto_data.z, name=proto_data.name)
+
+
+# =============================================================================
+# Line
+# =============================================================================
 
 
 @pb_serializer(Line)
@@ -135,6 +145,11 @@ def line_from_pb(proto_data: line_pb2.LineData) -> Line:
     return Line(start=start, end=end, name=proto_data.name)
 
 
+# =============================================================================
+# Vector
+# =============================================================================
+
+
 @pb_serializer(Vector)
 def vector_to_pb(obj: Vector) -> vector_pb2.VectorData:
     """
@@ -174,6 +189,11 @@ def vector_from_pb(proto_data: vector_pb2.VectorData) -> Vector:
         The deserialized COMPAS Vector object.
     """
     return Vector(x=proto_data.x, y=proto_data.y, z=proto_data.z, name=proto_data.name)
+
+
+# =============================================================================
+# Frame
+# =============================================================================
 
 
 @pb_serializer(Frame)
@@ -225,6 +245,11 @@ def frame_from_pb(proto_data: frame_pb2.FrameData) -> Frame:
     xaxis = vector_from_pb(proto_data.xaxis)
     yaxis = vector_from_pb(proto_data.yaxis)
     return Frame(point=origin, xaxis=xaxis, yaxis=yaxis, name=proto_data.name)
+
+
+# =============================================================================
+# Mesh
+# =============================================================================
 
 
 @pb_serializer(Mesh)
@@ -291,6 +316,11 @@ def mesh_from_pb(proto_data: mesh_pb2.MeshData) -> Mesh:
     return mesh
 
 
+# =============================================================================
+# Circle
+# =============================================================================
+
+
 @pb_serializer(Circle)
 def circle_to_pb(circle: Circle) -> circle_pb2.CircleData:
     """
@@ -333,6 +363,11 @@ def circle_from_pb(proto_data: circle_pb2.CircleData) -> Circle:
     result = Circle(radius=proto_data.radius, frame=frame, name=proto_data.name)
     result._guid = proto_data.guid
     return result
+
+
+# =============================================================================
+# Plane
+# =============================================================================
 
 
 @pb_serializer(Plane)
@@ -385,6 +420,11 @@ def plane_from_pb(proto_data: plane_pb2.PlaneData) -> Plane:
     return result
 
 
+# =============================================================================
+# Polygon
+# =============================================================================
+
+
 @pb_serializer(Polygon)
 def polygon_to_pb(polygon: Polygon) -> polygon_pb2.PolygonData:
     """
@@ -430,6 +470,11 @@ def polygon_from_pb(proto_data: polygon_pb2.PolygonData) -> Polygon:
     result = Polygon(points=points, name=proto_data.name)
     result._guid = proto_data.guid
     return result
+
+
+# =============================================================================
+# Box
+# =============================================================================
 
 
 @pb_serializer(Box)
@@ -479,6 +524,11 @@ def box_from_pb(proto_data: box_pb2.BoxData) -> Box:
     result = Box(frame=frame, xsize=proto_data.xsize, ysize=proto_data.ysize, zsize=proto_data.zsize, name=proto_data.name)
     result._guid = proto_data.guid
     return result
+
+
+# =============================================================================
+# Arc
+# =============================================================================
 
 
 @pb_serializer(Arc)

@@ -1,19 +1,10 @@
-from compas.geometry import Point
-from compas.geometry import Frame
-from compas.geometry import Vector
-from compas.geometry import Line
-from compas.geometry import Plane
-from compas.geometry import Polygon
-from compas.geometry import Polyline
-from compas.geometry import Box
-from compas.geometry import Arc
-from compas.geometry import Circle
-
 from compas_pb import pb_dump_bts
 from compas_pb import pb_load_bts
 
 
 def test_serialize_frame():
+    from compas.geometry import Frame
+
     frame = Frame([1, 2, 3], [4, 5, 6], [7, 8, 9])
 
     bts = pb_dump_bts(frame)
@@ -26,6 +17,8 @@ def test_serialize_frame():
 
 
 def test_serialize_point():
+    from compas.geometry import Point
+
     point = Point(1, 2, 3)
 
     bts = pb_dump_bts(point)
@@ -38,6 +31,8 @@ def test_serialize_point():
 
 
 def test_serialize_vector():
+    from compas.geometry import Vector
+
     vector = Vector(1, 2, 3)
 
     bts = pb_dump_bts(vector)
@@ -50,6 +45,8 @@ def test_serialize_vector():
 
 
 def test_serialize_line():
+    from compas.geometry import Line, Point
+
     line = Line(Point(1, 2, 3), Point(4, 5, 6))
 
     bts = pb_dump_bts(line)
@@ -61,6 +58,8 @@ def test_serialize_line():
 
 
 def test_serialize_nested_data():
+    from compas.geometry import Point, Vector, Frame
+
     nested_data = {
         "point": Point(1.0, 2.0, 3.0),
         "line": [Point(1.0, 2.0, 3.0), Point(4.0, 5.0, 6.0)],
@@ -86,6 +85,8 @@ def test_serialize_nested_data():
 
 
 def test_serialize_plane():
+    from compas.geometry import Plane, Point, Vector
+
     plane = Plane(Point(1, 2, 3), Vector(0, 0, 1))
 
     bts = pb_dump_bts(plane)
@@ -97,6 +98,8 @@ def test_serialize_plane():
 
 
 def test_serialize_polygon():
+    from compas.geometry import Polygon
+
     polygon = Polygon([(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)])
 
     bts = pb_dump_bts(polygon)
@@ -109,6 +112,8 @@ def test_serialize_polygon():
 
 
 def test_serialize_box():
+    from compas.geometry import Box
+
     box = Box.from_width_height_depth(2, 3, 4)
 
     bts = pb_dump_bts(box)
@@ -123,6 +128,8 @@ def test_serialize_box():
 
 def test_serialize_arc():
     import math
+    from compas.geometry import Frame, Circle, Arc
+    from compas.tolerance import TOL
 
     frame = Frame.worldXY()
     circle = Circle(frame=frame, radius=2.0)
@@ -132,13 +139,14 @@ def test_serialize_arc():
     new_arc = pb_load_bts(bts)
 
     assert isinstance(new_arc, Arc)
-    assert abs(new_arc.start_angle - arc.start_angle) < 1e-6
-    assert abs(new_arc.end_angle - arc.end_angle) < 1e-6
-    assert new_arc.circle.radius == arc.circle.radius
+    assert TOL.is_close(new_arc.start_angle, arc.start_angle)
+    assert TOL.is_close(new_arc.end_angle, arc.end_angle)
+    assert TOL.is_close(new_arc.circle.radius, arc.circle.radius)
 
 
 def test_serialize_sphere():
-    from compas.geometry import Sphere
+    from compas.geometry import Sphere, Frame
+    from compas.tolerance import TOL
 
     sphere = Sphere(radius=2.0, frame=Frame.worldXY())
 
@@ -146,12 +154,13 @@ def test_serialize_sphere():
     new_sphere = pb_load_bts(bts)
 
     assert isinstance(new_sphere, Sphere)
-    assert new_sphere.radius == sphere.radius
+    assert TOL.is_close(new_sphere.radius, sphere.radius)
     assert new_sphere.frame.point == sphere.frame.point
 
 
 def test_serialize_cylinder():
-    from compas.geometry import Cylinder
+    from compas.geometry import Cylinder, Frame
+    from compas.tolerance import TOL
 
     cylinder = Cylinder(radius=1.5, height=3.0, frame=Frame.worldXY())
 
@@ -159,13 +168,14 @@ def test_serialize_cylinder():
     new_cylinder = pb_load_bts(bts)
 
     assert isinstance(new_cylinder, Cylinder)
-    assert new_cylinder.radius == cylinder.radius
-    assert new_cylinder.height == cylinder.height
+    assert TOL.is_close(new_cylinder.radius, cylinder.radius)
+    assert TOL.is_close(new_cylinder.height, cylinder.height)
     assert new_cylinder.frame.point == cylinder.frame.point
 
 
 def test_serialize_cone():
-    from compas.geometry import Cone
+    from compas.geometry import Cone, Frame
+    from compas.tolerance import TOL
 
     cone = Cone(radius=1.0, height=2.5, frame=Frame.worldXY())
 
@@ -173,13 +183,14 @@ def test_serialize_cone():
     new_cone = pb_load_bts(bts)
 
     assert isinstance(new_cone, Cone)
-    assert new_cone.radius == cone.radius
-    assert new_cone.height == cone.height
+    assert TOL.is_close(new_cone.radius, cone.radius)
+    assert TOL.is_close(new_cone.height, cone.height)
     assert new_cone.frame.point == cone.frame.point
 
 
 def test_serialize_torus():
-    from compas.geometry import Torus
+    from compas.geometry import Torus, Frame
+    from compas.tolerance import TOL
 
     torus = Torus(radius_axis=2.0, radius_pipe=0.5, frame=Frame.worldXY())
 
@@ -187,13 +198,14 @@ def test_serialize_torus():
     new_torus = pb_load_bts(bts)
 
     assert isinstance(new_torus, Torus)
-    assert new_torus.radius_axis == torus.radius_axis
-    assert new_torus.radius_pipe == torus.radius_pipe
+    assert TOL.is_close(new_torus.radius_axis, torus.radius_axis)
+    assert TOL.is_close(new_torus.radius_pipe, torus.radius_pipe)
     assert new_torus.frame.point == torus.frame.point
 
 
 def test_serialize_ellipse():
-    from compas.geometry import Ellipse
+    from compas.geometry import Ellipse, Frame
+    from compas.tolerance import TOL
 
     ellipse = Ellipse(major=3.0, minor=1.5, frame=Frame.worldXY())
 
@@ -201,12 +213,14 @@ def test_serialize_ellipse():
     new_ellipse = pb_load_bts(bts)
 
     assert isinstance(new_ellipse, Ellipse)
-    assert new_ellipse.major == ellipse.major
-    assert new_ellipse.minor == ellipse.minor
+    assert TOL.is_close(new_ellipse.major, ellipse.major)
+    assert TOL.is_close(new_ellipse.minor, ellipse.minor)
     assert new_ellipse.frame.point == ellipse.frame.point
 
 
 def test_serialize_polyline():
+    from compas.geometry import Polyline
+
     points = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1]]
     polyline = Polyline(points)
 
@@ -220,7 +234,7 @@ def test_serialize_polyline():
 
 
 def test_serialize_pointcloud():
-    from compas.geometry import Pointcloud
+    from compas.geometry import Pointcloud, Point
 
     points = [Point(i, j, 0) for i in range(3) for j in range(3)]
     pointcloud = Pointcloud(points)
@@ -235,7 +249,7 @@ def test_serialize_pointcloud():
 
 
 def test_serialize_transformation():
-    from compas.geometry import Transformation
+    from compas.geometry import Transformation, Frame
 
     transformation = Transformation.from_frame_to_frame(Frame.worldXY(), Frame([1, 2, 3], [1, 0, 0], [0, 1, 0]))
 
