@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/generated/point.proto";
+
+message PointcloudData {
+    string guid = 1;
+    string name = 2;
+    repeated PointData points = 3;
+}

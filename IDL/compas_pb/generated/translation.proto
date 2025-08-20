@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/generated/vector.proto";
+
+message TranslationData {
+    string guid = 1;
+    string name = 2;
+    VectorData translation_vector = 3;
+}

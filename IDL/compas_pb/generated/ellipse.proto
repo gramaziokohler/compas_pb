@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/generated/frame.proto";
+
+message EllipseData {
+    string guid = 1;
+    string name = 2;
+    float major = 3;
+    float minor = 4;
+    FrameData frame = 5;
+}
