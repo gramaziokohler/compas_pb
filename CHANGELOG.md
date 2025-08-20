@@ -9,12 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* remove `PrimitiveData` into `AnyData` with `Google.WellKownType.value`
+### Changed
+
+### Removed
+
+
+## [0.2.0] 2025-08-20
+
+### Added
+
 * change `ListData.data` and `DictData.data` to better naming of `ListData.items` `DictData.items`.
 * Added support for `compas.geometry.Plane` serialization and deserialization.
 * Added support for `compas.geometry.Polygon` serialization and deserialization.
 * Added support for `compas.geometry.Box` serialization and deserialization.
 * Added support for `compas.geometry.Arc` serialization and deserialization.
+* Added support for `compas.geometry.Sphere` serialization and deserialization.
+* Added support for `compas.geometry.Cylinder` serialization and deserialization.
+* Added support for `compas.geometry.Cone` serialization and deserialization.
+* Added support for `compas.geometry.Torus` serialization and deserialization.
+* Added support for `compas.geometry.Ellipse` serialization and deserialization.
+* Added support for `compas.geometry.Polyline` serialization and deserialization.
+* Added support for `compas.geometry.Pointcloud` serialization and deserialization.
+* Added support for `compas.geometry.Transformation` serialization and deserialization.
+* Added support for `compas.geometry.Translation` serialization and deserialization.
+* Added support for `compas.geometry.Rotation` serialization and deserialization.
 
 ### Changed
 
