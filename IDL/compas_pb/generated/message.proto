@@ -3,32 +3,14 @@ syntax = "proto3";
 package compas_pb.data;  // perhaps this should be compas_pb.data
 
 import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
 
-/* A message to hold default data type */
-enum DataType {
-  UNKNOWN = 0;
-  INT = 1;
-  FLOAT = 2;
-  BOOL = 3;
-  STR = 4;
-  BYTES = 5;
-}
-
-/** a message to hold primitive type */
-message PrimitiveData {
-  DataType type = 1;
-  oneof data {
-    int32 int = 2;
-    float float = 3;
-    bool bool = 4;
-    string str = 5;
-    bytes bytes = 6;
-  }
-}
-
-/** any message to hold any data type */
+/** arbitrate container to hold message data and default data */
 message AnyData {
-  google.protobuf.Any data = 1;
+  oneof data {
+    google.protobuf.Any message = 1;
+    google.protobuf.Value value = 2;
+  }
 }
 
 /** repeated serves as a list in protobuf */
@@ -36,6 +18,7 @@ message ListData {
   repeated AnyData items = 1;
 }
 
+/** repeated serves as a dict in protobuf */
 message DictData {
   map<string, AnyData> items = 1;
 }
@@ -43,4 +26,6 @@ message DictData {
 /** root serialization element */
 message MessageData {
   AnyData data = 1;
+  // TODO:
+  // Maybe add some version or flag here
 }
