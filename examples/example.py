@@ -36,9 +36,9 @@ def main():
 
     # TO JSONSTRING AND FROM JSONSTRING
     data_json_string = pb_dump_json(nested_data)
-    print(f"data_json_string type: {type(data_json_string)}")
+    print(f"data_json_string type: {data_json_string}")
     loaded_data_json = pb_load_json(data_json_string)
-    print(f"loaded_data_from_json type: {type(loaded_data_json)}")
+    print(f"loaded_data_from_json type: {loaded_data_json}")
 
     # TO BTS AND FROM BTS
     data_bts = pb_dump_bts(nested_data)
