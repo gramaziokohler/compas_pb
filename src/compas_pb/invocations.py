@@ -53,8 +53,8 @@ def _download_and_extract_docsplugin(url, extract_path):
     archive_path = extract_path / "protoc-gen-doc.tar.gz"
     urllib.request.urlretrieve(url, archive_path)
 
-    with gzip.open(archive_path, 'rb') as gz_ref:
-        with tarfile.TarFile(fileobj=gz_ref, mode='r') as tar_ref:
+    with gzip.open(archive_path, "rb") as gz_ref:
+        with tarfile.TarFile(fileobj=gz_ref, mode="r") as tar_ref:
             tar_ref.extractall(extract_path)
 
     archive_path.unlink()
@@ -65,7 +65,7 @@ def _download_and_extract_protoc(url, extract_path):
     print(f"Downloading protoc from {url} to {archive_path}")
     urllib.request.urlretrieve(url, archive_path)
 
-    with zipfile.ZipFile(archive_path, 'r') as zip_ref:
+    with zipfile.ZipFile(archive_path, "r") as zip_ref:
         zip_ref.extractall(extract_path)
 
     archive_path.unlink()
@@ -133,7 +133,6 @@ def docs(ctx, doctest=False, rebuild=False, check_links=False):
     proto_files = ctx.proto_folder / "*.proto"
     target_dir = Path(ctx.base_folder) / "docs" / "_static" / "protobuf"
     target_dir.mkdir(parents=True, exist_ok=True)
-
 
     cmd = f"{protoc_path} "
     cmd += f"--plugin=protoc-gen-doc={plugin_path} "
