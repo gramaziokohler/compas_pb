@@ -23,7 +23,7 @@ ns = Collection(
 )
 
 ns.configure({
-    "base_folder": Path(__file__).parent.parent,
+    "base_folder": Path(__file__).parent,
     "idl_folder": Path("./IDL") / "compas_pb" / "generated",
     "idl_include_paths": [Path("./IDL")],
     "idl_out_folder": Path("./src")
