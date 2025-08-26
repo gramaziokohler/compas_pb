@@ -5,8 +5,8 @@ from compas_invocations2 import build
 from compas_invocations2 import style
 from compas_invocations2 import tests
 
-from .compile_protos import generate_proto_classes
-from .compile_protos import docs
+from compas_pb.invocations import generate_proto_classes
+from compas_pb.invocations import docs
 
 ns = Collection(
     style.check,
@@ -22,4 +22,9 @@ ns = Collection(
     generate_proto_classes
 )
 
-ns.configure({ "base_folder": Path(__file__).parent.parent })
+ns.configure({
+    "base_folder": Path(__file__).parent.parent,
+    "idl_folder": Path("./IDL") / "compas_pb" / "generated",
+    "idl_include_paths": [Path("./IDL")],
+    "idl_out_folder": Path("./src")
+})

@@ -109,11 +109,10 @@ def setup_protoc():
 def generate_proto_classes(ctx, target_language: str = "python"):
     protoc_path, _ = setup_protoc()
 
-    idl_dir = Path("./IDL") / "compas_pb" / "generated"
-    out_dir = Path("./src")
-
-    for idl_file in idl_dir.glob("*.proto"):
-        cmd = f'"{protoc_path}" --proto_path=./IDL --{target_language}_out={out_dir} {idl_file}'
+    for idl_file in ctx.idl_folder.glob("*.proto"):
+        cmd = f"{protoc_path} "
+        cmd += " ".join(f"--proto_path={p}" for p in ctx.idl_include_paths)
+        cmd += f" --{target_language}_out={ctx.idl_out_folder} {idl_file}"
         print(f"Running: {cmd}")
         ctx.run(cmd)
 
