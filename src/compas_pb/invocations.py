@@ -109,10 +109,10 @@ def setup_protoc():
 def generate_proto_classes(ctx, target_language: str = "python"):
     protoc_path, _ = setup_protoc()
 
-    for idl_file in ctx.idl_folder.glob("*.proto"):
+    for idl_file in ctx.proto_folder.glob("*.proto"):
         cmd = f"{protoc_path} "
-        cmd += " ".join(f"--proto_path={p}" for p in ctx.idl_include_paths)
-        cmd += f" --{target_language}_out={ctx.idl_out_folder} {idl_file}"
+        cmd += " ".join(f"--proto_path={p}" for p in ctx.proto_include_paths)
+        cmd += f" --{target_language}_out={ctx.proto_out_folder} {idl_file}"
         print(f"Running: {cmd}")
         ctx.run(cmd)
 
@@ -130,14 +130,15 @@ def docs(ctx, doctest=False, rebuild=False, check_links=False):
     from compas_invocations2.docs import docs
 
     protoc_path, plugin_path = setup_protoc()
-    idl_dir = Path(ctx.base_folder) / "IDL"
-    proto_files = idl_dir / "compas_pb" / "generated" / "*.proto"
+    proto_files = ctx.proto_folder / "*.proto"
     target_dir = Path(ctx.base_folder) / "docs" / "_static" / "protobuf"
     target_dir.mkdir(parents=True, exist_ok=True)
 
-    plugin_switch = f"--plugin=protoc-gen-doc={plugin_path}"
 
-    cmd = f'"{protoc_path}" {plugin_switch} --proto_path={idl_dir} --doc_out={target_dir} --doc_opt=html,index.html {proto_files}'
+    cmd = f"{protoc_path} "
+    cmd += f"--plugin=protoc-gen-doc={plugin_path} "
+    cmd += " ".join(f"--proto_path={p}" for p in ctx.proto_include_paths)
+    cmd += f" --doc_out={target_dir} --doc_opt=html,index.html {proto_files}"
     print(f"Generating protobuf docs with command: {cmd}")
     ctx.run(cmd)
 
