@@ -5,7 +5,12 @@
     "url": "https://gramaziokohler.github.io/compas_pb/latest/"
   },
   {
-    "name": "0.2.0 (stable)",
+    "name": "0.3.0 (stable)",
+    "version": "0.3.0",
+    "url": "https://gramaziokohler.github.io/compas_pb/0.3.0/"
+  },
+  {
+    "name": "0.2.0",
     "version": "0.2.0",
     "url": "https://gramaziokohler.github.io/compas_pb/0.2.0/"
   },
