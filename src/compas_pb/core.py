@@ -282,7 +282,7 @@ def deserialize_message_bts(binary_data) -> message_pb2.MessageData:
     binary_data : bytes
         The binary data to be deserialized.
 
-    Returnsdata
+    Returns
     -------
     message_data : message_pb2.MessageData
         The protobuf message data.
