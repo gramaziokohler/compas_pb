@@ -337,14 +337,6 @@
                   <a href="#compas_pb.data.MessageData"><span class="badge">M</span>MessageData</a>
                 </li>
               
-                <li>
-                  <a href="#compas_pb.data.PrimitiveData"><span class="badge">M</span>PrimitiveData</a>
-                </li>
-              
-              
-                <li>
-                  <a href="#compas_pb.data.DataType"><span class="badge">E</span>DataType</a>
-                </li>
               
               
               
@@ -1133,7 +1125,7 @@
 
       
         <h3 id="compas_pb.data.AnyData">AnyData</h3>
-        <p>any message to hold any data type</p>
+        <p>arbitrate container to hold message data and default data</p>
 
         
           <table class="field-table">
@@ -1143,8 +1135,15 @@
             <tbody>
               
                 <tr>
-                  <td>data</td>
+                  <td>message</td>
                   <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value</td>
+                  <td><a href="#google.protobuf.Value">google.protobuf.Value</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -1157,7 +1156,7 @@
         
       
         <h3 id="compas_pb.data.DictData">DictData</h3>
-        <p></p>
+        <p>repeated serves as a dict in protobuf</p>
 
         
           <table class="field-table">
@@ -1249,66 +1248,8 @@
                   <td>data</td>
                   <td><a href="#compas_pb.data.AnyData">AnyData</a></td>
                   <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="compas_pb.data.PrimitiveData">PrimitiveData</h3>
-        <p>a message to hold primitive type</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>type</td>
-                  <td><a href="#compas_pb.data.DataType">DataType</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>int</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>float</td>
-                  <td><a href="#float">float</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>bool</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>str</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>bytes</td>
-                  <td><a href="#bytes">bytes</a></td>
-                  <td></td>
-                  <td><p> </p></td>
+                  <td><p>TODO:
+Maybe add some version or flag here </p></td>
                 </tr>
               
             </tbody>
@@ -1319,53 +1260,6 @@
         
       
 
-      
-        <h3 id="compas_pb.data.DataType">DataType</h3>
-        <p>A message to hold default data type</p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>UNKNOWN</td>
-                <td>0</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>INT</td>
-                <td>1</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>FLOAT</td>
-                <td>2</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>BOOL</td>
-                <td>3</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>STR</td>
-                <td>4</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>BYTES</td>
-                <td>5</td>
-                <td><p></p></td>
-              </tr>
-            
-          </tbody>
-        </table>
       
 
       
