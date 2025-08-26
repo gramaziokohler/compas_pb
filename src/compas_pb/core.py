@@ -1,3 +1,5 @@
+import base64
+
 import compas
 from compas.plugins import pluggable
 from google.protobuf.json_format import MessageToJson
@@ -26,18 +28,7 @@ def _discover_serializers() -> None:
     _DISCOVERY_DONE = True
 
 
-PY_TYPES_SERIALIZER = {
-    int: message_pb2.DataType.INT,
-    float: message_pb2.DataType.FLOAT,
-    bool: message_pb2.DataType.BOOL,
-    str: message_pb2.DataType.STR,
-    bytes: message_pb2.DataType.BYTES,
-}
-
-PY_TYPES_DESERIALIZER = {key.__name__.lower(): value for key, value in PY_TYPES_SERIALIZER.items()}
-
-
-def primitive_to_pb(obj: int | float | bool | str | bytes) -> message_pb2.PrimitiveData:
+def primitive_to_pb(obj: int | float | bool | str | bytes) -> message_pb2.AnyData:
     """
     Convert a python native type to a protobuf message.
 
@@ -51,52 +42,55 @@ def primitive_to_pb(obj: int | float | bool | str | bytes) -> message_pb2.Primit
     :class: `compas_pb.generated.message_pb2.AnyData`
         The protobuf message type of AnyData.
     """
-    if obj is None:
-        obj = "None"  # HACK: find proper way to handle None
 
-    data_offset = message_pb2.PrimitiveData()
+    data_offset = message_pb2.AnyData()
+
+    if obj is None:
+        data_offset.value.null_value = 0  # Use protobuf NULL_VALUE
 
     type_ = type(obj)
     if type_ is int:
-        data_offset.int = obj
+        data_offset.value.number_value = float(obj)  # only float is supported in protobuf
     elif type_ is float:
-        data_offset.float = obj
+        data_offset.value.number_value = obj
     elif type_ is bool:
-        data_offset.bool = obj
+        data_offset.value.bool_value = obj
     elif type_ is str:
-        data_offset.str = obj
+        data_offset.value.string_value = obj
     elif type_ is bytes:
-        data_offset.bytes = obj
+        data_offset.value.string_value = "base64:" + base64.b64encode(obj).decode("utf-8")  # Add base64: prefix
     else:
         raise TypeError(f"Unsupported type: {type_}")
 
     return data_offset
 
 
-def primitive_from_pb(primitive: message_pb2.PrimitiveData) -> int | float | bool | str | bytes:
+def primitive_from_pb(primitive: message_pb2.AnyData) -> int | float | bool | str | bytes:
     """Convert a protobuf message to a python native type.
 
     Parameters
     ----------
-    proto_data : :class: `compas_pb.generated.message_pb2.PrimitiveData`
-        The protobuf message type of PrimitiveData.
+    proto_data : :class: `compas_pb.generated.message_pb2.AnyData`
+        The protobuf message type of Anydata(contains struct_pb2.Value).
 
     Returns
     -------
     data_offset : int | float | bool | str | bytes
         The converted python native type.
     """
-    type_ = primitive.WhichOneof("data")
-    if type_ == "int":
-        data_offset = primitive.int
-    elif type_ == "float":
-        data_offset = primitive.float
-    elif type_ == "bool":
-        data_offset = primitive.bool
-    elif type_ == "str":
-        data_offset = primitive.str
-    elif type_ == "bytes":
-        data_offset = primitive.bytes
+    type_ = primitive.value.WhichOneof("kind")
+    if type_ == "null_value":
+        data_offset = primitive.value.null_value
+    elif type_ == "number_value":
+        data_offset = primitive.value.number_value
+        if data_offset.is_integer():
+            data_offset = int(data_offset)
+    elif type_ == "bool_value":
+        data_offset = primitive.value.bool_value
+    elif type_ == "string_value":
+        data_offset = primitive.value.string_value
+        if data_offset.startswith("base64:"):
+            data_offset = base64.b64decode(data_offset[7:])
     else:
         raise ValueError(f"Unsupported primitive type: {type_}")
 
@@ -126,14 +120,14 @@ def any_to_pb(obj: compas.data.Data | int | float | bool | str | bytes, fallback
         serializer = SerialzerRegistry.get_serializer(obj)
         if serializer:
             pb_obj = serializer(obj)
-            proto_data.data.Pack(pb_obj)
+            proto_data.message.Pack(pb_obj)
         elif hasattr(obj, "__jsondump__"):
             obj_dict = {obj.__class__.__name__: obj.__jsondump__()}
             data_offset = fallback_serializer(obj_dict)
-            proto_data.data.Pack(data_offset)
+            proto_data.message.Pack(data_offset)
         else:
             primitive = primitive_to_pb(obj)
-            proto_data.data.Pack(primitive)
+            proto_data = primitive
         return proto_data
     except TypeError as e:
         raise TypeError(f"Unsupported type: {type(obj)}: {e}")
@@ -155,22 +149,17 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> compas.data.Data | int | flo
     _discover_serializers()
 
     # type.googleapis.com/<fully.qualified.message.name>
-    proto_type = proto_data.data.type_url.split("/")[-1]
-
-    if proto_type == message_pb2.PrimitiveData.DESCRIPTOR.full_name:
-        primitive_data = message_pb2.PrimitiveData()
-        is_unpacked = proto_data.data.Unpack(primitive_data)
-        if not is_unpacked:
-            raise TypeError(f"Unsupported proto type: {proto_type}")
-
-        return primitive_from_pb(primitive_data)
+    if proto_data.WhichOneof("data") == "message":
+        proto_type = proto_data.message.type_url.split("/")[-1]
+    if proto_data.WhichOneof("data") == "value":
+        return primitive_from_pb(proto_data)
 
     deserializer = SerialzerRegistry.get_deserializer(proto_type)
     if not deserializer:
         raise TypeError(f"Unsupported proto type: {proto_type}")
 
     unpacked_instance = deserializer.__deserializer_type__()
-    _ = proto_data.data.Unpack(unpacked_instance)
+    _ = proto_data.message.Unpack(unpacked_instance)
     return deserializer(unpacked_instance)
 
 
@@ -239,10 +228,10 @@ def _serializer_any(obj) -> message_pb2.AnyData:
 
     if isinstance(obj, (list, tuple)):
         data_offset = _serialize_list(obj)
-        any_data.data.Pack(data_offset)
+        any_data.message.Pack(data_offset)
     elif isinstance(obj, dict):
         data_offset = _serialize_dict(obj)
-        any_data.data.Pack(data_offset)
+        any_data.message.Pack(data_offset)
     else:
         # check if it is COMPAS object or Python native type or fallback to dictionary.
         any_data = any_to_pb(obj, fallback_serializer=_serialize_dict)
@@ -335,9 +324,9 @@ def deserialize_message_from_json(json_data: str) -> dict:
 
 def _deserialize_any(data: message_pb2.AnyData | message_pb2.ListData | message_pb2.DictData) -> list | dict:
     """Deserialize a protobuf message to COMPAS object."""
-    if data.data.Is(message_pb2.ListData.DESCRIPTOR):
+    if data.message.Is(message_pb2.ListData.DESCRIPTOR):
         data_offset = _deserialize_list(data)
-    elif data.data.Is(message_pb2.DictData.DESCRIPTOR):
+    elif data.message.Is(message_pb2.DictData.DESCRIPTOR):
         data_offset = _deserialize_dict(data)
     else:
         data_offset = any_from_pb(data)
@@ -348,7 +337,7 @@ def _deserialize_list(data_list: message_pb2.ListData) -> list:
     """Deserialize a protobuf ListData message to Python list."""
     data_offset = []
     list_data = message_pb2.ListData()
-    data_list.data.Unpack(list_data)
+    data_list.message.Unpack(list_data)
     for item in list_data.items:
         data_offset.append(_deserialize_any(item))
     return data_offset
@@ -358,7 +347,7 @@ def _deserialize_dict(data_dict: message_pb2.AnyData) -> dict:
     """Deserialize a protobuf DictData message to Python dictionary."""
     data_offset = {}
     dict_data = message_pb2.DictData()
-    data_dict.data.Unpack(dict_data)
+    data_dict.message.Unpack(dict_data)
     for key, value in dict_data.items.items():
         data_offset[key] = _deserialize_any(value)
     return data_offset

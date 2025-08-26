@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added module `compas_pb.invocations` which offers re-usable protobuf related tasks for plugins. 
 
 ### Changed
+* remove `PrimitiveData` into `AnyData` with `Google.WellKownType.value`
 
 ### Removed
 
