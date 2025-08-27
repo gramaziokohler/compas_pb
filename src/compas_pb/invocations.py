@@ -1,12 +1,13 @@
+import gzip
 import os
-import stat
-from pathlib import Path
-import invoke
 import platform
+import stat
+import tarfile
 import urllib.request
 import zipfile
-import tarfile
-import gzip
+from pathlib import Path
+
+import invoke
 
 PROTOC_VERSION = "31.1"
 PROTOC_GEN_DOCS_VERSION = "1.5.1"

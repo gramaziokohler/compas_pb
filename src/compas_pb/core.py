@@ -1,4 +1,5 @@
 import base64
+from typing import Union
 
 import compas
 from compas.plugins import pluggable
@@ -28,7 +29,7 @@ def _discover_serializers() -> None:
     _DISCOVERY_DONE = True
 
 
-def primitive_to_pb(obj: int | float | bool | str | bytes) -> message_pb2.AnyData:
+def primitive_to_pb(obj: Union[int, float, bool, str, bytes]) -> message_pb2.AnyData:
     """
     Convert a python native type to a protobuf message.
 
@@ -65,7 +66,7 @@ def primitive_to_pb(obj: int | float | bool | str | bytes) -> message_pb2.AnyDat
     return data_offset
 
 
-def primitive_from_pb(primitive: message_pb2.AnyData) -> int | float | bool | str | bytes:
+def primitive_from_pb(primitive: message_pb2.AnyData) -> Union[int, float, bool, str, bytes]:
     """Convert a protobuf message to a python native type.
 
     Parameters
@@ -75,7 +76,7 @@ def primitive_from_pb(primitive: message_pb2.AnyData) -> int | float | bool | st
 
     Returns
     -------
-    data_offset : int | float | bool | str | bytes
+    data_offset : Union[int, float, bool, str, bytes]
         The converted python native type.
     """
     type_ = primitive.value.WhichOneof("kind")
@@ -97,12 +98,12 @@ def primitive_from_pb(primitive: message_pb2.AnyData) -> int | float | bool | st
     return data_offset
 
 
-def any_to_pb(obj: compas.data.Data | int | float | bool | str | bytes, fallback_serializer=None) -> message_pb2.AnyData:
+def any_to_pb(obj: Union[compas.data.Data, int, float, bool, str, bytes], fallback_serializer=None) -> message_pb2.AnyData:
     """Convert any object to a protobuf any message.
 
     Parameters
     ----------
-    obj : compas.data.Data | list | dict | int | float | bool | str
+    obj : Union[compas.data.Data, list, dict, int, float, bool, str]
         The object to convert. Can be a COMPAS Data object, list, dict, or primitive type.
 
     Returns
@@ -133,7 +134,7 @@ def any_to_pb(obj: compas.data.Data | int | float | bool | str | bytes, fallback
         raise TypeError(f"Unsupported type: {type(obj)}: {e}")
 
 
-def any_from_pb(proto_data: message_pb2.AnyData) -> compas.data.Data | int | float | bool | str | bytes:
+def any_from_pb(proto_data: message_pb2.AnyData) -> Union[compas.data.Data, int, float, bool, str, bytes]:
     """Convert a protobuf message to a supported object.
 
     Parameters
@@ -143,7 +144,7 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> compas.data.Data | int | flo
 
     Returns
     -------
-    compas.data.Data | list | dict | int | float | bool | str
+    Union[compas.data.Data, list, dict, int, float, bool, str]
         The converted object. Can be a COMPAS Data object, list, dict, or primitive type.
     """
     _discover_serializers()
@@ -256,7 +257,7 @@ def _serialize_dict(data_dict) -> message_pb2.DictData:
     return dict_data
 
 
-def deserialize_message(binary_data) -> list | dict:
+def deserialize_message(binary_data) -> Union[list, dict]:
     """Deserialize a top-level protobuf message.
 
     Parameters
@@ -266,7 +267,7 @@ def deserialize_message(binary_data) -> list | dict:
 
     Returns
     -------
-    message : list | dict
+    message : Union[list, dict]
         The deserialized protobuf message.
 
     """
@@ -322,7 +323,7 @@ def deserialize_message_from_json(json_data: str) -> dict:
     return _deserialize_any(any_data.data)
 
 
-def _deserialize_any(data: message_pb2.AnyData | message_pb2.ListData | message_pb2.DictData) -> list | dict:
+def _deserialize_any(data: Union[message_pb2.AnyData, message_pb2.ListData, message_pb2.DictData]) -> Union[list, dict]:
     """Deserialize a protobuf message to COMPAS object."""
     if data.message.Is(message_pb2.ListData.DESCRIPTOR):
         data_offset = _deserialize_list(data)

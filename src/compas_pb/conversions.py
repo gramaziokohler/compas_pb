@@ -43,7 +43,6 @@ from compas_pb.generated import vector_pb2
 from .registry import pb_deserializer
 from .registry import pb_serializer
 
-
 # =============================================================================
 # Point
 # =============================================================================
