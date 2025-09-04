@@ -73,10 +73,12 @@ class _PluginManager:
         discovered_plugins = entry_points(group=self._PLUGINS_GROUP)
 
         LOG(f"Found {len(discovered_plugins)} plugins in group '{self._PLUGINS_GROUP}'")
+
         for plugin in discovered_plugins:
+            LOG(f"Loading plugin: {plugin.name}")
+
             try:
-                LOG(f"Loading plugin: {plugin.name}")
-                plugin.load()
+                plugin.load()  # side-effect import
             except Exception as e:
                 warnings.warn(f"Failed to load plugin {plugin.name}: {e}", RuntimeWarning)
 
