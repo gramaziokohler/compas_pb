@@ -139,7 +139,7 @@ def create_class_assets(ctx):
         print(f"Removed existing asset: {existing_file}")
 
     languages = [lang.strip() for lang in ctx.proto_target_languages]
-    print(f"Generating classes for languages: {languages}")
+    print(f"Target languages: {languages}")
     class_assests = []
 
     for language in languages:
