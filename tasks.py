@@ -5,7 +5,7 @@ from compas_invocations2 import build
 from compas_invocations2 import style
 from compas_invocations2 import tests
 
-from compas_pb.invocations import generate_proto_classes
+from compas_pb.invocations import generate_proto_classes, create_class_assets
 from compas_pb.invocations import docs
 
 ns = Collection(
@@ -19,12 +19,14 @@ ns = Collection(
     build.clean,
     build.release,
     docs,
-    generate_proto_classes
+    generate_proto_classes,
+    create_class_assets
 )
 
 ns.configure({
     "base_folder": Path(__file__).parent,
     "proto_folder": Path("./IDL") / "compas_pb" / "generated",
     "proto_include_paths": [Path("./IDL")],
-    "proto_out_folder": Path("./src")
+    "proto_out_folder": Path("./src"),
+    "proto_target_languages": ["cpp", "csharp"]
 })
