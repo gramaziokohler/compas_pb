@@ -41,7 +41,7 @@ def pb_deserializer(pb_type: Type):
     return wrapper
 
 
-class SerialzerRegistry:
+class SerializerRegistry:
     @staticmethod
     def get_serializer(data: Any) -> Callable:
         result = None

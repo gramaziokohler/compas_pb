@@ -7,7 +7,7 @@ from google.protobuf.json_format import Parse
 
 from compas_pb.generated import message_pb2
 
-from .registry import SerialzerRegistry
+from .registry import SerializerRegistry
 
 
 def _ensure_serializers():
@@ -105,7 +105,7 @@ def any_to_pb(obj: Union[compas.data.Data, int, float, bool, str, bytes], fallba
         obj = "None"  # HACK: find proper way to handle None
 
     try:
-        serializer = SerialzerRegistry.get_serializer(obj)
+        serializer = SerializerRegistry.get_serializer(obj)
         if serializer:
             pb_obj = serializer(obj)
             proto_data.message.Pack(pb_obj)
@@ -142,7 +142,7 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> Union[compas.data.Data, int,
     if proto_data.WhichOneof("data") == "value":
         return primitive_from_pb(proto_data)
 
-    deserializer = SerialzerRegistry.get_deserializer(proto_type)
+    deserializer = SerializerRegistry.get_deserializer(proto_type)
     if not deserializer:
         raise TypeError(f"Unsupported proto type: {proto_type}")
 
