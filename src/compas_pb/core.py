@@ -7,11 +7,12 @@ from google.protobuf.json_format import Parse
 
 from compas_pb.generated import message_pb2
 
-from .plugin import PLUGIN_MANAGER
 from .registry import SerialzerRegistry
 
 
 def _ensure_serializers():
+    from .plugin import PLUGIN_MANAGER
+
     PLUGIN_MANAGER.discover_plugins()
 
 
