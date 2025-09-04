@@ -23,3 +23,26 @@ jobs:
           python: ${{ matrix.python }}
           invoke_lint: true
           invoke_test: true
+  create-assets:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: Test asset creation
+        run: |
+          invoke create-class-assets
+          echo "Generated assets:"
+          ls dist/
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: protobuf-test-assets
+          path: dist/proto/*.zip
