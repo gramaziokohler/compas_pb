@@ -61,7 +61,7 @@ def pb_deserializer(pb_type: Type):
             raise PbSerializerRegistrationError(f"Unable to register deserializer for {pb_type}. Sure it's a protobuf type?")
         else:
             # used for unpacking Any
-            func.__deserializer_type__ = pb_type
+            func.__protobuf_cls__ = pb_type
         return func
 
     return wrapper

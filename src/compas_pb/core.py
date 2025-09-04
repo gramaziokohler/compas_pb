@@ -146,7 +146,7 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> Union[compas.data.Data, int,
     if not deserializer:
         raise TypeError(f"Unsupported proto type: {proto_type}")
 
-    unpacked_instance = deserializer.__deserializer_type__()
+    unpacked_instance = deserializer.__protobuf_cls__()
     _ = proto_data.message.Unpack(unpacked_instance)
     return deserializer(unpacked_instance)
 
