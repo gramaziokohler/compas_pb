@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+* Changed plugin discovery to use entry points instead of the COMPAS plugin system's name scanning.
+* Added `importlib_metadata` as a conditional dependency to support Python <= 3.9.
+
 ### Removed
 
 
