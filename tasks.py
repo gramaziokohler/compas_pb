@@ -25,7 +25,7 @@ ns = Collection(
 
 ns.configure({
     "base_folder": Path(__file__).parent,
-    "proto_folder": Path("./src") / "compas_pb"/"protobuf_defs" / "compas_pb" / "generated",
+    "proto_folder": Path("./src") / "compas_pb" / "protobuf_defs" / "compas_pb" / "generated",
     "proto_include_paths": [Path("./src") / "compas_pb"/"protobuf_defs"],
     "proto_out_folder": Path("./src")
 })
