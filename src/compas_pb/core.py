@@ -2,31 +2,18 @@ import base64
 from typing import Union
 
 import compas
-from compas.plugins import pluggable
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import Parse
 
 from compas_pb.generated import message_pb2
 
-from .registry import SerialzerRegistry
+from .registry import SerializerRegistry
 
 
-@pluggable(category="factories", selector="collect_all")
-def register_serializers() -> None:
-    """Collects all the plugins which register custom serializers with _ProtoBufferAny."""
-    pass
+def _ensure_serializers():
+    from .plugin import PLUGIN_MANAGER
 
-
-_DISCOVERY_DONE = False
-
-
-def _discover_serializers() -> None:
-    global _DISCOVERY_DONE
-    if _DISCOVERY_DONE:
-        return
-
-    register_serializers()
-    _DISCOVERY_DONE = True
+    PLUGIN_MANAGER.discover_plugins()
 
 
 def primitive_to_pb(obj: Union[int, float, bool, str, bytes]) -> message_pb2.AnyData:
@@ -111,14 +98,14 @@ def any_to_pb(obj: Union[compas.data.Data, int, float, bool, str, bytes], fallba
         :class: `compas_pb.generated.message_pb2.AnyData`
             The protobuf message type of AnyData.
     """
-    _discover_serializers()
+    _ensure_serializers()
     proto_data = message_pb2.AnyData()
 
     if obj is None:
         obj = "None"  # HACK: find proper way to handle None
 
     try:
-        serializer = SerialzerRegistry.get_serializer(obj)
+        serializer = SerializerRegistry.get_serializer(obj)
         if serializer:
             pb_obj = serializer(obj)
             proto_data.message.Pack(pb_obj)
@@ -147,7 +134,7 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> Union[compas.data.Data, int,
     Union[compas.data.Data, list, dict, int, float, bool, str]
         The converted object. Can be a COMPAS Data object, list, dict, or primitive type.
     """
-    _discover_serializers()
+    _ensure_serializers()
 
     # type.googleapis.com/<fully.qualified.message.name>
     if proto_data.WhichOneof("data") == "message":
@@ -155,11 +142,11 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> Union[compas.data.Data, int,
     if proto_data.WhichOneof("data") == "value":
         return primitive_from_pb(proto_data)
 
-    deserializer = SerialzerRegistry.get_deserializer(proto_type)
+    deserializer = SerializerRegistry.get_deserializer(proto_type)
     if not deserializer:
         raise TypeError(f"Unsupported proto type: {proto_type}")
 
-    unpacked_instance = deserializer.__deserializer_type__()
+    unpacked_instance = deserializer.__protobuf_cls__()
     _ = proto_data.message.Unpack(unpacked_instance)
     return deserializer(unpacked_instance)
 
