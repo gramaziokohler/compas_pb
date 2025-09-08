@@ -57,8 +57,8 @@ optional-dependencies = { dev = { file = "requirements-dev.txt" } }
 where = ["src"]
 
 # a bit hacking
-[tool.setuptools.data-files]
-"../../compas_pb/generated" = ["IDL/compas_pb/generated/*.proto"]
+[tool.setuptools.package-data]
+"*" = ["*.proto"]
 
 # ============================================================================
 # replace pytest.ini
