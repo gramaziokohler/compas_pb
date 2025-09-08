@@ -8,6 +8,7 @@ from compas_invocations2 import tests
 from compas_pb.invocations import generate_proto_classes
 from compas_pb.invocations import docs
 
+
 ns = Collection(
     style.check,
     style.lint,
@@ -24,7 +25,7 @@ ns = Collection(
 
 ns.configure({
     "base_folder": Path(__file__).parent,
-    "proto_folder": Path("./IDL") / "compas_pb" / "generated",
-    "proto_include_paths": [Path("./IDL")],
+    "proto_folder": Path("./src") / "compas_pb"/"protobuf_defs" / "compas_pb" / "generated",
+    "proto_include_paths": [Path("./src") / "compas_pb"/"protobuf_defs"],
     "proto_out_folder": Path("./src")
 })
