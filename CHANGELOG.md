@@ -9,12 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* added `.proto` file into build package.
+
 ### Changed
 
 * Changed plugin discovery to use entry points instead of the COMPAS plugin system's name scanning.
 * Added `importlib_metadata` as a conditional dependency to support Python <= 3.9.
+* Renamed `compas_pb.IDL` to `compas_pb.PROTOBUF_DEFS`.
 
 ### Removed
+
+* Removed `compas_pb.DATA`.
+* Removed `compas_pb.DOCS`.
+* Removed `compas_pb.TEMP`.
 
 
 ## [0.3.1] 2025-08-27
