@@ -2,9 +2,6 @@ from __future__ import print_function
 
 import os
 
-# please don't remove me! I trigger the registration of all the core serializers
-import compas_pb.conversions  # noqa: F401  #
-
 from .api import pb_load
 from .api import pb_dump
 from .api import pb_dump_bts
@@ -21,19 +18,12 @@ __version__ = "0.3.1"
 
 
 HERE = os.path.dirname(__file__)
-
 HOME = os.path.abspath(os.path.join(HERE, "../../"))
-DATA = os.path.abspath(os.path.join(HOME, "data"))
-DOCS = os.path.abspath(os.path.join(HOME, "docs"))
-TEMP = os.path.abspath(os.path.join(HOME, "temp"))
-IDL = os.path.abspath(os.path.join(HOME, "IDL"))
+PROTOBUF_DEFS = os.path.abspath(os.path.join(HERE, "protobuf_defs"))
 
 __all__ = [
     "HOME",
-    "DATA",
-    "DOCS",
-    "TEMP",
-    "IDL",
+    "PROTOBUF_DEFS",
     "pb_load",
     "pb_dump",
     "pb_dump_bts",
