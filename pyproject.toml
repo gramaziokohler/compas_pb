@@ -56,7 +56,6 @@ optional-dependencies = { dev = { file = "requirements-dev.txt" } }
 [tool.setuptools.packages.find]
 where = ["src"]
 
-# a bit hacking
 [tool.setuptools.package-data]
 "*" = ["*.proto"]
 
