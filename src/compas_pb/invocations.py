@@ -110,18 +110,18 @@ def setup_protoc():
 def generate_proto_classes(ctx, target_language: str = "python"):
     protoc_path, _ = setup_protoc()
 
+    proto_out_folder = ""
+    if target_language == "python":
+        proto_out_folder = Path(ctx.proto_out_folder)
+    elif target_language in ctx.proto_target_languages:
+        proto_out_folder = Path(ctx.proto_out_folder) / "compas_pb" / "generated" / target_language
+        proto_out_folder.mkdir(parents=True, exist_ok=True)
+    else:
+        print(f"Target language '{target_language}' not supported.")
+
     for idl_file in ctx.proto_folder.glob("*.proto"):
         cmd = f"{protoc_path} "
         cmd += " ".join(f"--proto_path={p}" for p in ctx.proto_include_paths)
-        proto_out_folder = Path(ctx.proto_out_folder)
-        if target_language == "python":
-            continue
-        elif target_language in ["csharp", "cpp"]:
-            proto_out_folder = Path(ctx.proto_out_folder) / "compas_pb" / "generated" / target_language
-            proto_out_folder.mkdir(parents=True, exist_ok=True)
-        else:
-            print(f"Target language '{target_language}' not supported.")
-            continue
 
         cmd += f" --{target_language}_out={proto_out_folder} {idl_file}"
         print(f"Running: {cmd}")
@@ -130,7 +130,7 @@ def generate_proto_classes(ctx, target_language: str = "python"):
 
 @invoke.task()
 def create_class_assets(ctx):
-    base_dir = Path(ctx.base_folder)
+    base_dir = ctx.base_folder
     dist_dir = base_dir / "dist"
     dist_dir.mkdir(parents=True, exist_ok=True)
 
@@ -147,7 +147,7 @@ def create_class_assets(ctx):
         zip_path = dist_dir / "proto" / f"compas_pb-generated-{language}-{PROTOC_VERSION}.zip"
         zip_path.parent.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
-            generated_dir = base_dir / "src" / "compas_pb" / "generated" / language
+            generated_dir = base_dir / language
             for file in generated_dir.rglob("*"):
                 if file.is_file():
                     arcname = f"{file.relative_to(generated_dir)}"
@@ -155,10 +155,11 @@ def create_class_assets(ctx):
                     print(f"Added {file} ")
         class_assests.append(zip_path)
         # clean up
-        if generated_dir.exists():
+        generated_lang_dir = base_dir / "src" / "compas_pb" / "generated" / language
+        if generated_lang_dir.exists():
             import shutil
-            shutil.rmtree(generated_dir)
-            print(f"Cleaned up generated files: {generated_dir}")
+            shutil.rmtree(generated_lang_dir)
+            print(f"Removed temporary generated files in: {generated_lang_dir}")
     if class_assests:
         print("protobuf class assets are ready for GitHub release upload! find them in: {dist_dir}")
 
