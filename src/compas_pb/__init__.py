@@ -18,19 +18,12 @@ __version__ = "0.3.1"
 
 
 HERE = os.path.dirname(__file__)
-
 HOME = os.path.abspath(os.path.join(HERE, "../../"))
-DATA = os.path.abspath(os.path.join(HOME, "data"))
-DOCS = os.path.abspath(os.path.join(HOME, "docs"))
-TEMP = os.path.abspath(os.path.join(HOME, "temp"))
-IDL = os.path.abspath(os.path.join(HERE, "protobuf_defs"))
+PROTOBUF_DEFS = os.path.abspath(os.path.join(HERE, "protobuf_defs"))
 
 __all__ = [
     "HOME",
-    "DATA",
-    "DOCS",
-    "TEMP",
-    "IDL",
+    "PROTOBUF_DEFS",
     "pb_load",
     "pb_dump",
     "pb_dump_bts",
