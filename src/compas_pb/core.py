@@ -1,4 +1,5 @@
 import base64
+from typing import Any
 from typing import Union
 
 import compas
@@ -145,12 +146,15 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> Union[compas.data.Data, int,
         return primitive_from_pb(proto_data)
     elif union_field == "fallback":
         return _deserialize_fallback(proto_data)
-
     elif union_field == "message":
-        # type.googleapis.com/<fully.qualified.message.name>
-        proto_type = proto_data.message.type_url.split("/")[-1]
+        return _handle_known_type(proto_data)
     else:
         raise NameError(f"Unexpected AnyData field: {union_field}")
+
+
+def _handle_known_type(proto_data: message_pb2.AnyData) -> Any:
+    # type.googleapis.com/<fully.qualified.message.name>
+    proto_type = proto_data.message.type_url.split("/")[-1]
 
     deserializer = SerializerRegistry.get_deserializer(proto_type)
     if not deserializer:
