@@ -357,7 +357,7 @@ def _deserialize_list(data_list: message_pb2.ListData) -> list:
     return data_offset
 
 
-def _deserialize_dict(data_dict: message_pb2.AnyData) -> dict:
+def _deserialize_dict(data_dict: message_pb2.DictData) -> dict:
     """Deserialize a protobuf DictData message to Python dictionary."""
     data_offset = {}
     for key, value in data_dict.items.items():
