@@ -2,6 +2,8 @@ import base64
 from typing import Union
 
 import compas
+from compas.data import Data
+from compas.data import DataDecoder
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import Parse
 
@@ -109,10 +111,8 @@ def any_to_pb(obj: Union[compas.data.Data, int, float, bool, str, bytes], fallba
         if serializer:
             pb_obj = serializer(obj)
             proto_data.message.Pack(pb_obj)
-        elif hasattr(obj, "__jsondump__"):
-            obj_dict = {obj.__class__.__name__: obj.__jsondump__()}
-            data_offset = fallback_serializer(obj_dict)
-            proto_data.message.Pack(data_offset)
+        elif isinstance(obj, Data):
+            proto_data = _serialize_fallback(obj)
         else:
             primitive = primitive_to_pb(obj)
             proto_data = primitive
@@ -136,11 +136,13 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> Union[compas.data.Data, int,
     """
     _ensure_serializers()
 
-    # type.googleapis.com/<fully.qualified.message.name>
-    if proto_data.WhichOneof("data") == "message":
-        proto_type = proto_data.message.type_url.split("/")[-1]
     if proto_data.WhichOneof("data") == "value":
         return primitive_from_pb(proto_data)
+    if proto_data.WhichOneof("data") == "fallback":
+        return _deserialize_fallback(proto_data)
+    if proto_data.WhichOneof("data") == "message":
+        # type.googleapis.com/<fully.qualified.message.name>
+        proto_type = proto_data.message.type_url.split("/")[-1]
 
     deserializer = SerializerRegistry.get_deserializer(proto_type)
     if not deserializer:
@@ -244,6 +246,16 @@ def _serialize_dict(data_dict) -> message_pb2.DictData:
     return dict_data
 
 
+def _serialize_fallback(obj: Data) -> message_pb2.AnyData:
+    """Fallback serializer to convert a dictionary to protobuf DictData."""
+    result = message_pb2.AnyData()
+    fallback_data = message_pb2.FallbackData()
+    dict_data: message_pb2.DictData = _serialize_dict(obj.__jsondump__())
+    fallback_data.data.CopyFrom(dict_data)
+    result.fallback.CopyFrom(fallback_data)
+    return result
+
+
 def deserialize_message(binary_data) -> Union[list, dict]:
     """Deserialize a top-level protobuf message.
 
@@ -315,7 +327,9 @@ def _deserialize_any(data: Union[message_pb2.AnyData, message_pb2.ListData, mess
     if data.message.Is(message_pb2.ListData.DESCRIPTOR):
         data_offset = _deserialize_list(data)
     elif data.message.Is(message_pb2.DictData.DESCRIPTOR):
-        data_offset = _deserialize_dict(data)
+        dict_data = message_pb2.DictData()
+        data.message.Unpack(dict_data)
+        data_offset = _deserialize_dict(dict_data)
     else:
         data_offset = any_from_pb(data)
     return data_offset
@@ -334,8 +348,12 @@ def _deserialize_list(data_list: message_pb2.ListData) -> list:
 def _deserialize_dict(data_dict: message_pb2.AnyData) -> dict:
     """Deserialize a protobuf DictData message to Python dictionary."""
     data_offset = {}
-    dict_data = message_pb2.DictData()
-    data_dict.message.Unpack(dict_data)
-    for key, value in dict_data.items.items():
+    for key, value in data_dict.items.items():
         data_offset[key] = _deserialize_any(value)
     return data_offset
+
+
+def _deserialize_fallback(data_dict: message_pb2.AnyData) -> Data:
+    """Fallback deserializer to convert a protobuf FallbackData message to Python dictionary."""
+    obj_data = _deserialize_dict(data_dict.fallback.data)
+    return DataDecoder().object_hook(obj_data)
