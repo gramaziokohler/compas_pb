@@ -92,7 +92,7 @@ def primitive_from_pb(primitive: message_pb2.AnyData) -> Union[int, float, bool,
     return data_offset
 
 
-def any_to_pb(obj: Union[compas.data.Data, int, float, bool, str, bytes], fallback_serializer=None) -> message_pb2.AnyData:
+def any_to_pb(obj: Union[compas.data.Data, int, float, bool, str, bytes]) -> message_pb2.AnyData:
     """Convert any object to a protobuf any message.
 
     Parameters
@@ -236,7 +236,7 @@ def _serializer_any(obj) -> message_pb2.AnyData:
         any_data.message.Pack(data_offset)
     else:
         # check if it is COMPAS object or Python native type or fallback to dictionary.
-        any_data = any_to_pb(obj, fallback_serializer=_serialize_dict)
+        any_data = any_to_pb(obj)
     return any_data
 
 
