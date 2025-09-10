@@ -18,6 +18,10 @@ def _ensure_serializers():
     PLUGIN_MANAGER.discover_plugins()
 
 
+def _decode_dict(data_dict: dict) -> Data:
+    return DataDecoder().object_hook(data_dict)
+
+
 def primitive_to_pb(obj: Union[int, float, bool, str, bytes]) -> message_pb2.AnyData:
     """
     Convert a python native type to a protobuf message.
@@ -356,4 +360,4 @@ def _deserialize_dict(data_dict: message_pb2.AnyData) -> dict:
 def _deserialize_fallback(data_dict: message_pb2.AnyData) -> Data:
     """Fallback deserializer to convert a protobuf FallbackData message to Python dictionary."""
     obj_data = _deserialize_dict(data_dict.fallback.data)
-    return DataDecoder().object_hook(obj_data)
+    return _decode_dict(obj_data)
