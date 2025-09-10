@@ -325,7 +325,9 @@ def deserialize_message_from_json(json_data: str) -> dict:
 def _deserialize_any(data: Union[message_pb2.AnyData, message_pb2.ListData, message_pb2.DictData]) -> Union[list, dict]:
     """Deserialize a protobuf message to COMPAS object."""
     if data.message.Is(message_pb2.ListData.DESCRIPTOR):
-        data_offset = _deserialize_list(data)
+        list_data = message_pb2.ListData()
+        data.message.Unpack(list_data)
+        data_offset = _deserialize_list(list_data)
     elif data.message.Is(message_pb2.DictData.DESCRIPTOR):
         dict_data = message_pb2.DictData()
         data.message.Unpack(dict_data)
@@ -338,9 +340,7 @@ def _deserialize_any(data: Union[message_pb2.AnyData, message_pb2.ListData, mess
 def _deserialize_list(data_list: message_pb2.ListData) -> list:
     """Deserialize a protobuf ListData message to Python list."""
     data_offset = []
-    list_data = message_pb2.ListData()
-    data_list.message.Unpack(list_data)
-    for item in list_data.items:
+    for item in data_list.items:
         data_offset.append(_deserialize_any(item))
     return data_offset
 
