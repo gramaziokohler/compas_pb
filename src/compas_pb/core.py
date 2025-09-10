@@ -119,8 +119,7 @@ def any_to_pb(obj: Union[compas.data.Data, int, float, bool, str, bytes]) -> mes
         elif isinstance(obj, Data):
             proto_data = _serialize_fallback(obj)
         else:
-            primitive = primitive_to_pb(obj)
-            proto_data = primitive
+            proto_data = primitive_to_pb(obj)
         return proto_data
     except TypeError as e:
         raise TypeError(f"Unsupported type: {type(obj)}: {e}")
