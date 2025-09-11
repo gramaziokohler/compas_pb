@@ -65,8 +65,8 @@ Serialization of arbitrarily nested data structures
        "direction": Vector(1.0, 2.0, 3.0),
        "outlines":
            [
-               Polyline([0, 0, 0], [1, 1, 1], [2, 2, 2]),
-               Polyline([3, 3, 3], [4, 4, 4], [5, 5, 5])
+               Polyline([[0, 0, 0], [1, 1, 1], [2, 2, 2]]),
+               Polyline([[3, 3, 3], [4, 4, 4], [5, 5, 5]])
            ],
    }
 
