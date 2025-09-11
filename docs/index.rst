@@ -1,5 +1,5 @@
 
-.. image:: ../compas_pb.svg
+.. image:: ../compas_pb.png
    :width: 400px
    :align: center
 

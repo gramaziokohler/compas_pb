@@ -80,7 +80,7 @@ def setup_protoc():
         plugin_executable = plugin_executable.with_suffix(".exe")
         protoc_bin = protoc_bin.with_suffix(".exe")
 
-    if not protoc_bin.exists():
+    if not protoc_bin.exists() or not plugin_executable.exists():
         print(f"protoc not found in cache. Downloading to: {cache_dir}")
         cache_dir.mkdir(parents=True, exist_ok=True)
 
@@ -138,7 +138,8 @@ def docs(ctx, doctest=False, rebuild=False, check_links=False):
     cmd = f"{protoc_path} "
     cmd += f"--plugin=protoc-gen-doc={plugin_path} "
     cmd += " ".join(f"--proto_path={p}" for p in ctx.proto_include_paths)
-    cmd += f" --doc_out={target_dir} --doc_opt=html,index.html {proto_files}"
+    cmd += f" --doc_out={target_dir}"
+    cmd += f" --doc_opt=html,index.html {proto_files}"
     print(f"Generating protobuf docs with command: {cmd}")
     ctx.run(cmd)
 
