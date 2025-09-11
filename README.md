@@ -1,5 +1,3 @@
-# compas_pb
-
 <p align="center">
     <img src="compas_pb.png" alt="compas_pb" width="200">
 </p>
