@@ -1,8 +1,17 @@
+
 <p align="center">
     <img src="compas_pb.png" alt="compas_pb" width="200">
 </p>
 
 A COMPAS extension which lets you serialize and deserialize COMPAS `Data` types using protobuf.
+
+<p align="center">
+    <a href="https://pypi.org/project/compas_pb/"><img src="https://img.shields.io/pypi/v/compas_pb.svg" alt="PyPI version"></a>
+    <a href="https://pypi.org/project/compas_pb/"><img src="https://img.shields.io/pypi/pyversions/compas_pb.svg" alt="Python versions"></a>
+    <a href="https://github.com/gramaziokohler/compas_pb/blob/main/LICENSE"><img src="https://img.shields.io/github/license/gramaziokohler/compas_pb.svg" alt="License"></a>
+    <a href="https://github.com/gramaziokohler/compas_pb/actions"><img src="https://github.com/gramaziokohler/compas_pb/actions/workflows/ci.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://gramaziokohler.github.io/compas_pb"><img src="https://readthedocs.org/projects/compas_pb/badge/?version=latest" alt="Documentation Status"></a>
+</p>
 
 ## Installation
 
