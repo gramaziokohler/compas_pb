@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
     <link rel="icon" href="../../_static/compas.ico" type="image/x-icon">
-    <title>pb_dump_json &#8212; compas_pb</title>
+    <title>SerializerRegistry &#8212; compas_pb</title>
   
   
   
@@ -52,15 +52,15 @@
     <script src="../../_static/togglebutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/compas_pb.pb_dump_json';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/compas_pb.registry.SerializerRegistry';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/gramaziokohler/compas_pb/gh-pages/versions.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'latest';
         </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pb_load_json" href="compas_pb.pb_load_json.html" />
-    <link rel="prev" title="pb_load_bts" href="compas_pb.pb_load_bts.html" />
+    <link rel="next" title="SerializerRegistry.get_deserializer" href="compas_pb.registry.SerializerRegistry.get_deserializer.html" />
+    <link rel="prev" title="PbSerializerRegistrationError" href="compas_pb.registry.PbSerializerRegistrationError.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -482,12 +482,12 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../missing_compas_type.html">Missing COMPAS Type?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../api.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="../compas_pb.html">compas_pb</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../compas_pb.html">compas_pb</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.pb_dump.html">pb_dump</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.pb_load.html">pb_load</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.pb_dump_bts.html">pb_dump_bts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.pb_load_bts.html">pb_load_bts</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">pb_dump_json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_pb.pb_dump_json.html">pb_dump_json</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.pb_load_json.html">pb_load_json</a></li>
 </ul>
 </li>
@@ -502,9 +502,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.core.deserialize_message_bts.html">deserialize_message_bts</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../compas_pb.registry.html">compas_pb.registry</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../compas_pb.registry.html">compas_pb.registry</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="compas_pb.registry.PbSerializerRegistrationError.html">PbSerializerRegistrationError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="compas_pb.registry.SerializerRegistry.html">SerializerRegistry</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">SerializerRegistry</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../compas_pb.conversions.html">compas_pb.conversions</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -601,9 +601,9 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../api.html" class="nav-link">API Reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../compas_pb.html" class="nav-link">compas_pb</a></li>
+    <li class="breadcrumb-item"><a href="../compas_pb.registry.html" class="nav-link">compas_pb.registry</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pb_dump_json</li>
+    <li class="breadcrumb-item active" aria-current="page">SerializerRegistry</li>
   </ul>
 </nav>
 </div>
@@ -620,26 +620,30 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="pb-dump-json">
-<h1>pb_dump_json</h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="compas_pb.pb_dump_json">
-<span class="sig-prename descclassname"><span class="pre">compas_pb.</span></span><span class="sig-name descname"><span class="pre">pb_dump_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Write a collection of COMPAS object to a JSON string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>data</strong><span class="classifier">Union[Data, Dict, List]</span></dt><dd><p>Any  protobuffer serializable object. This includes any (combination of) COMPAS object(s).</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>string</dt><dd><p>The JSON string representation of the data.</p>
-</dd>
-</dl>
-</dd>
-</dl>
+  <section id="serializerregistry">
+<h1>SerializerRegistry</h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="compas_pb.registry.SerializerRegistry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compas_pb.registry.</span></span><span class="sig-name descname"><span class="pre">SerializerRegistry</span></span></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Registry for managing protobuf serializers and deserializers.</p>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_pb.registry.SerializerRegistry.get_deserializer.html#compas_pb.registry.SerializerRegistry.get_deserializer" title="compas_pb.registry.SerializerRegistry.get_deserializer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_deserializer</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_pb.registry.SerializerRegistry.get_serializer.html#compas_pb.registry.SerializerRegistry.get_serializer" title="compas_pb.registry.SerializerRegistry.get_serializer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_serializer</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_pb.registry.SerializerRegistry.register_deserializer.html#compas_pb.registry.SerializerRegistry.register_deserializer" title="compas_pb.registry.SerializerRegistry.register_deserializer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_deserializer</span></code></a></p></td>
+<td><p>Register a deserializer function for a given protobuf type URL.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_pb.registry.SerializerRegistry.register_serializer.html#compas_pb.registry.SerializerRegistry.register_serializer" title="compas_pb.registry.SerializerRegistry.register_serializer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_serializer</span></code></a></p></td>
+<td><p>Register a serializer function for a given type.</p></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </section>
@@ -665,7 +669,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compas_pb.pb_dump_json"><code class="docutils literal notranslate"><span class="pre">pb_dump_json()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compas_pb.registry.SerializerRegistry"><code class="docutils literal notranslate"><span class="pre">SerializerRegistry</span></code></a></li>
 </ul>
   </nav></div>
 

@@ -504,8 +504,7 @@ document.write(`
 </li>
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">compas_pb.registry</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.registry.PbSerializerRegistrationError.html">PbSerializerRegistrationError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.registry.pb_serializer.html">pb_serializer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.registry.pb_deserializer.html">pb_deserializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_pb.registry.SerializerRegistry.html">SerializerRegistry</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="compas_pb.conversions.html">compas_pb.conversions</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -628,18 +627,8 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_pb.registry.PbSerializerRegistrationError.html" title="compas_pb.registry.PbSerializerRegistrationError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PbSerializerRegistrationError</span></code></a></p></td>
 <td><p>Custom exception for errors in Protocol Buffer serializer registration.</p></td>
 </tr>
-</tbody>
-</table>
-</section>
-<section id="functions">
-<h2>Functions</h2>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_pb.registry.pb_serializer.html" title="compas_pb.registry.pb_serializer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pb_serializer</span></code></a></p></td>
-<td><p>Decorator which registers a serializer for <code class="docutils literal notranslate"><span class="pre">obj_type</span></code> to its protobuf.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_pb.registry.pb_deserializer.html" title="compas_pb.registry.pb_deserializer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pb_deserializer</span></code></a></p></td>
-<td><p>Decorator which registers a deserializer for the protobuf module.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_pb.registry.SerializerRegistry.html" title="compas_pb.registry.SerializerRegistry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SerializerRegistry</span></code></a></p></td>
+<td><p>Registry for managing protobuf serializers and deserializers.</p></td>
 </tr>
 </tbody>
 </table>
@@ -668,7 +657,6 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 </ul>
   </nav></div>
 

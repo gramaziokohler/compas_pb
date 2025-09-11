@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
     <link rel="icon" href="_static/compas.ico" type="image/x-icon">
-    <title>compas_pb &#8212; compas_pb</title>
+    <title>Installation &#8212; compas_pb</title>
   
   
   
@@ -503,8 +503,7 @@ document.write(`
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/compas_pb.registry.html">compas_pb.registry</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.PbSerializerRegistrationError.html">PbSerializerRegistrationError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.pb_serializer.html">pb_serializer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.pb_deserializer.html">pb_deserializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.SerializerRegistry.html">SerializerRegistry</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/compas_pb.conversions.html">compas_pb.conversions</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -588,11 +587,72 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="compas-pb">
-<h1>compas_pb</h1>
-<p class="lead">Protobuf extension for COMPAS Data</p>
+  <a class="reference internal image-reference" href="_images/compas_pb.svg"><img alt="_images/compas_pb.svg" class="align-center" src="_images/compas_pb.svg" width="400px" /></a>
+<p class="lead">A COMPAS extension which lets you serialize and deserialize COMPAS <cite>Data</cite> types using protobuf.</p>
+<section id="installation">
+<h1>Installation</h1>
+<p>Stable releases can be installed from PyPI.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>compas_pb
+</pre></div>
+</div>
+</section>
+<section id="basic-usage">
+<h1>Basic Usage</h1>
+<section id="serialize-to-file">
+<h2>Serialize to file</h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compas.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas_pb</span><span class="w"> </span><span class="kn">import</span> <span class="n">pb_dump</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas_pb</span><span class="w"> </span><span class="kn">import</span> <span class="n">pb_load</span>
+
+<span class="n">PATH</span> <span class="o">=</span> <span class="s2">&quot;vector.data&quot;</span>
+
+<span class="n">vector</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+
+<span class="n">pb_dump</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">PATH</span><span class="p">)</span>
+
+<span class="n">loaded_vector</span> <span class="o">=</span> <span class="n">pb_load</span><span class="p">(</span><span class="n">PATH</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="de-serialize-to-bytes">
+<h2>(De)serialize to bytes</h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compas.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas_pb</span><span class="w"> </span><span class="kn">import</span> <span class="n">pb_dump_bts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas_pb</span><span class="w"> </span><span class="kn">import</span> <span class="n">pb_load_bts</span>
+
+<span class="n">vector</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+
+<span class="n">bytes_vector</span> <span class="o">=</span> <span class="n">pb_dump_bts</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+
+<span class="n">loaded_vector</span> <span class="o">=</span> <span class="n">pb_load_bts</span><span class="p">(</span><span class="n">bytes_vector</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="serialization-of-arbitrarily-nested-data-structures">
+<h2>Serialization of arbitrarily nested data structures</h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compas.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Polyline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas_pb</span><span class="w"> </span><span class="kn">import</span> <span class="n">pb_dump_bts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas_pb</span><span class="w"> </span><span class="kn">import</span> <span class="n">pb_load_bts</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span>
+    <span class="s2">&quot;outlines&quot;</span><span class="p">:</span>
+        <span class="p">[</span>
+            <span class="n">Polyline</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]),</span>
+            <span class="n">Polyline</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]])</span>
+        <span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">pb_data</span> <span class="o">=</span> <span class="n">pb_dump_bts</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">loaded_data</span> <span class="o">=</span> <span class="n">pb_load_bts</span><span class="p">(</span><span class="n">pb_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="table-of-contents">
-<h2>Table of Contents</h2>
+<h1>Table of Contents</h1>
 <div class="toctree-wrapper compound">
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a></li>
@@ -610,7 +670,6 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 </div>
-</section>
 </section>
 
 
@@ -634,8 +693,16 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Installation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#serialize-to-file">Serialize to file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#de-serialize-to-bytes">(De)serialize to bytes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#serialization-of-arbitrarily-nested-data-structures">Serialization of arbitrarily nested data structures</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+</ul>
+
   </nav></div>
 
 </div></div>

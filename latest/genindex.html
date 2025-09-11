@@ -497,8 +497,7 @@ document.write(`
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/compas_pb.registry.html">compas_pb.registry</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.PbSerializerRegistrationError.html">PbSerializerRegistrationError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.pb_serializer.html">pb_serializer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.pb_deserializer.html">pb_deserializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_pb.registry.SerializerRegistry.html">SerializerRegistry</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/compas_pb.conversions.html">compas_pb.conversions</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -592,6 +591,7 @@ document.write(`
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#P"><strong>P</strong></a>
@@ -685,6 +685,18 @@ document.write(`
   </ul></td>
 </tr></table>
 
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/compas_pb.registry.SerializerRegistry.get_deserializer.html#compas_pb.registry.SerializerRegistry.get_deserializer">get_deserializer() (compas_pb.registry.SerializerRegistry class method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/compas_pb.registry.SerializerRegistry.get_serializer.html#compas_pb.registry.SerializerRegistry.get_serializer">get_serializer() (compas_pb.registry.SerializerRegistry class method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -712,8 +724,6 @@ document.write(`
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.registry.pb_deserializer.html#compas_pb.registry.pb_deserializer">pb_deserializer() (in module compas_pb.registry)</a>
-</li>
       <li><a href="api/generated/compas_pb.pb_dump.html#compas_pb.pb_dump">pb_dump() (in module compas_pb)</a>
 </li>
       <li><a href="api/generated/compas_pb.pb_dump_bts.html#compas_pb.pb_dump_bts">pb_dump_bts() (in module compas_pb)</a>
@@ -726,16 +736,14 @@ document.write(`
 </li>
       <li><a href="api/generated/compas_pb.pb_load_json.html#compas_pb.pb_load_json">pb_load_json() (in module compas_pb)</a>
 </li>
-      <li><a href="api/generated/compas_pb.registry.pb_serializer.html#compas_pb.registry.pb_serializer">pb_serializer() (in module compas_pb.registry)</a>
-</li>
       <li><a href="api/generated/compas_pb.registry.PbSerializerRegistrationError.html#compas_pb.registry.PbSerializerRegistrationError">PbSerializerRegistrationError</a>
 </li>
       <li><a href="api/generated/compas_pb.conversions.plane_from_pb.html#compas_pb.conversions.plane_from_pb">plane_from_pb() (in module compas_pb.conversions)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/compas_pb.conversions.plane_to_pb.html#compas_pb.conversions.plane_to_pb">plane_to_pb() (in module compas_pb.conversions)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/compas_pb.conversions.point_from_pb.html#compas_pb.conversions.point_from_pb">point_from_pb() (in module compas_pb.conversions)</a>
 </li>
       <li><a href="api/generated/compas_pb.conversions.point_to_pb.html#compas_pb.conversions.point_to_pb">point_to_pb() (in module compas_pb.conversions)</a>
@@ -762,10 +770,14 @@ document.write(`
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_pb.conversions.rotation_from_pb.html#compas_pb.conversions.rotation_from_pb">rotation_from_pb() (in module compas_pb.conversions)</a>
+      <li><a href="api/generated/compas_pb.registry.SerializerRegistry.register_deserializer.html#compas_pb.registry.SerializerRegistry.register_deserializer">register_deserializer() (compas_pb.registry.SerializerRegistry class method)</a>
+</li>
+      <li><a href="api/generated/compas_pb.registry.SerializerRegistry.register_serializer.html#compas_pb.registry.SerializerRegistry.register_serializer">register_serializer() (compas_pb.registry.SerializerRegistry class method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/compas_pb.conversions.rotation_from_pb.html#compas_pb.conversions.rotation_from_pb">rotation_from_pb() (in module compas_pb.conversions)</a>
+</li>
       <li><a href="api/generated/compas_pb.conversions.rotation_to_pb.html#compas_pb.conversions.rotation_to_pb">rotation_to_pb() (in module compas_pb.conversions)</a>
 </li>
   </ul></td>
@@ -780,6 +792,8 @@ document.write(`
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/compas_pb.registry.SerializerRegistry.html#compas_pb.registry.SerializerRegistry">SerializerRegistry (class in compas_pb.registry)</a>
+</li>
       <li><a href="api/generated/compas_pb.conversions.sphere_from_pb.html#compas_pb.conversions.sphere_from_pb">sphere_from_pb() (in module compas_pb.conversions)</a>
 </li>
       <li><a href="api/generated/compas_pb.conversions.sphere_to_pb.html#compas_pb.conversions.sphere_to_pb">sphere_to_pb() (in module compas_pb.conversions)</a>
