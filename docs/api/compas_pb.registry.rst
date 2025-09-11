@@ -14,14 +14,4 @@ Classes
     :nosignatures:
 
     PbSerializerRegistrationError
-    SerialzerRegistry
-
-Functions
-=========
-
-.. autosummary::
-    :toctree: generated/
-    :nosignatures:
-
-    pb_serializer
-    pb_deserializer
+    SerializerRegistry
