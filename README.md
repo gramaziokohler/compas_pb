@@ -1,6 +1,8 @@
 # compas_pb
 
-<img src="compas_pb.svg" alt="compas_pb" width="200">
+<p align="center">
+    <img src="compas_pb.png" alt="compas_pb" width="200">
+</p>
 
 A COMPAS extension which lets you serialize and deserialize COMPAS `Data` types using protobuf.
 
