@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="compas_pb.png" alt="compas_pb" width="200">
+    <img src="compas_pb.svg" alt="compas_pb" width="200">
 </p>
 
 <p align="center">
