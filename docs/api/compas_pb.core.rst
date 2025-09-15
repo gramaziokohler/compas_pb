@@ -17,7 +17,6 @@ Functions
     primitive_from_pb
     any_to_pb
     any_from_pb
-    register_serializers
     serialize_message_to_json
     deserialize_message_from_json
     serialize_message_bts

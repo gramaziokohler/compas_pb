@@ -1,34 +1,29 @@
 import base64
+from typing import Any
+from typing import Union
 
 import compas
-from compas.plugins import pluggable
+from compas.data import Data
+from compas.data import DataDecoder
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import Parse
 
 from compas_pb.generated import message_pb2
 
-from .registry import SerialzerRegistry
+from .registry import SerializerRegistry
 
 
-@pluggable(category="factories", selector="collect_all")
-def register_serializers() -> None:
-    """Collects all the plugins which register custom serializers with _ProtoBufferAny."""
-    pass
+def _ensure_serializers():
+    from .plugin import PLUGIN_MANAGER
+
+    PLUGIN_MANAGER.discover_plugins()
 
 
-_DISCOVERY_DONE = False
+def _decode_dict(data_dict: dict) -> Data:
+    return DataDecoder().object_hook(data_dict)
 
 
-def _discover_serializers() -> None:
-    global _DISCOVERY_DONE
-    if _DISCOVERY_DONE:
-        return
-
-    register_serializers()
-    _DISCOVERY_DONE = True
-
-
-def primitive_to_pb(obj: int | float | bool | str | bytes) -> message_pb2.AnyData:
+def primitive_to_pb(obj: Union[int, float, bool, str, bytes]) -> message_pb2.AnyData:
     """
     Convert a python native type to a protobuf message.
 
@@ -65,7 +60,7 @@ def primitive_to_pb(obj: int | float | bool | str | bytes) -> message_pb2.AnyDat
     return data_offset
 
 
-def primitive_from_pb(primitive: message_pb2.AnyData) -> int | float | bool | str | bytes:
+def primitive_from_pb(primitive: message_pb2.AnyData) -> Union[int, float, bool, str, bytes]:
     """Convert a protobuf message to a python native type.
 
     Parameters
@@ -75,7 +70,7 @@ def primitive_from_pb(primitive: message_pb2.AnyData) -> int | float | bool | st
 
     Returns
     -------
-    data_offset : int | float | bool | str | bytes
+    data_offset : Union[int, float, bool, str, bytes]
         The converted python native type.
     """
     type_ = primitive.value.WhichOneof("kind")
@@ -97,12 +92,12 @@ def primitive_from_pb(primitive: message_pb2.AnyData) -> int | float | bool | st
     return data_offset
 
 
-def any_to_pb(obj: compas.data.Data | int | float | bool | str | bytes, fallback_serializer=None) -> message_pb2.AnyData:
+def any_to_pb(obj: Union[compas.data.Data, int, float, bool, str, bytes]) -> message_pb2.AnyData:
     """Convert any object to a protobuf any message.
 
     Parameters
     ----------
-    obj : compas.data.Data | list | dict | int | float | bool | str
+    obj : Union[compas.data.Data, list, dict, int, float, bool, str]
         The object to convert. Can be a COMPAS Data object, list, dict, or primitive type.
 
     Returns
@@ -110,30 +105,27 @@ def any_to_pb(obj: compas.data.Data | int | float | bool | str | bytes, fallback
         :class: `compas_pb.generated.message_pb2.AnyData`
             The protobuf message type of AnyData.
     """
-    _discover_serializers()
+    _ensure_serializers()
     proto_data = message_pb2.AnyData()
 
     if obj is None:
         obj = "None"  # HACK: find proper way to handle None
 
     try:
-        serializer = SerialzerRegistry.get_serializer(obj)
+        serializer = SerializerRegistry.get_serializer(obj)
         if serializer:
             pb_obj = serializer(obj)
             proto_data.message.Pack(pb_obj)
-        elif hasattr(obj, "__jsondump__"):
-            obj_dict = {obj.__class__.__name__: obj.__jsondump__()}
-            data_offset = fallback_serializer(obj_dict)
-            proto_data.message.Pack(data_offset)
+        elif isinstance(obj, Data):
+            proto_data = _serialize_fallback(obj)
         else:
-            primitive = primitive_to_pb(obj)
-            proto_data = primitive
+            proto_data = primitive_to_pb(obj)
         return proto_data
     except TypeError as e:
         raise TypeError(f"Unsupported type: {type(obj)}: {e}")
 
 
-def any_from_pb(proto_data: message_pb2.AnyData) -> compas.data.Data | int | float | bool | str | bytes:
+def any_from_pb(proto_data: message_pb2.AnyData) -> Union[compas.data.Data, int, float, bool, str, bytes]:
     """Convert a protobuf message to a supported object.
 
     Parameters
@@ -143,22 +135,31 @@ def any_from_pb(proto_data: message_pb2.AnyData) -> compas.data.Data | int | flo
 
     Returns
     -------
-    compas.data.Data | list | dict | int | float | bool | str
+    Union[compas.data.Data, list, dict, int, float, bool, str]
         The converted object. Can be a COMPAS Data object, list, dict, or primitive type.
     """
-    _discover_serializers()
+    _ensure_serializers()
 
-    # type.googleapis.com/<fully.qualified.message.name>
-    if proto_data.WhichOneof("data") == "message":
-        proto_type = proto_data.message.type_url.split("/")[-1]
-    if proto_data.WhichOneof("data") == "value":
+    union_field = proto_data.WhichOneof("data")
+    if union_field == "value":
         return primitive_from_pb(proto_data)
+    elif union_field == "fallback":
+        return _deserialize_fallback(proto_data)
+    elif union_field == "message":
+        return _handle_known_type(proto_data)
+    else:
+        raise NameError(f"Unexpected AnyData field: {union_field}")
 
-    deserializer = SerialzerRegistry.get_deserializer(proto_type)
+
+def _handle_known_type(proto_data: message_pb2.AnyData) -> Any:
+    # type.googleapis.com/<fully.qualified.message.name>
+    proto_type = proto_data.message.type_url.split("/")[-1]
+
+    deserializer = SerializerRegistry.get_deserializer(proto_type)
     if not deserializer:
         raise TypeError(f"Unsupported proto type: {proto_type}")
 
-    unpacked_instance = deserializer.__deserializer_type__()
+    unpacked_instance = deserializer.__protobuf_cls__()
     _ = proto_data.message.Unpack(unpacked_instance)
     return deserializer(unpacked_instance)
 
@@ -234,7 +235,7 @@ def _serializer_any(obj) -> message_pb2.AnyData:
         any_data.message.Pack(data_offset)
     else:
         # check if it is COMPAS object or Python native type or fallback to dictionary.
-        any_data = any_to_pb(obj, fallback_serializer=_serialize_dict)
+        any_data = any_to_pb(obj)
     return any_data
 
 
@@ -256,7 +257,17 @@ def _serialize_dict(data_dict) -> message_pb2.DictData:
     return dict_data
 
 
-def deserialize_message(binary_data) -> list | dict:
+def _serialize_fallback(obj: Data) -> message_pb2.AnyData:
+    """Fallback serializer to convert a dictionary to protobuf DictData."""
+    result = message_pb2.AnyData()
+    fallback_data = message_pb2.FallbackData()
+    dict_data: message_pb2.DictData = _serialize_dict(obj.__jsondump__())
+    fallback_data.data.CopyFrom(dict_data)
+    result.fallback.CopyFrom(fallback_data)
+    return result
+
+
+def deserialize_message(binary_data) -> Union[list, dict]:
     """Deserialize a top-level protobuf message.
 
     Parameters
@@ -266,7 +277,7 @@ def deserialize_message(binary_data) -> list | dict:
 
     Returns
     -------
-    message : list | dict
+    message : Union[list, dict]
         The deserialized protobuf message.
 
     """
@@ -322,12 +333,16 @@ def deserialize_message_from_json(json_data: str) -> dict:
     return _deserialize_any(any_data.data)
 
 
-def _deserialize_any(data: message_pb2.AnyData | message_pb2.ListData | message_pb2.DictData) -> list | dict:
+def _deserialize_any(data: Union[message_pb2.AnyData, message_pb2.ListData, message_pb2.DictData]) -> Union[list, dict]:
     """Deserialize a protobuf message to COMPAS object."""
     if data.message.Is(message_pb2.ListData.DESCRIPTOR):
-        data_offset = _deserialize_list(data)
+        list_data = message_pb2.ListData()
+        data.message.Unpack(list_data)
+        data_offset = _deserialize_list(list_data)
     elif data.message.Is(message_pb2.DictData.DESCRIPTOR):
-        data_offset = _deserialize_dict(data)
+        dict_data = message_pb2.DictData()
+        data.message.Unpack(dict_data)
+        data_offset = _deserialize_dict(dict_data)
     else:
         data_offset = any_from_pb(data)
     return data_offset
@@ -336,18 +351,20 @@ def _deserialize_any(data: message_pb2.AnyData | message_pb2.ListData | message_
 def _deserialize_list(data_list: message_pb2.ListData) -> list:
     """Deserialize a protobuf ListData message to Python list."""
     data_offset = []
-    list_data = message_pb2.ListData()
-    data_list.message.Unpack(list_data)
-    for item in list_data.items:
+    for item in data_list.items:
         data_offset.append(_deserialize_any(item))
     return data_offset
 
 
-def _deserialize_dict(data_dict: message_pb2.AnyData) -> dict:
+def _deserialize_dict(data_dict: message_pb2.DictData) -> dict:
     """Deserialize a protobuf DictData message to Python dictionary."""
     data_offset = {}
-    dict_data = message_pb2.DictData()
-    data_dict.message.Unpack(dict_data)
-    for key, value in dict_data.items.items():
+    for key, value in data_dict.items.items():
         data_offset[key] = _deserialize_any(value)
     return data_offset
+
+
+def _deserialize_fallback(data_dict: message_pb2.AnyData) -> Data:
+    """Fallback deserializer to convert a protobuf FallbackData message to Python dictionary."""
+    obj_data = _deserialize_dict(data_dict.fallback.data)
+    return _decode_dict(obj_data)

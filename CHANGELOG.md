@@ -25,6 +25,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 
+## [0.4.0] 2025-09-10
+
+### Added
+
+* added `.proto` file into build package.
+* Added `FallbackData` member `fallback` to `AnyData` to allow for fallback serialization of unknown types.
+
+### Changed
+
+* Changed plugin discovery to use entry points instead of the COMPAS plugin system's name scanning.
+* Added `importlib_metadata` as a conditional dependency to support Python <= 3.9.
+* Renamed `compas_pb.IDL` to `compas_pb.PROTOBUF_DEFS`.
+
+### Removed
+
+* Removed `compas_pb.DATA`.
+* Removed `compas_pb.DOCS`.
+* Removed `compas_pb.TEMP`.
+
+
+## [0.3.1] 2025-08-27
+
+### Added
+
+### Changed
+
+* Fixed `compas_pb` support in Python 3.9.
+
+### Removed
+
+
 ## [0.3.0] 2025-08-26
 
 ### Added
@@ -32,7 +63,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added module `compas_pb.invocations` which offers re-usable protobuf related tasks for plugins. 
 
 ### Changed
-* remove `PrimitiveData` into `AnyData` with `Google.WellKownType.value`
+
+* remove `PrimitiveData` into `AnyData` with `Google.WellKownType.value`.
 
 ### Removed
 

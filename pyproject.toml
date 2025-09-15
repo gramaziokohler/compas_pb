@@ -56,6 +56,9 @@ optional-dependencies = { dev = { file = "requirements-dev.txt" } }
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+"*" = ["*.proto"]
+
 # ============================================================================
 # replace pytest.ini
 # ============================================================================
@@ -84,7 +87,7 @@ doctest_optionflags = [
 # ============================================================================
 
 [tool.bumpversion]
-current_version = "0.3.0"
+current_version = "0.4.0"
 message = "Bump version to {new_version}"
 commit = true
 tag = true
