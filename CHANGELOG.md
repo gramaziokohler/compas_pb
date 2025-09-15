@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * added `.proto` file into build package.
+* Added `FallbackData` member `fallback` to `AnyData` to allow for fallback serialization of unknown types.
 
 ### Changed
 

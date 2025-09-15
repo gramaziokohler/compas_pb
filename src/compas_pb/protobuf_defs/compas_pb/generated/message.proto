@@ -10,7 +10,12 @@ message AnyData {
   oneof data {
     google.protobuf.Any message = 1;
     google.protobuf.Value value = 2;
+    FallbackData fallback = 3;
   }
+}
+
+message FallbackData {
+    DictData data = 1;
 }
 
 /** repeated serves as a list in protobuf */
