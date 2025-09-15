@@ -19,6 +19,9 @@ trim_trailing_whitespace = false
 [*.yml]
 indent_size = 2
 
+[*.proto]
+indent_size = 2
+
 [*.rst]
 indent_size = 4
 
