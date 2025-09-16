@@ -309,7 +309,7 @@ def deserialize_message_bts(binary_data) -> message_pb2.MessageData:
     any_data.ParseFromString(binary_data)
 
     if not _check_version_compatibility(any_data):
-        raise ValueError(f"Current version {_CURRENT_VERSION} are not compatible: {any_data.version}")
+        raise ValueError(f"Current version {_CURRENT_VERSION} is not compatible with: {any_data.version}")
 
     return any_data.data
 
@@ -338,7 +338,7 @@ def deserialize_message_from_json(json_data: str) -> dict:
     any_data.CopyFrom(json_message)
 
     if not _check_version_compatibility(any_data):
-        raise ValueError(f"Current version {_CURRENT_VERSION} are not compatible: {any_data.version}")
+        raise ValueError(f"Current version {_CURRENT_VERSION} is not compatible with: {any_data.version}")
 
     return _deserialize_any(any_data.data)
 
@@ -382,7 +382,7 @@ def _deserialize_fallback(data_dict: message_pb2.AnyData) -> Data:
 
 def _check_version_compatibility(any_data: message_pb2.MessageData) -> bool:
     """Check if the message version is compatible with the current version."""
-    # for accpet empty version string
+    # for accept empty version string
     # Not sure if this is a good idea
     if any_data.version is None or any_data.version == "":
         print("WARNING: No version info found in the message, it cause deserialization issues.")
