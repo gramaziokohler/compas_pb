@@ -13,6 +13,9 @@ from compas_pb import pb_dump_json
 from compas_pb import pb_load_json
 from compas_pb.core import serialize_message_to_json
 from compas_pb.core import deserialize_message_from_json
+from importlib.metadata import version
+
+compas_pb_version = version("compas_pb")
 
 
 @pytest.fixture
@@ -84,6 +87,8 @@ def test_serialize_message_to_json(nested_dict):
     assert isinstance(json_string, str)
     assert len(json_string) > 0
     assert '"data"' in json_string  # Should contain protobuf message structure
+    assert "version" in json_string  # Version info
+    assert compas_pb_version in json_string  # Ensure correct version is included
 
     # Test with simple point
     point = Point(1, 2, 3)
@@ -216,7 +221,8 @@ def test_json_exact_match():
                 "y": 2.0,
                 "z": 3.0,
             }
-        }
+        },
+        "version": compas_pb_version,
     }
 
     assert parsed == expected_structure
