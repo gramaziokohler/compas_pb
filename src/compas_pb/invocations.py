@@ -12,7 +12,7 @@ import invoke
 PROTOC_VERSION = "31.1"
 PROTOC_GEN_DOCS_VERSION = "1.5.1"
 # typescript,javascript, and go need other compiler plugins
-PROTO_TARGET_LANGUAGES = ["cpp", "csharp", "java", "objc", "php", "ruby"],
+PROTO_TARGET_LANGUAGES = ["cpp", "csharp", "java", "objc", "php", "ruby"]
 
 def _get_protoc_download_url(version=PROTOC_VERSION):
     base_url = f"https://github.com/protocolbuffers/protobuf/releases/download/v{version}/"
@@ -139,11 +139,9 @@ def create_class_assets(ctx):
         existing_file.unlink()
         print(f"Removed existing asset: {existing_file}")
 
-    languages = [lang.strip() for lang in ctx.proto_target_languages]
-    print(f"Target languages: {languages}")
     class_assests = []
 
-    for language in languages:
+    for language in PROTO_TARGET_LANGUAGES:
         generate_proto_classes(ctx, target_language=language)
         zip_path = dist_dir / "proto" / f"compas_pb-generated-{language}-{PROTOC_VERSION}.zip"
         zip_path.parent.mkdir(parents=True, exist_ok=True)
