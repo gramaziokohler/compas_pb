@@ -6,6 +6,7 @@ from compas_invocations2 import style
 from compas_invocations2 import tests
 
 from compas_pb.invocations import generate_proto_classes
+from compas_pb.invocations import create_class_assets
 from compas_pb.invocations import docs
 
 
@@ -20,12 +21,15 @@ ns = Collection(
     build.clean,
     build.release,
     docs,
-    generate_proto_classes
+    generate_proto_classes,
+    create_class_assets,
 )
 
-ns.configure({
-    "base_folder": Path(__file__).parent,
-    "proto_folder": Path("./src") / "compas_pb" / "protobuf_defs" / "compas_pb" / "generated",
-    "proto_include_paths": [Path("./src") / "compas_pb"/"protobuf_defs"],
-    "proto_out_folder": Path("./src")
-})
+ns.configure(
+    {
+        "base_folder": Path(__file__).parent,
+        "proto_folder": Path("./src") / "compas_pb" / "protobuf_defs" / "compas_pb" / "generated",
+        "proto_include_paths": [Path("./src") / "compas_pb"/"protobuf_defs"],
+        "proto_out_folder": Path("./src"),
+    }
+)

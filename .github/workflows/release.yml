@@ -20,8 +20,35 @@ jobs:
           invoke_lint: true
           invoke_test: true
 
-  Publish:
+  create-assets:
     needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+
+      - name: Generate protobuf assets
+        run: invoke create-class-assets
+
+      - name: Create GitHub Release with Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/proto/*.zip
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Publish:
+    needs: [build, create-assets]
     runs-on: ubuntu-latest
     steps:
       - uses: compas-dev/compas-actions.publish@v3

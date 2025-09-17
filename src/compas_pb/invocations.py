@@ -11,7 +11,8 @@ import invoke
 
 PROTOC_VERSION = "31.1"
 PROTOC_GEN_DOCS_VERSION = "1.5.1"
-
+# typescript,javascript, and go need other compiler plugins
+PROTO_TARGET_LANGUAGES = ["cpp", "csharp", "java", "objc", "php", "ruby"]
 
 def _get_protoc_download_url(version=PROTOC_VERSION):
     base_url = f"https://github.com/protocolbuffers/protobuf/releases/download/v{version}/"
@@ -110,12 +111,56 @@ def setup_protoc():
 def generate_proto_classes(ctx, target_language: str = "python"):
     protoc_path, _ = setup_protoc()
 
+    proto_out_folder = ""
+    if target_language == "python":
+        proto_out_folder = Path(ctx.proto_out_folder)
+    elif target_language in PROTO_TARGET_LANGUAGES:
+        proto_out_folder = Path(ctx.proto_out_folder) / "compas_pb" / "generated" / target_language
+        proto_out_folder.mkdir(parents=True, exist_ok=True)
+    else:
+        print(f"Target language '{target_language}' not supported.")
+
     for idl_file in ctx.proto_folder.glob("*.proto"):
         cmd = f"{protoc_path} "
         cmd += " ".join(f"--proto_path={p}" for p in ctx.proto_include_paths)
-        cmd += f" --{target_language}_out={ctx.proto_out_folder} {idl_file}"
+
+        cmd += f" --{target_language}_out={proto_out_folder} {idl_file}"
         print(f"Running: {cmd}")
         ctx.run(cmd)
+
+
+@invoke.task()
+def create_class_assets(ctx):
+    base_dir = ctx.base_folder
+    dist_dir = base_dir / "dist"
+    dist_dir.mkdir(parents=True, exist_ok=True)
+
+    for existing_file in dist_dir.glob("compas_pb-generated-*.zip"):
+        existing_file.unlink()
+        print(f"Removed existing asset: {existing_file}")
+
+    class_assests = []
+
+    for language in PROTO_TARGET_LANGUAGES:
+        generate_proto_classes(ctx, target_language=language)
+        zip_path = dist_dir / "proto" / f"compas_pb-generated-{language}-{PROTOC_VERSION}.zip"
+        zip_path.parent.mkdir(parents=True, exist_ok=True)
+        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
+            generated_dir = base_dir / language
+            for file in generated_dir.rglob("*"):
+                if file.is_file():
+                    arcname = f"{file.relative_to(generated_dir)}"
+                    zipf.write(file, arcname)
+                    print(f"Added {file} ")
+        class_assests.append(zip_path)
+        # clean up
+        generated_lang_dir = base_dir / "src" / "compas_pb" / "generated" / language
+        if generated_lang_dir.exists():
+            import shutil
+            shutil.rmtree(generated_lang_dir)
+            print(f"Removed temporary generated files in: {generated_lang_dir}")
+    if class_assests:
+        print("protobuf class assets are ready for GitHub release upload! find them in: {dist_dir}")
 
 
 @invoke.task(
