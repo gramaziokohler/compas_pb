@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+message ShearData {
+    string guid = 1;
+    string name = 2;
+    repeated float matrix = 3; // 4x4 matrix stored as flat array of 16 floats
+}

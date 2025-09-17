@@ -53,3 +53,23 @@ Functions
     translation_from_pb
     rotation_to_pb
     rotation_from_pb
+    capsule_to_pb
+    capsule_from_pb
+    quaternion_to_pb
+    quaternion_from_pb
+    scale_to_pb
+    scale_from_pb
+    reflection_to_pb
+    reflection_from_pb
+    shear_to_pb
+    shear_from_pb
+    projection_to_pb
+    projection_from_pb
+    bezier_to_pb
+    bezier_from_pb
+    hyperbola_to_pb
+    hyperbola_from_pb
+    parabola_to_pb
+    parabola_from_pb
+    polyhedron_to_pb
+    polyhedron_from_pb

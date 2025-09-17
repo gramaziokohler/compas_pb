@@ -1,18 +1,28 @@
 from compas.datastructures import Mesh
 from compas.geometry import Arc
+from compas.geometry import Bezier
 from compas.geometry import Box
+from compas.geometry import Capsule
 from compas.geometry import Circle
 from compas.geometry import Cone
 from compas.geometry import Cylinder
 from compas.geometry import Ellipse
 from compas.geometry import Frame
+from compas.geometry import Hyperbola
 from compas.geometry import Line
+from compas.geometry import Parabola
 from compas.geometry import Plane
 from compas.geometry import Point
 from compas.geometry import Pointcloud
 from compas.geometry import Polygon
+from compas.geometry import Polyhedron
 from compas.geometry import Polyline
+from compas.geometry import Projection
+from compas.geometry import Quaternion
+from compas.geometry import Reflection
 from compas.geometry import Rotation
+from compas.geometry import Scale
+from compas.geometry import Shear
 from compas.geometry import Sphere
 from compas.geometry import Torus
 from compas.geometry import Transformation
@@ -20,20 +30,30 @@ from compas.geometry import Translation
 from compas.geometry import Vector
 
 from compas_pb.generated import arc_pb2
+from compas_pb.generated import bezier_pb2
 from compas_pb.generated import box_pb2
+from compas_pb.generated import capsule_pb2
 from compas_pb.generated import circle_pb2
 from compas_pb.generated import cone_pb2
 from compas_pb.generated import cylinder_pb2
 from compas_pb.generated import ellipse_pb2
 from compas_pb.generated import frame_pb2
+from compas_pb.generated import hyperbola_pb2
 from compas_pb.generated import line_pb2
 from compas_pb.generated import mesh_pb2
+from compas_pb.generated import parabola_pb2
 from compas_pb.generated import plane_pb2
 from compas_pb.generated import point_pb2
 from compas_pb.generated import pointcloud_pb2
 from compas_pb.generated import polygon_pb2
+from compas_pb.generated import polyhedron_pb2
 from compas_pb.generated import polyline_pb2
+from compas_pb.generated import projection_pb2
+from compas_pb.generated import quaternion_pb2
+from compas_pb.generated import reflection_pb2
 from compas_pb.generated import rotation_pb2
+from compas_pb.generated import scale_pb2
+from compas_pb.generated import shear_pb2
 from compas_pb.generated import sphere_pb2
 from compas_pb.generated import torus_pb2
 from compas_pb.generated import transformation_pb2
@@ -1125,5 +1145,584 @@ def rotation_from_pb(proto_data: rotation_pb2.RotationData) -> Rotation:
 
     result = Rotation.from_axis_and_angle(axis, angle)
     result.name = proto_data.name
+    result._guid = proto_data.guid
+    return result
+
+
+# =============================================================================
+# Capsule
+# =============================================================================
+
+
+@pb_serializer(Capsule)
+def capsule_to_pb(capsule: Capsule) -> capsule_pb2.CapsuleData:
+    """
+    Convert a COMPAS Capsule to protobuf message.
+
+    Parameters
+    ----------
+    capsule : Capsule
+        The COMPAS Capsule object to serialize.
+
+    Returns
+    -------
+    capsule_pb2.CapsuleData
+        The protobuf message representing the Capsule.
+    """
+    proto_data = capsule_pb2.CapsuleData()
+    proto_data.guid = str(capsule.guid)
+    proto_data.name = capsule.name
+    proto_data.radius = capsule.radius
+    proto_data.height = capsule.height
+
+    frame = frame_to_pb(capsule.frame)
+    proto_data.frame.CopyFrom(frame)
+
+    return proto_data
+
+
+@pb_deserializer(capsule_pb2.CapsuleData)
+def capsule_from_pb(proto_data: capsule_pb2.CapsuleData) -> Capsule:
+    """
+    Convert a protobuf message to COMPAS Capsule.
+
+    Parameters
+    ----------
+    proto_data : capsule_pb2.CapsuleData
+        The protobuf message representing a Capsule.
+
+    Returns
+    -------
+    Capsule
+        The deserialized COMPAS Capsule object.
+    """
+    frame = frame_from_pb(proto_data.frame)
+    result = Capsule(radius=proto_data.radius, height=proto_data.height, frame=frame, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
+
+
+# =============================================================================
+# Quaternion
+# =============================================================================
+
+
+@pb_serializer(Quaternion)
+def quaternion_to_pb(quaternion: Quaternion) -> quaternion_pb2.QuaternionData:
+    """
+    Convert a COMPAS Quaternion to protobuf message.
+
+    Parameters
+    ----------
+    quaternion : Quaternion
+        The COMPAS Quaternion object to serialize.
+
+    Returns
+    -------
+    quaternion_pb2.QuaternionData
+        The protobuf message representing the Quaternion.
+    """
+    proto_data = quaternion_pb2.QuaternionData()
+    proto_data.guid = str(quaternion.guid)
+    proto_data.name = quaternion.name
+    proto_data.w = quaternion.w
+    proto_data.x = quaternion.x
+    proto_data.y = quaternion.y
+    proto_data.z = quaternion.z
+
+    return proto_data
+
+
+@pb_deserializer(quaternion_pb2.QuaternionData)
+def quaternion_from_pb(proto_data: quaternion_pb2.QuaternionData) -> Quaternion:
+    """
+    Convert a protobuf message to COMPAS Quaternion.
+
+    Parameters
+    ----------
+    proto_data : quaternion_pb2.QuaternionData
+        The protobuf message representing a Quaternion.
+
+    Returns
+    -------
+    Quaternion
+        The deserialized COMPAS Quaternion object.
+    """
+    result = Quaternion(w=proto_data.w, x=proto_data.x, y=proto_data.y, z=proto_data.z, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
+
+
+# =============================================================================
+# Scale
+# =============================================================================
+
+
+@pb_serializer(Scale)
+def scale_to_pb(scale: Scale) -> scale_pb2.ScaleData:
+    """
+    Convert a COMPAS Scale to protobuf message.
+
+    Parameters
+    ----------
+    scale : Scale
+        The COMPAS Scale object to serialize.
+
+    Returns
+    -------
+    scale_pb2.ScaleData
+        The protobuf message representing the Scale.
+    """
+    proto_data = scale_pb2.ScaleData()
+    proto_data.guid = str(scale.guid)
+    proto_data.name = scale.name
+
+    # Flatten 4x4 matrix to list of 16 floats
+    matrix = scale.matrix
+    for row in matrix:
+        for value in row:
+            proto_data.matrix.append(value)
+
+    return proto_data
+
+
+@pb_deserializer(scale_pb2.ScaleData)
+def scale_from_pb(proto_data: scale_pb2.ScaleData) -> Scale:
+    """
+    Convert a protobuf message to COMPAS Scale.
+
+    Parameters
+    ----------
+    proto_data : scale_pb2.ScaleData
+        The protobuf message representing a Scale.
+
+    Returns
+    -------
+    Scale
+        The deserialized COMPAS Scale object.
+    """
+    # Convert flat list of 16 floats back to 4x4 matrix
+    matrix_flat = list(proto_data.matrix)
+    matrix = []
+    for i in range(4):
+        row = []
+        for j in range(4):
+            row.append(matrix_flat[i * 4 + j])
+        matrix.append(row)
+
+    result = Scale.from_matrix(matrix)
+    result.name = proto_data.name
+    result._guid = proto_data.guid
+    return result
+
+
+# =============================================================================
+# Reflection
+# =============================================================================
+
+
+@pb_serializer(Reflection)
+def reflection_to_pb(reflection: Reflection) -> reflection_pb2.ReflectionData:
+    """
+    Convert a COMPAS Reflection to protobuf message.
+
+    Parameters
+    ----------
+    reflection : Reflection
+        The COMPAS Reflection object to serialize.
+
+    Returns
+    -------
+    reflection_pb2.ReflectionData
+        The protobuf message representing the Reflection.
+    """
+    proto_data = reflection_pb2.ReflectionData()
+    proto_data.guid = str(reflection.guid)
+    proto_data.name = reflection.name
+
+    # Flatten 4x4 matrix to list of 16 floats
+    matrix = reflection.matrix
+    for row in matrix:
+        for value in row:
+            proto_data.matrix.append(value)
+
+    return proto_data
+
+
+@pb_deserializer(reflection_pb2.ReflectionData)
+def reflection_from_pb(proto_data: reflection_pb2.ReflectionData) -> Reflection:
+    """
+    Convert a protobuf message to COMPAS Reflection.
+
+    Parameters
+    ----------
+    proto_data : reflection_pb2.ReflectionData
+        The protobuf message representing a Reflection.
+
+    Returns
+    -------
+    Reflection
+        The deserialized COMPAS Reflection object.
+    """
+    # Convert flat list of 16 floats back to 4x4 matrix
+    matrix_flat = list(proto_data.matrix)
+    matrix = []
+    for i in range(4):
+        row = []
+        for j in range(4):
+            row.append(matrix_flat[i * 4 + j])
+        matrix.append(row)
+
+    result = Reflection.from_matrix(matrix)
+    result.name = proto_data.name
+    result._guid = proto_data.guid
+    return result
+
+
+# =============================================================================
+# Shear
+# =============================================================================
+
+
+@pb_serializer(Shear)
+def shear_to_pb(shear: Shear) -> shear_pb2.ShearData:
+    """
+    Convert a COMPAS Shear to protobuf message.
+
+    Parameters
+    ----------
+    shear : Shear
+        The COMPAS Shear object to serialize.
+
+    Returns
+    -------
+    shear_pb2.ShearData
+        The protobuf message representing the Shear.
+    """
+    proto_data = shear_pb2.ShearData()
+    proto_data.guid = str(shear.guid)
+    proto_data.name = shear.name
+
+    # Flatten 4x4 matrix to list of 16 floats
+    matrix = shear.matrix
+    for row in matrix:
+        for value in row:
+            proto_data.matrix.append(value)
+
+    return proto_data
+
+
+@pb_deserializer(shear_pb2.ShearData)
+def shear_from_pb(proto_data: shear_pb2.ShearData) -> Shear:
+    """
+    Convert a protobuf message to COMPAS Shear.
+
+    Parameters
+    ----------
+    proto_data : shear_pb2.ShearData
+        The protobuf message representing a Shear.
+
+    Returns
+    -------
+    Shear
+        The deserialized COMPAS Shear object.
+    """
+    # Convert flat list of 16 floats back to 4x4 matrix
+    matrix_flat = list(proto_data.matrix)
+    matrix = []
+    for i in range(4):
+        row = []
+        for j in range(4):
+            row.append(matrix_flat[i * 4 + j])
+        matrix.append(row)
+
+    result = Shear.from_matrix(matrix)
+    result.name = proto_data.name
+    result._guid = proto_data.guid
+    return result
+
+
+# =============================================================================
+# Projection
+# =============================================================================
+
+
+@pb_serializer(Projection)
+def projection_to_pb(projection: Projection) -> projection_pb2.ProjectionData:
+    """
+    Convert a COMPAS Projection to protobuf message.
+
+    Parameters
+    ----------
+    projection : Projection
+        The COMPAS Projection object to serialize.
+
+    Returns
+    -------
+    projection_pb2.ProjectionData
+        The protobuf message representing the Projection.
+    """
+    proto_data = projection_pb2.ProjectionData()
+    proto_data.guid = str(projection.guid)
+    proto_data.name = projection.name
+
+    # Flatten 4x4 matrix to list of 16 floats
+    matrix = projection.matrix
+    for row in matrix:
+        for value in row:
+            proto_data.matrix.append(value)
+
+    return proto_data
+
+
+@pb_deserializer(projection_pb2.ProjectionData)
+def projection_from_pb(proto_data: projection_pb2.ProjectionData) -> Projection:
+    """
+    Convert a protobuf message to COMPAS Projection.
+
+    Parameters
+    ----------
+    proto_data : projection_pb2.ProjectionData
+        The protobuf message representing a Projection.
+
+    Returns
+    -------
+    Projection
+        The deserialized COMPAS Projection object.
+    """
+    # Convert flat list of 16 floats back to 4x4 matrix
+    matrix_flat = list(proto_data.matrix)
+    matrix = []
+    for i in range(4):
+        row = []
+        for j in range(4):
+            row.append(matrix_flat[i * 4 + j])
+        matrix.append(row)
+
+    result = Projection.from_matrix(matrix)
+    result.name = proto_data.name
+    result._guid = proto_data.guid
+    return result
+
+
+# =============================================================================
+# Bezier
+# =============================================================================
+
+
+@pb_serializer(Bezier)
+def bezier_to_pb(bezier: Bezier) -> bezier_pb2.BezierData:
+    """
+    Convert a COMPAS Bezier to protobuf message.
+
+    Parameters
+    ----------
+    bezier : Bezier
+        The COMPAS Bezier object to serialize.
+
+    Returns
+    -------
+    bezier_pb2.BezierData
+        The protobuf message representing the Bezier.
+    """
+    proto_data = bezier_pb2.BezierData()
+    proto_data.guid = str(bezier.guid)
+    proto_data.name = bezier.name
+    proto_data.degree = bezier.degree
+
+    for point in bezier.points:
+        proto_point = point_to_pb(point)
+        proto_data.points.append(proto_point)
+
+    return proto_data
+
+
+@pb_deserializer(bezier_pb2.BezierData)
+def bezier_from_pb(proto_data: bezier_pb2.BezierData) -> Bezier:
+    """
+    Convert a protobuf message to COMPAS Bezier.
+
+    Parameters
+    ----------
+    proto_data : bezier_pb2.BezierData
+        The protobuf message representing a Bezier.
+
+    Returns
+    -------
+    Bezier
+        The deserialized COMPAS Bezier object.
+    """
+    points = [point_from_pb(proto_point) for proto_point in proto_data.points]
+    result = Bezier(points=points, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
+
+
+# =============================================================================
+# Hyperbola
+# =============================================================================
+
+
+@pb_serializer(Hyperbola)
+def hyperbola_to_pb(hyperbola: Hyperbola) -> hyperbola_pb2.HyperbolaData:
+    """
+    Convert a COMPAS Hyperbola to protobuf message.
+
+    Parameters
+    ----------
+    hyperbola : Hyperbola
+        The COMPAS Hyperbola object to serialize.
+
+    Returns
+    -------
+    hyperbola_pb2.HyperbolaData
+        The protobuf message representing the Hyperbola.
+    """
+    proto_data = hyperbola_pb2.HyperbolaData()
+    proto_data.guid = str(hyperbola.guid)
+    proto_data.name = hyperbola.name
+    proto_data.major = hyperbola.major
+    proto_data.minor = hyperbola.minor
+
+    frame = frame_to_pb(hyperbola.frame)
+    proto_data.frame.CopyFrom(frame)
+
+    return proto_data
+
+
+@pb_deserializer(hyperbola_pb2.HyperbolaData)
+def hyperbola_from_pb(proto_data: hyperbola_pb2.HyperbolaData) -> Hyperbola:
+    """
+    Convert a protobuf message to COMPAS Hyperbola.
+
+    Parameters
+    ----------
+    proto_data : hyperbola_pb2.HyperbolaData
+        The protobuf message representing a Hyperbola.
+
+    Returns
+    -------
+    Hyperbola
+        The deserialized COMPAS Hyperbola object.
+    """
+    frame = frame_from_pb(proto_data.frame)
+    result = Hyperbola(major=proto_data.major, minor=proto_data.minor, frame=frame, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
+
+
+# =============================================================================
+# Parabola
+# =============================================================================
+
+
+@pb_serializer(Parabola)
+def parabola_to_pb(parabola: Parabola) -> parabola_pb2.ParabolaData:
+    """
+    Convert a COMPAS Parabola to protobuf message.
+
+    Parameters
+    ----------
+    parabola : Parabola
+        The COMPAS Parabola object to serialize.
+
+    Returns
+    -------
+    parabola_pb2.ParabolaData
+        The protobuf message representing the Parabola.
+    """
+    proto_data = parabola_pb2.ParabolaData()
+    proto_data.guid = str(parabola.guid)
+    proto_data.name = parabola.name
+    proto_data.focal = parabola.focal
+
+    frame = frame_to_pb(parabola.frame)
+    proto_data.frame.CopyFrom(frame)
+
+    return proto_data
+
+
+@pb_deserializer(parabola_pb2.ParabolaData)
+def parabola_from_pb(proto_data: parabola_pb2.ParabolaData) -> Parabola:
+    """
+    Convert a protobuf message to COMPAS Parabola.
+
+    Parameters
+    ----------
+    proto_data : parabola_pb2.ParabolaData
+        The protobuf message representing a Parabola.
+
+    Returns
+    -------
+    Parabola
+        The deserialized COMPAS Parabola object.
+    """
+    frame = frame_from_pb(proto_data.frame)
+    result = Parabola(focal=proto_data.focal, frame=frame, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
+
+
+# =============================================================================
+# Polyhedron
+# =============================================================================
+
+
+@pb_serializer(Polyhedron)
+def polyhedron_to_pb(polyhedron: Polyhedron) -> polyhedron_pb2.PolyhedronData:
+    """
+    Convert a COMPAS Polyhedron to protobuf message.
+
+    Parameters
+    ----------
+    polyhedron : Polyhedron
+        The COMPAS Polyhedron object to serialize.
+
+    Returns
+    -------
+    polyhedron_pb2.PolyhedronData
+        The protobuf message representing the Polyhedron.
+    """
+    proto_data = polyhedron_pb2.PolyhedronData()
+    proto_data.guid = str(polyhedron.guid)
+    proto_data.name = polyhedron.name
+
+    # Add vertices
+    for vertex in polyhedron.vertices:
+        proto_vertex = point_to_pb(vertex)
+        proto_data.vertices.append(proto_vertex)
+
+    # Add faces
+    for face in polyhedron.faces:
+        proto_face = polyhedron_pb2.FaceData()
+        for vertex_index in face:
+            proto_face.vertex_indices.append(vertex_index)
+        proto_data.faces.append(proto_face)
+
+    return proto_data
+
+
+@pb_deserializer(polyhedron_pb2.PolyhedronData)
+def polyhedron_from_pb(proto_data: polyhedron_pb2.PolyhedronData) -> Polyhedron:
+    """
+    Convert a protobuf message to COMPAS Polyhedron.
+
+    Parameters
+    ----------
+    proto_data : polyhedron_pb2.PolyhedronData
+        The protobuf message representing a Polyhedron.
+
+    Returns
+    -------
+    Polyhedron
+        The deserialized COMPAS Polyhedron object.
+    """
+    vertices = [point_from_pb(proto_vertex) for proto_vertex in proto_data.vertices]
+    faces = []
+    for proto_face in proto_data.faces:
+        face = list(proto_face.vertex_indices)
+        faces.append(face)
+
+    result = Polyhedron(vertices=vertices, faces=faces, name=proto_data.name)
     result._guid = proto_data.guid
     return result

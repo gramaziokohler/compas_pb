@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* Added support for `compas.geometry.Capsule` serialization and deserialization.
+* Added support for `compas.geometry.Quaternion` serialization and deserialization.
+* Added support for `compas.geometry.Scale` serialization and deserialization.
+* Added support for `compas.geometry.Reflection` serialization and deserialization.
+* Added support for `compas.geometry.Shear` serialization and deserialization.
+* Added support for `compas.geometry.Projection` serialization and deserialization.
+* Added support for `compas.geometry.Bezier` serialization and deserialization.
+* Added support for `compas.geometry.Hyperbola` serialization and deserialization.
+* Added support for `compas.geometry.Parabola` serialization and deserialization.
+* Added support for `compas.geometry.Polyhedron` serialization and deserialization.
+
 ### Changed
 
 ### Removed

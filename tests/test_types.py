@@ -293,3 +293,160 @@ def test_serialize_rotation():
     assert abs(orig_axis_angle[0].y - new_axis_angle[0].y) < 1e-6
     assert abs(orig_axis_angle[0].z - new_axis_angle[0].z) < 1e-6
     assert abs(orig_axis_angle[1] - new_axis_angle[1]) < 1e-6
+
+
+def test_serialize_capsule():
+    from compas.geometry import Capsule, Frame
+    from compas.tolerance import TOL
+
+    capsule = Capsule(radius=1.0, height=2.0, frame=Frame.worldXY())
+
+    bts = pb_dump_bts(capsule)
+    new_capsule = pb_load_bts(bts)
+
+    assert isinstance(new_capsule, Capsule)
+    assert TOL.is_close(new_capsule.radius, capsule.radius)
+    assert TOL.is_close(new_capsule.height, capsule.height)
+    assert new_capsule.frame.point == capsule.frame.point
+
+
+def test_serialize_quaternion():
+    from compas.geometry import Quaternion
+    from compas.tolerance import TOL
+
+    quaternion = Quaternion(1.0, 0.0, 0.0, 0.0)
+
+    bts = pb_dump_bts(quaternion)
+    new_quaternion = pb_load_bts(bts)
+
+    assert isinstance(new_quaternion, Quaternion)
+    assert TOL.is_close(new_quaternion.w, quaternion.w)
+    assert TOL.is_close(new_quaternion.x, quaternion.x)
+    assert TOL.is_close(new_quaternion.y, quaternion.y)
+    assert TOL.is_close(new_quaternion.z, quaternion.z)
+
+
+def test_serialize_scale():
+    from compas.geometry import Scale
+
+    scale = Scale.from_factors([2.0, 3.0, 4.0])
+
+    bts = pb_dump_bts(scale)
+    new_scale = pb_load_bts(bts)
+
+    assert isinstance(new_scale, Scale)
+    # Compare matrices element by element with tolerance
+    for i in range(4):
+        for j in range(4):
+            assert abs(new_scale.matrix[i][j] - scale.matrix[i][j]) < 1e-6
+
+
+def test_serialize_reflection():
+    from compas.geometry import Reflection, Plane, Point, Vector
+
+    plane = Plane(Point(0, 0, 0), Vector(0, 0, 1))
+    reflection = Reflection.from_plane(plane)
+
+    bts = pb_dump_bts(reflection)
+    new_reflection = pb_load_bts(bts)
+
+    assert isinstance(new_reflection, Reflection)
+    # Compare matrices element by element with tolerance
+    for i in range(4):
+        for j in range(4):
+            assert abs(new_reflection.matrix[i][j] - reflection.matrix[i][j]) < 1e-6
+
+
+def test_serialize_shear():
+    from compas.geometry import Shear, Vector, Plane
+
+    shear = Shear.from_angle_direction_plane(angle=0.5, direction=Vector(1, 0, 0), plane=Plane.worldXY())
+
+    bts = pb_dump_bts(shear)
+    new_shear = pb_load_bts(bts)
+
+    assert isinstance(new_shear, Shear)
+    # Compare matrices element by element with tolerance
+    for i in range(4):
+        for j in range(4):
+            assert abs(new_shear.matrix[i][j] - shear.matrix[i][j]) < 1e-6
+
+
+def test_serialize_projection():
+    from compas.geometry import Projection, Plane
+
+    projection = Projection.from_plane(Plane.worldXY())
+
+    bts = pb_dump_bts(projection)
+    new_projection = pb_load_bts(bts)
+
+    assert isinstance(new_projection, Projection)
+    # Compare matrices element by element with tolerance
+    for i in range(4):
+        for j in range(4):
+            assert abs(new_projection.matrix[i][j] - projection.matrix[i][j]) < 1e-6
+
+
+def test_serialize_bezier():
+    from compas.geometry import Bezier
+
+    points = [[0, 0, 0], [1, 1, 0], [2, 0, 0]]
+    bezier = Bezier(points)
+
+    bts = pb_dump_bts(bezier)
+    new_bezier = pb_load_bts(bts)
+
+    assert isinstance(new_bezier, Bezier)
+    assert len(new_bezier.points) == len(bezier.points)
+    assert new_bezier.degree == bezier.degree
+    for orig_pt, new_pt in zip(bezier.points, new_bezier.points):
+        assert orig_pt == new_pt
+
+
+def test_serialize_hyperbola():
+    from compas.geometry import Hyperbola, Frame
+    from compas.tolerance import TOL
+
+    hyperbola = Hyperbola(major=2.0, minor=1.0, frame=Frame.worldXY())
+
+    bts = pb_dump_bts(hyperbola)
+    new_hyperbola = pb_load_bts(bts)
+
+    assert isinstance(new_hyperbola, Hyperbola)
+    assert TOL.is_close(new_hyperbola.major, hyperbola.major)
+    assert TOL.is_close(new_hyperbola.minor, hyperbola.minor)
+    assert new_hyperbola.frame.point == hyperbola.frame.point
+
+
+def test_serialize_parabola():
+    from compas.geometry import Parabola, Frame
+    from compas.tolerance import TOL
+
+    parabola = Parabola(focal=1.0, frame=Frame.worldXY())
+
+    bts = pb_dump_bts(parabola)
+    new_parabola = pb_load_bts(bts)
+
+    assert isinstance(new_parabola, Parabola)
+    assert TOL.is_close(new_parabola.focal, parabola.focal)
+    assert new_parabola.frame.point == parabola.frame.point
+
+
+def test_serialize_polyhedron():
+    from compas.geometry import Polyhedron, Box
+
+    # Create a simple box polyhedron
+    box = Box(1, 1, 1)
+    vertices, faces = box.to_vertices_and_faces()
+    polyhedron = Polyhedron(vertices, faces)
+
+    bts = pb_dump_bts(polyhedron)
+    new_polyhedron = pb_load_bts(bts)
+
+    assert isinstance(new_polyhedron, Polyhedron)
+    assert len(new_polyhedron.vertices) == len(polyhedron.vertices)
+    assert len(new_polyhedron.faces) == len(polyhedron.faces)
+    for orig_vertex, new_vertex in zip(polyhedron.vertices, new_polyhedron.vertices):
+        assert orig_vertex == new_vertex
+    for orig_face, new_face in zip(polyhedron.faces, new_polyhedron.faces):
+        assert orig_face == new_face
