@@ -31,6 +31,5 @@ message DictData {
 /** root serialization element */
 message MessageData {
   AnyData data = 1;
-  // TODO:
-  // Maybe add some version or flag here
+  optional string version = 2;
 }

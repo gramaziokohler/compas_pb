@@ -1,6 +1,8 @@
 import base64
+from importlib.metadata import version
 from typing import Any
 from typing import Union
+from warnings import warn
 
 import compas
 from compas.data import Data
@@ -11,6 +13,8 @@ from google.protobuf.json_format import Parse
 from compas_pb.generated import message_pb2
 
 from .registry import SerializerRegistry
+
+_CURRENT_VERSION: str = version("compas_pb")
 
 
 def _ensure_serializers():
@@ -181,7 +185,7 @@ def serialize_message(data) -> message_pb2.MessageData:
         raise ValueError("No message data to convert.")
 
     message_data = _serializer_any(data)
-    message = message_pb2.MessageData(data=message_data)
+    message = message_pb2.MessageData(data=message_data, version=_CURRENT_VERSION)
     return message
 
 
@@ -304,6 +308,10 @@ def deserialize_message_bts(binary_data) -> message_pb2.MessageData:
 
     any_data = message_pb2.MessageData()
     any_data.ParseFromString(binary_data)
+
+    if not _check_version_compatibility(any_data):
+        warn(f"Current version {_CURRENT_VERSION} is not compatible with: {any_data.version}", UserWarning)
+
     return any_data.data
 
 
@@ -329,6 +337,9 @@ def deserialize_message_from_json(json_data: str) -> dict:
 
     any_data = message_pb2.MessageData()
     any_data.CopyFrom(json_message)
+
+    if not _check_version_compatibility(any_data):
+        warn(f"Current version {_CURRENT_VERSION} is not compatible with: {any_data.version}", UserWarning)
 
     return _deserialize_any(any_data.data)
 
@@ -368,3 +379,15 @@ def _deserialize_fallback(data_dict: message_pb2.AnyData) -> Data:
     """Fallback deserializer to convert a protobuf FallbackData message to Python dictionary."""
     obj_data = _deserialize_dict(data_dict.fallback.data)
     return _decode_dict(obj_data)
+
+
+def _check_version_compatibility(any_data: message_pb2.MessageData) -> bool:
+    """Check if the message version is compatible with the current version."""
+    # for accept empty version string
+    # Not sure if this is a good idea
+    if any_data.version is None or any_data.version == "":
+        warn("No version info found in the message, it may cause deserialization issues.", UserWarning)
+        return True
+    if any_data.version != _CURRENT_VERSION:
+        return False
+    return True
