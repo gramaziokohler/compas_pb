@@ -11,7 +11,8 @@ import invoke
 
 PROTOC_VERSION = "31.1"
 PROTOC_GEN_DOCS_VERSION = "1.5.1"
-
+# typescript,javascript, and go need other compiler plugins
+PROTO_TARGET_LANGUAGES = ["cpp", "csharp", "java", "objc", "php", "ruby"],
 
 def _get_protoc_download_url(version=PROTOC_VERSION):
     base_url = f"https://github.com/protocolbuffers/protobuf/releases/download/v{version}/"
@@ -113,7 +114,7 @@ def generate_proto_classes(ctx, target_language: str = "python"):
     proto_out_folder = ""
     if target_language == "python":
         proto_out_folder = Path(ctx.proto_out_folder)
-    elif target_language in ctx.proto_target_languages:
+    elif target_language in PROTO_TARGET_LANGUAGES:
         proto_out_folder = Path(ctx.proto_out_folder) / "compas_pb" / "generated" / target_language
         proto_out_folder.mkdir(parents=True, exist_ok=True)
     else:
