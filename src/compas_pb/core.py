@@ -2,6 +2,7 @@ import base64
 from importlib.metadata import version
 from typing import Any
 from typing import Union
+from warnings import warn
 
 import compas
 from compas.data import Data
@@ -309,7 +310,7 @@ def deserialize_message_bts(binary_data) -> message_pb2.MessageData:
     any_data.ParseFromString(binary_data)
 
     if not _check_version_compatibility(any_data):
-        raise ValueError(f"Current version {_CURRENT_VERSION} is not compatible with: {any_data.version}")
+        warn(f"Current version {_CURRENT_VERSION} is not compatible with: {any_data.version}", UserWarning)
 
     return any_data.data
 
@@ -338,7 +339,7 @@ def deserialize_message_from_json(json_data: str) -> dict:
     any_data.CopyFrom(json_message)
 
     if not _check_version_compatibility(any_data):
-        raise ValueError(f"Current version {_CURRENT_VERSION} is not compatible with: {any_data.version}")
+        warn(f"Current version {_CURRENT_VERSION} is not compatible with: {any_data.version}", UserWarning)
 
     return _deserialize_any(any_data.data)
 
@@ -385,7 +386,7 @@ def _check_version_compatibility(any_data: message_pb2.MessageData) -> bool:
     # for accept empty version string
     # Not sure if this is a good idea
     if any_data.version is None or any_data.version == "":
-        print("WARNING: No version info found in the message, it cause deserialization issues.")
+        warn("No version info found in the message, it may cause deserialization issues.", UserWarning)
         return True
     if any_data.version != _CURRENT_VERSION:
         return False
