@@ -22,7 +22,7 @@ def _get_protoc_download_url(version=PROTOC_VERSION):
     if system == "Linux" and arch == "x86_64":
         return base_url + f"protoc-{version}-linux-x86_64.zip"
     elif system == "Darwin":
-        return base_url + f"protoc-{version}-osx-x86_64.zip"
+        return base_url + f"protoc-{version}-osx-universal_binary.zip" # universal binary (allegedly) works on intel + apple silicon
     elif system == "Windows":
         return base_url + f"protoc-{version}-win64.zip"
 
@@ -32,12 +32,25 @@ def _get_protoc_download_url(version=PROTOC_VERSION):
 def _get_docsplugin_download_url(version=PROTOC_GEN_DOCS_VERSION):
     base_url = f"https://github.com/pseudomuto/protoc-gen-doc/releases/download/v{version}/"
     system = platform.system()
-    arch = platform.machine()
+    arch = platform.machine().lower()
+    
+    arch_mapping = {
+        "x86_64": "amd64",
+        "aarch64": "arm64",
+        "arm64": "arm64",
+        "amd64": "amd64",
+    }
+    
+    selected_arch = arch_mapping.get(arch)
+    if not selected_arch:
+        raise RuntimeError(f"Unsupported architecture: {arch}")
 
-    if system == "Linux" and arch == "x86_64":
-        return base_url + f"protoc-gen-doc_{version}_linux_amd64.tar.gz"
+    if system == "Linux":
+        return base_url + f"protoc-gen-doc_{version}_linux_{selected_arch}.tar.gz"
+    elif system == "Darwin":
+        return base_url + f"protoc-gen-doc_{version}_darwin_{selected_arch}.tar.gz"
     elif system == "Windows":
-        return base_url + f"protoc-gen-doc_{version}_windows_amd64.tar.gz"
+        return base_url + f"protoc-gen-doc_{version}_windows_{selected_arch}.tar.gz"
 
     raise RuntimeError(f"Unsupported platform: {system} {arch}")
 
