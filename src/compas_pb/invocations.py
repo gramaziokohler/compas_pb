@@ -14,6 +14,7 @@ PROTOC_GEN_DOCS_VERSION = "1.5.1"
 # typescript,javascript, and go need other compiler plugins
 PROTO_TARGET_LANGUAGES = ["cpp", "csharp", "java", "objc", "php", "ruby"]
 
+
 def _get_protoc_download_url(version=PROTOC_VERSION):
     base_url = f"https://github.com/protocolbuffers/protobuf/releases/download/v{version}/"
     system = platform.system()
@@ -22,7 +23,7 @@ def _get_protoc_download_url(version=PROTOC_VERSION):
     if system == "Linux" and arch == "x86_64":
         return base_url + f"protoc-{version}-linux-x86_64.zip"
     elif system == "Darwin":
-        return base_url + f"protoc-{version}-osx-universal_binary.zip" # universal binary (allegedly) works on intel + apple silicon
+        return base_url + f"protoc-{version}-osx-universal_binary.zip"  # universal binary (allegedly) works on intel + apple silicon
     elif system == "Windows":
         return base_url + f"protoc-{version}-win64.zip"
 
@@ -33,14 +34,14 @@ def _get_docsplugin_download_url(version=PROTOC_GEN_DOCS_VERSION):
     base_url = f"https://github.com/pseudomuto/protoc-gen-doc/releases/download/v{version}/"
     system = platform.system()
     arch = platform.machine().lower()
-    
+
     arch_mapping = {
         "x86_64": "amd64",
         "aarch64": "arm64",
         "arm64": "arm64",
         "amd64": "amd64",
     }
-    
+
     selected_arch = arch_mapping.get(arch)
     if not selected_arch:
         raise RuntimeError(f"Unsupported architecture: {arch}")
@@ -170,6 +171,7 @@ def create_class_assets(ctx):
         generated_lang_dir = base_dir / "src" / "compas_pb" / "generated" / language
         if generated_lang_dir.exists():
             import shutil
+
             shutil.rmtree(generated_lang_dir)
             print(f"Removed temporary generated files in: {generated_lang_dir}")
     if class_assests:
