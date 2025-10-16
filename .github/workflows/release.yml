@@ -20,8 +20,17 @@ jobs:
           invoke_lint: true
           invoke_test: true
 
-  create-assets:
+  publish:
     needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: compas-dev/compas-actions.publish@v3
+        with:
+          pypi_token: ${{ secrets.PYPI }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  upload-assets:
+    needs: publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,19 +48,9 @@ jobs:
       - name: Generate protobuf assets
         run: invoke create-class-assets
 
-      - name: Create GitHub Release with Assets
+      - name: Upload Assets to Existing Release
         uses: softprops/action-gh-release@v2
         with:
           files: dist/proto/*.zip
-          generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  Publish:
-    needs: [build, create-assets]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: compas-dev/compas-actions.publish@v3
-        with:
-          pypi_token: ${{ secrets.PYPI }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
