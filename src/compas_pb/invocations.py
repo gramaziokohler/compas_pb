@@ -105,7 +105,7 @@ def setup_protoc():
         docsplugin_url = _get_docsplugin_download_url()
         _download_and_extract_docsplugin(docsplugin_url, protoc_bin.parent)
 
-        if platform.system() == "Linux":
+        if platform.system() in ["Linux", "Darwin"]:
             mode = os.stat(protoc_bin)
             os.chmod(protoc_bin, mode.st_mode | stat.S_IEXEC)
 
