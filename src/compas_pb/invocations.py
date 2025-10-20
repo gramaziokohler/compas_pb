@@ -163,12 +163,10 @@ def create_class_assets(ctx):
         zip_path.parent.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
             for item in generated_dir.rglob("*"):
-                arcname = str(item.relative_to(generated_dir))
-
-                if item.is_dir():
-                    arcname += "/"
-                zipf.write(item, arcname)
-                print(f"Added {arcname}")
+                if item.is_file():
+                    arcname = str(item.relative_to(generated_dir))
+                    zipf.write(item, arcname)
+                    print(f"Added {arcname}")
         class_assests.append(zip_path)
         # clean up
         if generated_dir.exists():
