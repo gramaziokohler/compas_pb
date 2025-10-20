@@ -164,7 +164,7 @@ def create_class_assets(ctx):
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
             for item in generated_dir.rglob("*"):
                 if item.is_file():
-                    arcname = str(item.relative_to(generated_dir))
+                    arcname = f"{item.relative_to(generated_dir)}"
                     zipf.write(item, arcname)
                     print(f"Added {arcname}")
         class_assests.append(zip_path)
