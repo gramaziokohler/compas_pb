@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+* Fixed empty assets `zip` file fro different language support while release.
+
 ### Removed
 
 
