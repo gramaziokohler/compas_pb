@@ -3,7 +3,7 @@ name: release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
@@ -52,6 +52,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dist/proto/*.zip
-          draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
