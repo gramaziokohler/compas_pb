@@ -157,23 +157,22 @@ def create_class_assets(ctx):
 
     for language in PROTO_TARGET_LANGUAGES:
         generate_proto_classes(ctx, target_language=language)
+
+        generated_dir = base_dir / "src" / "compas_pb" / "generated" / language
         zip_path = dist_dir / "proto" / f"compas_pb-generated-{language}-{PROTOC_VERSION}.zip"
         zip_path.parent.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
-            generated_dir = base_dir / language
-            for file in generated_dir.rglob("*"):
-                if file.is_file():
-                    arcname = f"{file.relative_to(generated_dir)}"
-                    zipf.write(file, arcname)
-                    print(f"Added {file} ")
+            for item in generated_dir.rglob("*"):
+                if item.is_file():
+                    arcname = f"{item.relative_to(generated_dir)}"
+                    zipf.write(item, arcname)
+                    print(f"Added {arcname}")
         class_assests.append(zip_path)
         # clean up
-        generated_lang_dir = base_dir / "src" / "compas_pb" / "generated" / language
-        if generated_lang_dir.exists():
+        if generated_dir.exists():
             import shutil
-
-            shutil.rmtree(generated_lang_dir)
-            print(f"Removed temporary generated files in: {generated_lang_dir}")
+            shutil.rmtree(generated_dir)
+            print(f"Removed temporary generated files in: {generated_dir}")
     if class_assests:
         print("protobuf class assets are ready for GitHub release upload! find them in: {dist_dir}")
 
