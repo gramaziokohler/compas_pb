@@ -171,6 +171,7 @@ def create_class_assets(ctx):
         # clean up
         if generated_dir.exists():
             import shutil
+
             shutil.rmtree(generated_dir)
             print(f"Removed temporary generated files in: {generated_dir}")
     if class_assests:
