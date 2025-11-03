@@ -9,7 +9,7 @@ if sys.version_info < (3, 10):
 else:
     from importlib.metadata import entry_points
 
-_DEBUG = False
+_DEBUG = True
 
 
 def _create_logger(debug):
