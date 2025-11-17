@@ -44,11 +44,10 @@ def primitive_to_pb(obj: Union[int, float, bool, str, bytes]) -> message_pb2.Any
 
     data_offset = message_pb2.AnyData()
 
-    if obj is None:
-        data_offset.value.null_value = 0  # Use protobuf NULL_VALUE
-
     type_ = type(obj)
-    if type_ is int:
+    if type_ is type(None):
+        data_offset.value.null_value = 0  # this just needs to be set to any integer value to indicate null
+    elif type_ is int:
         data_offset.value.number_value = float(obj)  # only float is supported in protobuf
     elif type_ is float:
         data_offset.value.number_value = obj
@@ -79,7 +78,7 @@ def primitive_from_pb(primitive: message_pb2.AnyData) -> Union[int, float, bool,
     """
     type_ = primitive.value.WhichOneof("kind")
     if type_ == "null_value":
-        data_offset = primitive.value.null_value
+        data_offset = None
     elif type_ == "number_value":
         data_offset = primitive.value.number_value
         if data_offset.is_integer():
@@ -111,9 +110,6 @@ def any_to_pb(obj: Union[compas.data.Data, int, float, bool, str, bytes]) -> mes
     """
     _ensure_serializers()
     proto_data = message_pb2.AnyData()
-
-    if obj is None:
-        obj = "None"  # HACK: find proper way to handle None
 
     try:
         serializer = SerializerRegistry.get_serializer(obj)
