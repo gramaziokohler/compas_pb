@@ -139,6 +139,10 @@ def generate_proto_classes(ctx, target_language: str = "python"):
         cmd += " ".join(f"--proto_path={p}" for p in ctx.proto_include_paths)
 
         cmd += f" --{target_language}_out={proto_out_folder} {idl_file}"
+
+        if target_language == "python":
+            cmd += f" --pyi_out={proto_out_folder}"
+
         print(f"Running: {cmd}")
         ctx.run(cmd)
 
