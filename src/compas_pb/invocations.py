@@ -7,7 +7,7 @@ import urllib.request
 import zipfile
 from pathlib import Path
 
-import invoke
+from invoke.tasks import task
 
 PROTOC_VERSION = "31.1"
 PROTOC_GEN_DOCS_VERSION = "1.5.1"
@@ -121,7 +121,7 @@ def setup_protoc():
     return protoc_bin, plugin_executable
 
 
-@invoke.task(help={"target_language": "Output language for generated classes (e.g., 'python')"})
+@task(help={"target_language": "Output language for generated classes (e.g., 'python')"})
 def generate_proto_classes(ctx, target_language: str = "python"):
     protoc_path, _ = setup_protoc()
 
@@ -147,7 +147,7 @@ def generate_proto_classes(ctx, target_language: str = "python"):
         ctx.run(cmd)
 
 
-@invoke.task()
+@task()
 def create_class_assets(ctx):
     base_dir = ctx.base_folder
     dist_dir = base_dir / "dist"
@@ -182,7 +182,7 @@ def create_class_assets(ctx):
         print("protobuf class assets are ready for GitHub release upload! find them in: {dist_dir}")
 
 
-@invoke.task(
+@task(
     help={
         "rebuild": "True to clean all previously built docs before starting, otherwise False.",
         "doctest": "True to run doctests, otherwise False.",
