@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* Added support for `generate-proto-classes` to create `.pyi` files for generated Python classes.
+
 ### Changed
 
 ### Removed
