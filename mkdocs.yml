@@ -20,7 +20,7 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  logo: assets/images/compas_icon_white.png
+  logo: assets/images/compas_pb.png
   favicon: public/favicon.ico
   features:
     - content.code.copy

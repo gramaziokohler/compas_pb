@@ -9,3 +9,6 @@ twine
 wheel
 pytest-mock
 build
+mkdocs
+mkdocs-material
+mkdocstrings[python]
