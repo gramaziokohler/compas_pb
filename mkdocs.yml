@@ -117,21 +117,15 @@ plugins:
             unwrap_annotated: true
 
 
-# TODO: update for this project
 nav:
   - Home: index.md
   - Get Started:
       - Introduction: introduction.md
       - Installation: installation.md
-  - Reference:
-      - algorithms: reference/compas_model.algorithms.md
-      - datastructures: reference/compas_model.datastructures.md
-      - geometry: reference/compas_model.geometry.md
-      - interactions: reference/compas_model.interactions.md
-      - materials: reference/compas_model.materials.md
-      - models: reference/compas_model.models.md
-      - modifiers: reference/compas_model.modifiers.md
-      - scene: reference/compas_model.scene.md
-      - viewer: reference/compas_model.viewer.md
+  - API Reference:
+      - compas_pb: reference/compas_pb.md
+      - compas_pb.core: reference/compas_pb.core.md
+      - compas_pb.registry: reference/compas_pb.registry.md
+      - compas_pb.conversions: reference/compas_pb.conversions.md
   - Other:
       - changelog.md
