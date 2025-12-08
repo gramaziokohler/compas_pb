@@ -192,20 +192,19 @@ def create_class_assets(ctx):
 def docs(ctx, doctest=False, rebuild=False, check_links=False):
     # intercepting the `invoke docs` call so that the protobuf docs are generated first
     # the single html file is linked to from the main docs site
-    from compas_invocations2.docs import docs
-
     protoc_path, plugin_path = setup_protoc()
     proto_files = ctx.proto_folder / "*.proto"
-    target_dir = Path(ctx.base_folder) / "docs" / "_static" / "protobuf"
+    target_dir = Path(ctx.base_folder) / "docs"
     target_dir.mkdir(parents=True, exist_ok=True)
 
     cmd = f"{protoc_path} "
     cmd += f"--plugin=protoc-gen-doc={plugin_path} "
     cmd += " ".join(f"--proto_path={p}" for p in ctx.proto_include_paths)
     cmd += f" --doc_out={target_dir}"
-    cmd += f" --doc_opt=html,index.html {proto_files}"
+    cmd += f" --doc_opt=markdown,protobuf.md {proto_files}"
     print(f"Generating protobuf docs with command: {cmd}")
     ctx.run(cmd)
 
-    # now call the original docs task
-    docs(ctx, doctest, rebuild, check_links)
+    dist_dir = Path(ctx.base_folder) / "dist"
+
+    ctx.run(f"mkdocs build -c -d {dist_dir} -t material")

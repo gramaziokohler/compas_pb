@@ -122,10 +122,14 @@ nav:
   - Get Started:
       - Introduction: introduction.md
       - Installation: installation.md
+      - Examples: examples.md
+      - Missing COMPAS Type?: missing_compas_type.md
   - API Reference:
       - compas_pb: reference/compas_pb.md
       - compas_pb.core: reference/compas_pb.core.md
       - compas_pb.registry: reference/compas_pb.registry.md
       - compas_pb.conversions: reference/compas_pb.conversions.md
+  - Protobuf Definitions: protobuf.md
   - Other:
       - changelog.md
+      - license.md
