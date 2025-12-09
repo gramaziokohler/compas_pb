@@ -2,12 +2,8 @@ name: docs
 
 on:
   push:
-    branches:
-      - main
-
-  pull_request:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 permissions:
   contents: write
@@ -38,4 +34,4 @@ jobs:
 
       - name: Deploy to GitHub Pages
         run: |
-          mkdocs gh-deploy --force
+          mike deploy --push --update-aliases ${{ github.ref_name }} latest
