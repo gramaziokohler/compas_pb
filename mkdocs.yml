@@ -14,13 +14,25 @@ extra:
 theme:
   name: material
   palette:
-    scheme: slate
-    primary: indigo
-    accent: indigo
+    # Palette toggle for light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   font:
     text: Roboto
     code: Roboto Mono
-  logo: assets/images/compas_pb.png
+  logo: assets/images/compas_logo_white_transparent.png
   favicon: public/favicon.ico
   features:
     - content.code.copy
@@ -33,6 +45,9 @@ theme:
     - search.highlight
     - search.suggest
     - toc.follow
+
+extra_css:
+  - assets/css/custom.css
 
 markdown_extensions:
   - abbr
