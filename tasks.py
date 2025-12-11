@@ -7,6 +7,7 @@ from compas_invocations2 import tests
 
 from compas_pb.invocations import generate_proto_classes
 from compas_pb.invocations import create_class_assets
+from compas_pb.invocations import proto_docs
 
 
 ns = Collection(
@@ -21,6 +22,7 @@ ns = Collection(
     build.release,
     generate_proto_classes,
     create_class_assets,
+    proto_docs,
 )
 
 ns.configure(
