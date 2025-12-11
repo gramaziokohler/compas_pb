@@ -1,9 +1,6 @@
 name: docs
 
-on:
-  push:
-    tags:
-      - 'v*'
+on: workflow_dispatch
 
 permissions:
   contents: write
@@ -32,6 +29,11 @@ jobs:
         run: |
           invoke proto_docs
 
+      - name: Get version
+        run: |
+          VERSION=$(python -c "import compas_pb; print(compas_pb.__version__)")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Deploy to GitHub Pages
         run: |
-          mike deploy --push --update-aliases ${{ github.ref_name }} latest
+          mike deploy --push --update-aliases ${{ env.VERSION }} latest
