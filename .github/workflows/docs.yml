@@ -27,7 +27,7 @@ jobs:
 
       - name: Generate Protobuf Docs
         run: |
-          invoke proto_docs
+          invoke proto-docs
 
       - name: Get version
         run: |
