@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+* Migrated the documentation website to MkDocs Material from Sphinx.
+
 ### Removed
 
 

@@ -2,19 +2,36 @@ name: docs
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
-  pull_request:
-    branches:
-      - main
+
+permissions:
+  contents: write
 
 jobs:
-  docs:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: compas-dev/compas-actions.docs@v4
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          doc_url: https://gramaziokohler.github.io/compas_pb
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          pip install -e .[docs]
+
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Generate Protobuf Docs
+        run: |
+          invoke proto_docs
+
+      - name: Deploy to GitHub Pages
+        run: |
+          mike deploy --push --update-aliases ${{ github.ref_name }} latest
