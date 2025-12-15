@@ -1,14 +1,5 @@
 [
   {
-    "name": "Latest",
-    "title": "Latest",
-    "version": "latest",
-    "aliases": [
-      "latest"
-    ],
-    "url": "https://gramaziokohler.github.io/compas_pb/latest/"
-  },
-  {
     "name": "0.5.4-test2",
     "title": "0.5.4-test2",
     "version": "0.5.4-test2",
@@ -19,7 +10,8 @@
     "title": "0.4.6",
     "version": "0.4.6",
     "aliases": [
-      "stable"
+      "stable",
+      "latest"
     ],
     "url": "https://gramaziokohler.github.io/compas_pb/0.4.6/"
   },
