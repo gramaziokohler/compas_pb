@@ -23,7 +23,7 @@ def _patch_versions_info():
         data = {"version": str(self.version), "title": self.title, "aliases": list(self.aliases)}
         if self.properties:
             data["properties"] = self.properties
-        if self.external_attrs:
+        if getattr(self, "external_attrs", None):
             data.update(self.external_attrs)
         return data
 
@@ -52,6 +52,7 @@ ns = Collection(
     generate_proto_classes,
     create_class_assets,
     proto_docs,
+    mike_deploy,
 )
 
 ns.configure(
