@@ -11,10 +11,13 @@ from compas_pb.invocations import proto_docs
 
 
 def _patch_versions_info():
+    # our `versions.json` contains some fields which aren't supported by mike's
+    # VersionInfo class. Unfortunately mike overwrites the entire content everytime which breaks the version selector of the old Sphinx sites.
+    # Here we monkey-patch the class to preserve unknown fields during load/dump.
     from mike.versions import VersionInfo
 
     @classmethod
-    def from_json(cls, data: dict):
+    def patched_from_json(cls, data: dict):
         instance = cls(
             data.pop("version"),
             data.pop("title"),
@@ -24,7 +27,7 @@ def _patch_versions_info():
         instance.external_attrs = data
         return instance
 
-    def to_json(self):
+    def patched_to_json(self):
         data = {
             "version": str(self.version),
             "title": self.title,
@@ -36,12 +39,12 @@ def _patch_versions_info():
             data.update(self.external_attrs)
         return data
 
-    VersionInfo.from_json = from_json
-    VersionInfo.to_json = to_json
+    VersionInfo.from_json = patched_from_json
+    VersionInfo.to_json = patched_to_json
 
 
-@task()
-def mike_deploy(ctx, version: str):
+@task(help={"version": "The library version for which the documentation is to be deployed (e.g., '1.0.0')", "push_to_origin": "Whether to push the changes to the origin remote"})
+def mike_deploy(ctx, version: str, push_to_origin: bool = False):
     from mike import driver
     from argparse import Namespace
 
@@ -52,7 +55,7 @@ def mike_deploy(ctx, version: str):
         title=version,
         aliases=["latest"],
         update_aliases=True,
-        push=False,  # TODO: enable push later
+        push=push_to_origin,
         branch="gh-pages",
         remote="origin",
         message=None,
