@@ -15,12 +15,21 @@ def _patch_versions_info():
 
     @classmethod
     def from_json(cls, data: dict):
-        instance = cls(data.pop("version"), data.pop("title"), data.pop("aliases"), data.pop("properties", None))
+        instance = cls(
+            data.pop("version"),
+            data.pop("title"),
+            data.pop("aliases"),
+            data.pop("properties", None),
+        )
         instance.external_attrs = data
         return instance
 
     def to_json(self):
-        data = {"version": str(self.version), "title": self.title, "aliases": list(self.aliases)}
+        data = {
+            "version": str(self.version),
+            "title": self.title,
+            "aliases": list(self.aliases),
+        }
         if self.properties:
             data["properties"] = self.properties
         if getattr(self, "external_attrs", None):
@@ -33,10 +42,31 @@ def _patch_versions_info():
 
 @task()
 def mike_deploy(ctx, version: str):
+    from mike import driver
+    from argparse import Namespace
+
     _patch_versions_info()
-    cmd = f"mike deploy --push --update-aliases {version} latest"
-    print(f"Running: {cmd}")
-    ctx.run(cmd)
+
+    args = Namespace(
+        version=version,
+        title=version,
+        aliases=["latest"],
+        update_aliases=True,
+        push=False,  # TODO: enable push later
+        branch="gh-pages",
+        remote="origin",
+        message=None,
+        config_file=None,
+        allow_empty=False,
+        deploy_prefix=None,
+        ignore_remote_status=False,
+        alias_type="symlink",
+        template=None,
+        set_props=None,
+        quiet=False,
+    )
+
+    driver.deploy(None, args)
 
 
 ns = Collection(
