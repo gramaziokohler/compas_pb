@@ -1,10 +1,5 @@
 [
   {
-    "version": "0.5.4-test2",
-    "title": "0.5.4-test2",
-    "aliases": []
-  },
-  {
     "version": "0.4.7",
     "title": "0.4.7",
     "aliases": [
@@ -16,21 +11,29 @@
     "title": "0.4.6",
     "aliases": [
       "stable"
-    ]
+    ],
+    "name": "0.4.6 (latest)",
+    "url": "https://gramaziokohler.github.io/compas_pb/latest/"
   },
   {
     "version": "0.3.1",
     "title": "0.3.1",
-    "aliases": []
+    "aliases": [],
+    "name": "0.3.1",
+    "url": "https://gramaziokohler.github.io/compas_pb/0.3.1/"
   },
   {
     "version": "0.2.0",
     "title": "0.2.0",
-    "aliases": []
+    "aliases": [],
+    "name": "0.2.0",
+    "url": "https://gramaziokohler.github.io/compas_pb/0.2.0/"
   },
   {
     "version": "0.1.1",
     "title": "0.1.1",
-    "aliases": []
+    "aliases": [],
+    "name": "0.1.1",
+    "url": "https://gramaziokohler.github.io/compas_pb/0.1.1/"
   }
 ]
