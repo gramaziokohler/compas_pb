@@ -37,4 +37,4 @@ jobs:
       - name: Deploy to GitHub Pages
         run: |
           git fetch origin gh-pages --depth=1
-          mike deploy --push --update-aliases ${{ env.VERSION }} latest
+          invoke mike-deploy --version ${{ env.VERSION }} --push-to-origin true
