@@ -10,7 +10,7 @@ import "google/protobuf/struct.proto";
 // ============================================================================
 
 message PointData {
-  // no inheritance, so Data will have to repeate but apparently
+  // no inheritance, so Data will have to repeat but apparently
   string guid = 1;
   string name = 2;
   float x = 3;
