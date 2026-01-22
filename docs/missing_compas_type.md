@@ -7,18 +7,16 @@ This guide explains how to extend compas_pb with support for more COMPAS types.
 
 ## Creating New Serializers
 
-### 1. Create a protobuf definition for the type you wish to add (for example `Circle`)
+### 1. Add a protobuf definition for the type you wish to add
 
-Create a protobuf definition for the new type you wish to add. This should be placed in `IDL/compas_pb/generated/`.
+Add a protobuf message definition for the new type to the unified `geometry.proto` file located at `src/compas_pb/protobuf_defs/compas_pb/generated/geometry.proto`.
 
-```protobuf title="IDL/compas_pb/generated/custom_point.proto"
-syntax = "proto3";
+For example, to add a custom `CustomShape` type:
 
-package compas_pb.data;
+```protobuf title="src/compas_pb/protobuf_defs/compas_pb/generated/geometry.proto"
+// Add to the appropriate section in geometry.proto
 
-import "compas_pb/generated/frame.proto";
-
-message CircleData {
+message CustomShapeData {
     string guid = 1;
     string name = 2;
     float radius = 3;
@@ -26,40 +24,43 @@ message CircleData {
 }
 ```
 
-### 3. Generate the python code for the new type
+!!! note
+    All geometry types are now defined in a single `geometry.proto` file. This makes it easier to manage dependencies between types and see the full structure at a glance.
 
-Now run the following command to generate the python code:
+### 2. Generate the python code for the updated proto file
+
+Now run the following command to regenerate the python code from the updated proto file:
 
 ```bash
-invoke protobuf.generate-proto-classes -t python
+invoke generate-proto-classes -t python
 ```
 
-A new module called `circle_pb2` should now be available in `compas_pb/generated/`.
+The generated `geometry_pb2` module in `src/compas_pb/generated/` will now include your new type.
 
-### 4. Create a (de)serializer for the new type
+### 3. Create a (de)serializer for the new type
 
 To create a (de)serializer for a custom type, use the `@pb_serializer` and `@pb_deserializer` decorators. These decorators will be used to register the serializer and deserializer with the plugin system.
 
 ```python title="compas_pb/conversions.py"
-from compas_pb.data import pb_serializer
-from compas_pb.data import pb_deserializer
-from compas_pb.generated import circle_pb2
+from compas_pb.registry import pb_serializer
+from compas_pb.registry import pb_deserializer
+from compas_pb.generated import geometry_pb2
 
 
-@pb_serializer(Circle)
-def my_circle_to_pb(obj: Circle) -> circle_pb2.CircleData:
-    """Convert Circle to protobuf message."""
-    result = circle_pb2.CircleData()
-    result.guid = obj.guid
+@pb_serializer(CustomShape)
+def custom_shape_to_pb(obj: CustomShape) -> geometry_pb2.CustomShapeData:
+    """Convert CustomShape to protobuf message."""
+    result = geometry_pb2.CustomShapeData()
+    result.guid = str(obj.guid)
     result.name = obj.name
     result.radius = obj.radius
-    result.frame = frame_to_pb(obj.frame)
+    result.frame.CopyFrom(frame_to_pb(obj.frame))
     return result
 
-@pb_deserializer(circle_pb2.CircleData)
-def my_circle_from_pb(proto_data: circle_pb2.CircleData) -> Circle:
-    """Convert protobuf message to Circle."""
-    return Circle(
+@pb_deserializer(geometry_pb2.CustomShapeData)
+def custom_shape_from_pb(proto_data: geometry_pb2.CustomShapeData) -> CustomShape:
+    """Convert protobuf message to CustomShape."""
+    return CustomShape(
         guid=proto_data.guid,
         name=proto_data.name,
         radius=proto_data.radius,
