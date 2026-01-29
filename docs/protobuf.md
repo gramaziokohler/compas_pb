@@ -114,8 +114,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| guid | [string](#string) |  |  |
-| name | [string](#string) |  |  |
+| guid | [string](#string) | optional |  |
+| name | [string](#string) | optional |  |
 | vertices | [PointData](#compas_pb-data-PointData) | repeated |  |
 | faces | [FaceData](#compas_pb-data-FaceData) | repeated |  |
 
@@ -669,7 +669,7 @@
 <a name="compas_pb-data-AnyData"></a>
 
 ### AnyData
-arbitrate container to hold message data and default data
+arbitrary container to hold message data and default data
 
 
 | Field | Type | Label | Description |

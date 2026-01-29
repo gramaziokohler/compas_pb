@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from compas_pb.generated import geometry_pb2 as compas__pb_dot_generated_dot_geometry__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n(compas_pb/generated/datastructures.proto\x12\x0e\x63ompas_pb.data\x1a\"compas_pb/generated/geometry.proto\"\x1b\n\x08\x46\x61\x63\x65List\x12\x0f\n\x07indices\x18\x01 \x03(\r\"\x98\x01\n\x08MeshData\x12\x11\n\x04guid\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x11\n\x04name\x18\x02 \x01(\tH\x01\x88\x01\x01\x12+\n\x08vertices\x18\x03 \x03(\x0b\x32\x19.compas_pb.data.PointData\x12\'\n\x05\x66\x61\x63\x65s\x18\x04 \x03(\x0b\x32\x18.compas_pb.data.FaceListB\x07\n\x05_guidB\x07\n\x05_name\"\"\n\x08\x46\x61\x63\x65\x44\x61ta\x12\x16\n\x0evertex_indices\x18\x01 \x03(\x05\"\x82\x01\n\x0ePolyhedronData\x12\x0c\n\x04guid\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12+\n\x08vertices\x18\x03 \x03(\x0b\x32\x19.compas_pb.data.PointData\x12\'\n\x05\x66\x61\x63\x65s\x18\x04 \x03(\x0b\x32\x18.compas_pb.data.FaceDatab\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n(compas_pb/generated/datastructures.proto\x12\x0e\x63ompas_pb.data\x1a\"compas_pb/generated/geometry.proto\"\x1b\n\x08\x46\x61\x63\x65List\x12\x0f\n\x07indices\x18\x01 \x03(\r\"\x98\x01\n\x08MeshData\x12\x11\n\x04guid\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x11\n\x04name\x18\x02 \x01(\tH\x01\x88\x01\x01\x12+\n\x08vertices\x18\x03 \x03(\x0b\x32\x19.compas_pb.data.PointData\x12\'\n\x05\x66\x61\x63\x65s\x18\x04 \x03(\x0b\x32\x18.compas_pb.data.FaceListB\x07\n\x05_guidB\x07\n\x05_name\"\"\n\x08\x46\x61\x63\x65\x44\x61ta\x12\x16\n\x0evertex_indices\x18\x01 \x03(\x05\"\x9e\x01\n\x0ePolyhedronData\x12\x11\n\x04guid\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x11\n\x04name\x18\x02 \x01(\tH\x01\x88\x01\x01\x12+\n\x08vertices\x18\x03 \x03(\x0b\x32\x19.compas_pb.data.PointData\x12\'\n\x05\x66\x61\x63\x65s\x18\x04 \x03(\x0b\x32\x18.compas_pb.data.FaceDataB\x07\n\x05_guidB\x07\n\x05_nameb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -39,5 +39,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_FACEDATA']._serialized_start=280
   _globals['_FACEDATA']._serialized_end=314
   _globals['_POLYHEDRONDATA']._serialized_start=317
-  _globals['_POLYHEDRONDATA']._serialized_end=447
+  _globals['_POLYHEDRONDATA']._serialized_end=475
 # @@protoc_insertion_point(module_scope)
