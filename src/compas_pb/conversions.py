@@ -29,6 +29,7 @@ from compas.geometry import Transformation
 from compas.geometry import Translation
 from compas.geometry import Vector
 
+from compas_pb.generated import datastructures_pb2
 from compas_pb.generated import geometry_pb2
 
 from .registry import pb_deserializer
@@ -243,7 +244,7 @@ def frame_from_pb(proto_data: geometry_pb2.FrameData) -> Frame:
 
 
 @pb_serializer(Mesh)
-def mesh_to_pb(mesh: Mesh) -> geometry_pb2.MeshData:
+def mesh_to_pb(mesh: Mesh) -> datastructures_pb2.MeshData:
     """
     Convert a COMPAS Mesh to protobuf message.
 
@@ -254,10 +255,10 @@ def mesh_to_pb(mesh: Mesh) -> geometry_pb2.MeshData:
 
     Returns
     -------
-    geometry_pb2.MeshData
+    datastructures_pb2.MeshData
         The protobuf message representing the Mesh.
     """
-    proto_data = geometry_pb2.MeshData()
+    proto_data = datastructures_pb2.MeshData()
     proto_data.guid = str(mesh.guid)
     proto_data.name = mesh.name or "Mesh"
 
@@ -269,21 +270,21 @@ def mesh_to_pb(mesh: Mesh) -> geometry_pb2.MeshData:
 
     for fkey in mesh.faces():
         indices = [index_map[vkey] for vkey in mesh.face_vertices(fkey)]
-        face_msg = geometry_pb2.FaceList()
+        face_msg = datastructures_pb2.FaceList()
         face_msg.indices.extend(indices)
         proto_data.faces.append(face_msg)
 
     return proto_data
 
 
-@pb_deserializer(geometry_pb2.MeshData)
-def mesh_from_pb(proto_data: geometry_pb2.MeshData) -> Mesh:
+@pb_deserializer(datastructures_pb2.MeshData)
+def mesh_from_pb(proto_data: datastructures_pb2.MeshData) -> Mesh:
     """
     Convert a protobuf message to COMPAS Mesh.
 
     Parameters
     ----------
-    proto_data : geometry_pb2.MeshData
+    proto_data : datastructures_pb2.MeshData
         The protobuf message representing a Mesh.
 
     Returns
@@ -1640,7 +1641,7 @@ def parabola_from_pb(proto_data: geometry_pb2.ParabolaData) -> Parabola:
 
 
 @pb_serializer(Polyhedron)
-def polyhedron_to_pb(polyhedron: Polyhedron) -> geometry_pb2.PolyhedronData:
+def polyhedron_to_pb(polyhedron: Polyhedron) -> datastructures_pb2.PolyhedronData:
     """
     Convert a COMPAS Polyhedron to protobuf message.
 
@@ -1651,10 +1652,10 @@ def polyhedron_to_pb(polyhedron: Polyhedron) -> geometry_pb2.PolyhedronData:
 
     Returns
     -------
-    geometry_pb2.PolyhedronData
+    datastructures_pb2.PolyhedronData
         The protobuf message representing the Polyhedron.
     """
-    proto_data = geometry_pb2.PolyhedronData()
+    proto_data = datastructures_pb2.PolyhedronData()
     proto_data.guid = str(polyhedron.guid)
     proto_data.name = polyhedron.name
 
@@ -1665,7 +1666,7 @@ def polyhedron_to_pb(polyhedron: Polyhedron) -> geometry_pb2.PolyhedronData:
 
     # Add faces
     for face in polyhedron.faces:
-        proto_face = geometry_pb2.FaceData()
+        proto_face = datastructures_pb2.FaceData()
         for vertex_index in face:
             proto_face.vertex_indices.append(vertex_index)
         proto_data.faces.append(proto_face)
@@ -1673,14 +1674,14 @@ def polyhedron_to_pb(polyhedron: Polyhedron) -> geometry_pb2.PolyhedronData:
     return proto_data
 
 
-@pb_deserializer(geometry_pb2.PolyhedronData)
-def polyhedron_from_pb(proto_data: geometry_pb2.PolyhedronData) -> Polyhedron:
+@pb_deserializer(datastructures_pb2.PolyhedronData)
+def polyhedron_from_pb(proto_data: datastructures_pb2.PolyhedronData) -> Polyhedron:
     """
     Convert a protobuf message to COMPAS Polyhedron.
 
     Parameters
     ----------
-    proto_data : geometry_pb2.PolyhedronData
+    proto_data : datastructures_pb2.PolyhedronData
         The protobuf message representing a Polyhedron.
 
     Returns

@@ -3,8 +3,13 @@
 
 ## Table of Contents
 
+- [compas_pb/generated/datastructures.proto](#compas_pb_generated_datastructures-proto)
+    - [FaceData](#compas_pb-data-FaceData)
+    - [FaceList](#compas_pb-data-FaceList)
+    - [MeshData](#compas_pb-data-MeshData)
+    - [PolyhedronData](#compas_pb-data-PolyhedronData)
+  
 - [compas_pb/generated/geometry.proto](#compas_pb_generated_geometry-proto)
-    - [AnyData](#compas_pb-data-AnyData)
     - [ArcData](#compas_pb-data-ArcData)
     - [BezierData](#compas_pb-data-BezierData)
     - [BoxData](#compas_pb-data-BoxData)
@@ -12,24 +17,15 @@
     - [CircleData](#compas_pb-data-CircleData)
     - [ConeData](#compas_pb-data-ConeData)
     - [CylinderData](#compas_pb-data-CylinderData)
-    - [DictData](#compas_pb-data-DictData)
-    - [DictData.ItemsEntry](#compas_pb-data-DictData-ItemsEntry)
     - [EllipseData](#compas_pb-data-EllipseData)
-    - [FaceData](#compas_pb-data-FaceData)
-    - [FaceList](#compas_pb-data-FaceList)
-    - [FallbackData](#compas_pb-data-FallbackData)
     - [FrameData](#compas_pb-data-FrameData)
     - [HyperbolaData](#compas_pb-data-HyperbolaData)
     - [LineData](#compas_pb-data-LineData)
-    - [ListData](#compas_pb-data-ListData)
-    - [MeshData](#compas_pb-data-MeshData)
-    - [MessageData](#compas_pb-data-MessageData)
     - [ParabolaData](#compas_pb-data-ParabolaData)
     - [PlaneData](#compas_pb-data-PlaneData)
     - [PointData](#compas_pb-data-PointData)
     - [PointcloudData](#compas_pb-data-PointcloudData)
     - [PolygonData](#compas_pb-data-PolygonData)
-    - [PolyhedronData](#compas_pb-data-PolyhedronData)
     - [PolylineData](#compas_pb-data-PolylineData)
     - [ProjectionData](#compas_pb-data-ProjectionData)
     - [QuaternionData](#compas_pb-data-QuaternionData)
@@ -43,7 +39,97 @@
     - [TranslationData](#compas_pb-data-TranslationData)
     - [VectorData](#compas_pb-data-VectorData)
   
+- [compas_pb/generated/message.proto](#compas_pb_generated_message-proto)
+    - [AnyData](#compas_pb-data-AnyData)
+    - [DictData](#compas_pb-data-DictData)
+    - [DictData.ItemsEntry](#compas_pb-data-DictData-ItemsEntry)
+    - [FallbackData](#compas_pb-data-FallbackData)
+    - [ListData](#compas_pb-data-ListData)
+    - [MessageData](#compas_pb-data-MessageData)
+  
 - [Scalar Value Types](#scalar-value-types)
+
+
+
+<a name="compas_pb_generated_datastructures-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## compas_pb/generated/datastructures.proto
+
+
+
+<a name="compas_pb-data-FaceData"></a>
+
+### FaceData
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| vertex_indices | [int32](#int32) | repeated | indices into the vertices array |
+
+
+
+
+
+
+<a name="compas_pb-data-FaceList"></a>
+
+### FaceList
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| indices | [uint32](#uint32) | repeated |  |
+
+
+
+
+
+
+<a name="compas_pb-data-MeshData"></a>
+
+### MeshData
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| guid | [string](#string) | optional |  |
+| name | [string](#string) | optional |  |
+| vertices | [PointData](#compas_pb-data-PointData) | repeated |  |
+| faces | [FaceList](#compas_pb-data-FaceList) | repeated |  |
+
+
+
+
+
+
+<a name="compas_pb-data-PolyhedronData"></a>
+
+### PolyhedronData
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| guid | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| vertices | [PointData](#compas_pb-data-PointData) | repeated |  |
+| faces | [FaceData](#compas_pb-data-FaceData) | repeated |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
 
 
 
@@ -51,23 +137,6 @@
 <p align="right"><a href="#top">Top</a></p>
 
 ## compas_pb/generated/geometry.proto
-
-
-
-<a name="compas_pb-data-AnyData"></a>
-
-### AnyData
-arbitrate container to hold message data and default data
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| message | [google.protobuf.Any](#google-protobuf-Any) |  |  |
-| value | [google.protobuf.Value](#google-protobuf-Value) |  |  |
-| fallback | [FallbackData](#compas_pb-data-FallbackData) |  |  |
-
-
-
 
 
 
@@ -203,37 +272,6 @@ arbitrate container to hold message data and default data
 
 
 
-<a name="compas_pb-data-DictData"></a>
-
-### DictData
-repeated serves as a dict in protobuf
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| items | [DictData.ItemsEntry](#compas_pb-data-DictData-ItemsEntry) | repeated |  |
-
-
-
-
-
-
-<a name="compas_pb-data-DictData-ItemsEntry"></a>
-
-### DictData.ItemsEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [AnyData](#compas_pb-data-AnyData) |  |  |
-
-
-
-
-
-
 <a name="compas_pb-data-EllipseData"></a>
 
 ### EllipseData
@@ -247,51 +285,6 @@ repeated serves as a dict in protobuf
 | major | [float](#float) |  |  |
 | minor | [float](#float) |  |  |
 | frame | [FrameData](#compas_pb-data-FrameData) |  |  |
-
-
-
-
-
-
-<a name="compas_pb-data-FaceData"></a>
-
-### FaceData
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| vertex_indices | [int32](#int32) | repeated | indices into the vertices array |
-
-
-
-
-
-
-<a name="compas_pb-data-FaceList"></a>
-
-### FaceList
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| indices | [uint32](#uint32) | repeated |  |
-
-
-
-
-
-
-<a name="compas_pb-data-FallbackData"></a>
-
-### FallbackData
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| data | [DictData](#compas_pb-data-DictData) |  |  |
 
 
 
@@ -354,55 +347,6 @@ repeated serves as a dict in protobuf
 
 
 
-<a name="compas_pb-data-ListData"></a>
-
-### ListData
-repeated serves as a list in protobuf
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| items | [AnyData](#compas_pb-data-AnyData) | repeated |  |
-
-
-
-
-
-
-<a name="compas_pb-data-MeshData"></a>
-
-### MeshData
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| guid | [string](#string) | optional |  |
-| name | [string](#string) | optional |  |
-| vertices | [PointData](#compas_pb-data-PointData) | repeated |  |
-| faces | [FaceList](#compas_pb-data-FaceList) | repeated |  |
-
-
-
-
-
-
-<a name="compas_pb-data-MessageData"></a>
-
-### MessageData
-root serialization element
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| data | [AnyData](#compas_pb-data-AnyData) |  |  |
-| version | [string](#string) | optional |  |
-
-
-
-
-
-
 <a name="compas_pb-data-ParabolaData"></a>
 
 ### ParabolaData
@@ -447,7 +391,7 @@ root serialization element
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| guid | [string](#string) |  | no inheritance, so Data will have to repeate but apparently |
+| guid | [string](#string) |  | no inheritance, so Data will have to repeat but apparently |
 | name | [string](#string) |  |  |
 | x | [float](#float) |  |  |
 | y | [float](#float) |  |  |
@@ -486,24 +430,6 @@ root serialization element
 | guid | [string](#string) |  |  |
 | name | [string](#string) |  |  |
 | points | [PointData](#compas_pb-data-PointData) | repeated |  |
-
-
-
-
-
-
-<a name="compas_pb-data-PolyhedronData"></a>
-
-### PolyhedronData
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| guid | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| vertices | [PointData](#compas_pb-data-PointData) | repeated |  |
-| faces | [FaceData](#compas_pb-data-FaceData) | repeated |  |
 
 
 
@@ -718,6 +644,116 @@ root serialization element
 | x | [float](#float) |  |  |
 | y | [float](#float) |  |  |
 | z | [float](#float) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="compas_pb_generated_message-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## compas_pb/generated/message.proto
+
+
+
+<a name="compas_pb-data-AnyData"></a>
+
+### AnyData
+arbitrate container to hold message data and default data
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| message | [google.protobuf.Any](#google-protobuf-Any) |  |  |
+| value | [google.protobuf.Value](#google-protobuf-Value) |  |  |
+| fallback | [FallbackData](#compas_pb-data-FallbackData) |  |  |
+
+
+
+
+
+
+<a name="compas_pb-data-DictData"></a>
+
+### DictData
+repeated serves as a dict in protobuf
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| items | [DictData.ItemsEntry](#compas_pb-data-DictData-ItemsEntry) | repeated |  |
+
+
+
+
+
+
+<a name="compas_pb-data-DictData-ItemsEntry"></a>
+
+### DictData.ItemsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [AnyData](#compas_pb-data-AnyData) |  |  |
+
+
+
+
+
+
+<a name="compas_pb-data-FallbackData"></a>
+
+### FallbackData
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| data | [DictData](#compas_pb-data-DictData) |  |  |
+
+
+
+
+
+
+<a name="compas_pb-data-ListData"></a>
+
+### ListData
+repeated serves as a list in protobuf
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| items | [AnyData](#compas_pb-data-AnyData) | repeated |  |
+
+
+
+
+
+
+<a name="compas_pb-data-MessageData"></a>
+
+### MessageData
+root serialization element
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| data | [AnyData](#compas_pb-data-AnyData) |  |  |
+| version | [string](#string) | optional |  |
 
 
 

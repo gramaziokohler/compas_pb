@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package compas_pb.data;
+
+import "compas_pb/generated/geometry.proto";
+
+// ============================================================================
+// Data Structures
+// ============================================================================
+
+message FaceList {
+    repeated uint32 indices = 1;
+}
+
+message MeshData {
+  optional string guid = 1;
+  optional string name = 2;
+  repeated PointData vertices = 3;
+  repeated FaceList faces = 4;
+}
+
+message FaceData {
+    repeated int32 vertex_indices = 1; // indices into the vertices array
+}
+
+message PolyhedronData {
+    string guid = 1;
+    string name = 2;
+    repeated PointData vertices = 3;
+    repeated FaceData faces = 4;
+}

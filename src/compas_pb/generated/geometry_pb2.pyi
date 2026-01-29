@@ -1,5 +1,3 @@
-from google.protobuf import any_pb2 as _any_pb2
-from google.protobuf import struct_pb2 as _struct_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
@@ -282,42 +280,6 @@ class PointcloudData(_message.Message):
     points: _containers.RepeatedCompositeFieldContainer[PointData]
     def __init__(self, guid: _Optional[str] = ..., name: _Optional[str] = ..., points: _Optional[_Iterable[_Union[PointData, _Mapping]]] = ...) -> None: ...
 
-class FaceList(_message.Message):
-    __slots__ = ("indices",)
-    INDICES_FIELD_NUMBER: _ClassVar[int]
-    indices: _containers.RepeatedScalarFieldContainer[int]
-    def __init__(self, indices: _Optional[_Iterable[int]] = ...) -> None: ...
-
-class MeshData(_message.Message):
-    __slots__ = ("guid", "name", "vertices", "faces")
-    GUID_FIELD_NUMBER: _ClassVar[int]
-    NAME_FIELD_NUMBER: _ClassVar[int]
-    VERTICES_FIELD_NUMBER: _ClassVar[int]
-    FACES_FIELD_NUMBER: _ClassVar[int]
-    guid: str
-    name: str
-    vertices: _containers.RepeatedCompositeFieldContainer[PointData]
-    faces: _containers.RepeatedCompositeFieldContainer[FaceList]
-    def __init__(self, guid: _Optional[str] = ..., name: _Optional[str] = ..., vertices: _Optional[_Iterable[_Union[PointData, _Mapping]]] = ..., faces: _Optional[_Iterable[_Union[FaceList, _Mapping]]] = ...) -> None: ...
-
-class FaceData(_message.Message):
-    __slots__ = ("vertex_indices",)
-    VERTEX_INDICES_FIELD_NUMBER: _ClassVar[int]
-    vertex_indices: _containers.RepeatedScalarFieldContainer[int]
-    def __init__(self, vertex_indices: _Optional[_Iterable[int]] = ...) -> None: ...
-
-class PolyhedronData(_message.Message):
-    __slots__ = ("guid", "name", "vertices", "faces")
-    GUID_FIELD_NUMBER: _ClassVar[int]
-    NAME_FIELD_NUMBER: _ClassVar[int]
-    VERTICES_FIELD_NUMBER: _ClassVar[int]
-    FACES_FIELD_NUMBER: _ClassVar[int]
-    guid: str
-    name: str
-    vertices: _containers.RepeatedCompositeFieldContainer[PointData]
-    faces: _containers.RepeatedCompositeFieldContainer[FaceData]
-    def __init__(self, guid: _Optional[str] = ..., name: _Optional[str] = ..., vertices: _Optional[_Iterable[_Union[PointData, _Mapping]]] = ..., faces: _Optional[_Iterable[_Union[FaceData, _Mapping]]] = ...) -> None: ...
-
 class TransformationData(_message.Message):
     __slots__ = ("guid", "name", "matrix")
     GUID_FIELD_NUMBER: _ClassVar[int]
@@ -391,46 +353,3 @@ class ProjectionData(_message.Message):
     name: str
     matrix: _containers.RepeatedScalarFieldContainer[float]
     def __init__(self, guid: _Optional[str] = ..., name: _Optional[str] = ..., matrix: _Optional[_Iterable[float]] = ...) -> None: ...
-
-class AnyData(_message.Message):
-    __slots__ = ("message", "value", "fallback")
-    MESSAGE_FIELD_NUMBER: _ClassVar[int]
-    VALUE_FIELD_NUMBER: _ClassVar[int]
-    FALLBACK_FIELD_NUMBER: _ClassVar[int]
-    message: _any_pb2.Any
-    value: _struct_pb2.Value
-    fallback: FallbackData
-    def __init__(self, message: _Optional[_Union[_any_pb2.Any, _Mapping]] = ..., value: _Optional[_Union[_struct_pb2.Value, _Mapping]] = ..., fallback: _Optional[_Union[FallbackData, _Mapping]] = ...) -> None: ...
-
-class FallbackData(_message.Message):
-    __slots__ = ("data",)
-    DATA_FIELD_NUMBER: _ClassVar[int]
-    data: DictData
-    def __init__(self, data: _Optional[_Union[DictData, _Mapping]] = ...) -> None: ...
-
-class ListData(_message.Message):
-    __slots__ = ("items",)
-    ITEMS_FIELD_NUMBER: _ClassVar[int]
-    items: _containers.RepeatedCompositeFieldContainer[AnyData]
-    def __init__(self, items: _Optional[_Iterable[_Union[AnyData, _Mapping]]] = ...) -> None: ...
-
-class DictData(_message.Message):
-    __slots__ = ("items",)
-    class ItemsEntry(_message.Message):
-        __slots__ = ("key", "value")
-        KEY_FIELD_NUMBER: _ClassVar[int]
-        VALUE_FIELD_NUMBER: _ClassVar[int]
-        key: str
-        value: AnyData
-        def __init__(self, key: _Optional[str] = ..., value: _Optional[_Union[AnyData, _Mapping]] = ...) -> None: ...
-    ITEMS_FIELD_NUMBER: _ClassVar[int]
-    items: _containers.MessageMap[str, AnyData]
-    def __init__(self, items: _Optional[_Mapping[str, AnyData]] = ...) -> None: ...
-
-class MessageData(_message.Message):
-    __slots__ = ("data", "version")
-    DATA_FIELD_NUMBER: _ClassVar[int]
-    VERSION_FIELD_NUMBER: _ClassVar[int]
-    data: AnyData
-    version: str
-    def __init__(self, data: _Optional[_Union[AnyData, _Mapping]] = ..., version: _Optional[str] = ...) -> None: ...

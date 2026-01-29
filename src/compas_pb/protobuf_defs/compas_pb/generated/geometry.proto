@@ -2,9 +2,6 @@ syntax = "proto3";
 
 package compas_pb.data;
 
-import "google/protobuf/any.proto";
-import "google/protobuf/struct.proto";
-
 // ============================================================================
 // Basic Geometry Types
 // ============================================================================
@@ -180,28 +177,6 @@ message PointcloudData {
     repeated PointData points = 3;
 }
 
-message FaceList {
-    repeated uint32 indices = 1;
-}
-
-message MeshData {
-  optional string guid = 1;
-  optional string name = 2;
-  repeated PointData vertices = 3;
-  repeated FaceList faces = 4;
-}
-
-message FaceData {
-    repeated int32 vertex_indices = 1; // indices into the vertices array
-}
-
-message PolyhedronData {
-    string guid = 1;
-    string name = 2;
-    repeated PointData vertices = 3;
-    repeated FaceData faces = 4;
-}
-
 // ============================================================================
 // Transformations
 // ============================================================================
@@ -248,37 +223,4 @@ message ProjectionData {
     string guid = 1;
     string name = 2;
     repeated float matrix = 3; // 4x4 matrix stored as flat array of 16 floats
-}
-
-// ============================================================================
-// Serialization Framework
-// ============================================================================
-
-/** arbitrate container to hold message data and default data */
-message AnyData {
-  oneof data {
-    google.protobuf.Any message = 1;
-    google.protobuf.Value value = 2;
-    FallbackData fallback = 3;
-  }
-}
-
-message FallbackData {
-    DictData data = 1;
-}
-
-/** repeated serves as a list in protobuf */
-message ListData {
-  repeated AnyData items = 1;
-}
-
-/** repeated serves as a dict in protobuf */
-message DictData {
-  map<string, AnyData> items = 1;
-}
-
-/** root serialization element */
-message MessageData {
-  AnyData data = 1;
-  optional string version = 2;
 }

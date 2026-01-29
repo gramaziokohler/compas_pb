@@ -9,9 +9,13 @@ This guide explains how to extend compas_pb with support for more COMPAS types.
 
 ### 1. Add a protobuf definition for the type you wish to add
 
-Add a protobuf message definition for the new type to the unified `geometry.proto` file located at `src/compas_pb/protobuf_defs/compas_pb/generated/geometry.proto`.
+Add a protobuf message definition for the new type to the appropriate proto file:
 
-For example, to add a custom `CustomShape` type:
+- **`geometry.proto`** - For geometry primitives (points, vectors, curves, surfaces, transformations)
+- **`datastructures.proto`** - For COMPAS datastructures (mesh, polyhedron)
+- **`message.proto`** - For serialization framework types (internal use only)
+
+For example, to add a custom geometry type, add it to `src/compas_pb/protobuf_defs/compas_pb/generated/geometry.proto`:
 
 ```protobuf title="src/compas_pb/protobuf_defs/compas_pb/generated/geometry.proto"
 // Add to the appropriate section in geometry.proto
@@ -24,18 +28,34 @@ message CustomShapeData {
 }
 ```
 
+Or, for a COMPAS datastructure type, add it to `src/compas_pb/protobuf_defs/compas_pb/generated/datastructures.proto`:
+
+```protobuf title="src/compas_pb/protobuf_defs/compas_pb/generated/datastructures.proto"
+// Import geometry types if needed
+import "compas_pb/generated/geometry.proto";
+
+message CustomDataStructureData {
+    string guid = 1;
+    string name = 2;
+    repeated PointData vertices = 3;
+}
+```
+
 !!! note
-    All geometry types are now defined in a single `geometry.proto` file. This makes it easier to manage dependencies between types and see the full structure at a glance.
+    Proto definitions are organized to match COMPAS package structure:
+    - `geometry.proto` → `compas.geometry`
+    - `datastructures.proto` → `compas.datastructures`
+    - `message.proto` → internal serialization framework
 
 ### 2. Generate the python code for the updated proto file
 
-Now run the following command to regenerate the python code from the updated proto file:
+Now run the following command to regenerate the python code from the updated proto files:
 
 ```bash
 invoke generate-proto-classes -t python
 ```
 
-The generated `geometry_pb2` module in `src/compas_pb/generated/` will now include your new type.
+The generated modules (`geometry_pb2`, `datastructures_pb2`, `message_pb2`) in `src/compas_pb/generated/` will now include your new type.
 
 ### 3. Create a (de)serializer for the new type
 
@@ -44,7 +64,7 @@ To create a (de)serializer for a custom type, use the `@pb_serializer` and `@pb_
 ```python title="compas_pb/conversions.py"
 from compas_pb.registry import pb_serializer
 from compas_pb.registry import pb_deserializer
-from compas_pb.generated import geometry_pb2
+from compas_pb.generated import geometry_pb2  # or datastructures_pb2
 
 
 @pb_serializer(CustomShape)
