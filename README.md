@@ -20,6 +20,19 @@ Stable releases can be installed from PyPI.
 pip install compas_pb
 ```
 
+## Development Installation
+
+To install for development (from source):
+
+```bash
+git clone https://github.com/gramaziokohler/compas_pb.git
+cd compas_pb
+pip install -e ".[dev]"
+invoke generate-proto-classes -t python
+```
+
+**Note:** The protobuf Python files are auto-generated from `.proto` definitions and are not tracked in the repository. After cloning, you must run `invoke generate-proto-classes -t python` to generate them before the package will work.
+
 ## Basic Usage
 
 ### Serialize to file

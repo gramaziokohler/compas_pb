@@ -152,3 +152,10 @@ cSharp/**/bin/*
 cSharp/**/obj/*
 
 *.bin
+
+# ------------------------------------------------------------------------------
+# generated protobuf files
+# ------------------------------------------------------------------------------
+
+src/compas_pb/generated/*_pb2.py
+src/compas_pb/generated/*_pb2.pyi

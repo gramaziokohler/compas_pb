@@ -5,9 +5,9 @@ from compas_invocations2 import build
 from compas_invocations2 import style
 from compas_invocations2 import tests
 
-from compas_pb.invocations import generate_proto_classes
-from compas_pb.invocations import create_class_assets
-from compas_pb.invocations import proto_docs
+from invocations import generate_proto_classes
+from invocations import create_class_assets
+from invocations import proto_docs
 
 
 def _patch_versions_info():
