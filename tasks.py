@@ -43,6 +43,12 @@ def _patch_versions_info():
     VersionInfo.to_json = patched_to_json
 
 
+@task()
+def pre_build(ctx):
+    """Generate protobuf files before building/testing."""
+    generate_proto_classes(ctx, target_language="python")
+
+
 @task(help={"version": "The library version for which the documentation is to be deployed (e.g., '1.0.0')", "push_to_origin": "Whether to push the changes to the origin remote"})
 def mike_deploy(ctx, version: str, push_to_origin: bool = False):
     from mike import driver
@@ -82,6 +88,7 @@ ns = Collection(
     build.prepare_changelog,
     build.clean,
     build.release,
+    pre_build,
     generate_proto_classes,
     create_class_assets,
     proto_docs,

@@ -28,10 +28,10 @@ To install for development (from source):
 git clone https://github.com/gramaziokohler/compas_pb.git
 cd compas_pb
 pip install -e ".[dev]"
-invoke generate-proto-classes -t python
+invoke pre-build
 ```
 
-**Note:** The protobuf Python files are auto-generated from `.proto` definitions and are not tracked in the repository. After cloning, you must run `invoke generate-proto-classes -t python` to generate them before the package will work.
+**Note:** The protobuf Python files are auto-generated from `.proto` definitions and are not tracked in the repository. After cloning, you must run `invoke pre-build` to generate them before the package will work.
 
 ## Basic Usage
 
