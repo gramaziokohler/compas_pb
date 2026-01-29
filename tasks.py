@@ -5,9 +5,10 @@ from compas_invocations2 import build
 from compas_invocations2 import style
 from compas_invocations2 import tests
 
-from invocations import generate_proto_classes
-from invocations import create_class_assets
-from invocations import proto_docs
+# Lazy imports to avoid circular dependency - these are imported in task functions when needed
+# from compas_pb.invocations import generate_proto_classes
+# from compas_pb.invocations import create_class_assets
+# from compas_pb.invocations import proto_docs
 
 
 def _patch_versions_info():
@@ -46,7 +47,30 @@ def _patch_versions_info():
 @task()
 def pre_build(ctx):
     """Generate protobuf files before building/testing."""
+    # Use lazy import to avoid circular dependency during proto generation
+    from compas_pb.invocations import generate_proto_classes
     generate_proto_classes(ctx, target_language="python")
+
+
+@task(help={"target_language": "Output language for generated classes (e.g., 'python')"})
+def generate_proto_classes(ctx, target_language: str = "python"):
+    """Generate protobuf classes from .proto definitions."""
+    from compas_pb.invocations import generate_proto_classes as _generate_proto_classes
+    _generate_proto_classes(ctx, target_language=target_language)
+
+
+@task()
+def create_class_assets(ctx):
+    """Create class assets for distribution."""
+    from compas_pb.invocations import create_class_assets as _create_class_assets
+    _create_class_assets(ctx)
+
+
+@task()
+def proto_docs(ctx):
+    """Generate documentation for protobuf definitions."""
+    from compas_pb.invocations import proto_docs as _proto_docs
+    _proto_docs(ctx)
 
 
 @task(help={"version": "The library version for which the documentation is to be deployed (e.g., '1.0.0')", "push_to_origin": "Whether to push the changes to the origin remote"})
