@@ -29,36 +29,8 @@ from compas.geometry import Transformation
 from compas.geometry import Translation
 from compas.geometry import Vector
 
-from compas_pb.generated import arc_pb2
-from compas_pb.generated import bezier_pb2
-from compas_pb.generated import box_pb2
-from compas_pb.generated import capsule_pb2
-from compas_pb.generated import circle_pb2
-from compas_pb.generated import cone_pb2
-from compas_pb.generated import cylinder_pb2
-from compas_pb.generated import ellipse_pb2
-from compas_pb.generated import frame_pb2
-from compas_pb.generated import hyperbola_pb2
-from compas_pb.generated import line_pb2
-from compas_pb.generated import mesh_pb2
-from compas_pb.generated import parabola_pb2
-from compas_pb.generated import plane_pb2
-from compas_pb.generated import point_pb2
-from compas_pb.generated import pointcloud_pb2
-from compas_pb.generated import polygon_pb2
-from compas_pb.generated import polyhedron_pb2
-from compas_pb.generated import polyline_pb2
-from compas_pb.generated import projection_pb2
-from compas_pb.generated import quaternion_pb2
-from compas_pb.generated import reflection_pb2
-from compas_pb.generated import rotation_pb2
-from compas_pb.generated import scale_pb2
-from compas_pb.generated import shear_pb2
-from compas_pb.generated import sphere_pb2
-from compas_pb.generated import torus_pb2
-from compas_pb.generated import transformation_pb2
-from compas_pb.generated import translation_pb2
-from compas_pb.generated import vector_pb2
+from compas_pb.generated import datastructures_pb2
+from compas_pb.generated import geometry_pb2
 
 from .registry import pb_deserializer
 from .registry import pb_serializer
@@ -69,7 +41,7 @@ from .registry import pb_serializer
 
 
 @pb_serializer(Point)
-def point_to_pb(obj: Point) -> point_pb2.PointData:
+def point_to_pb(obj: Point) -> geometry_pb2.PointData:
     """
     Convert a COMPAS Point to protobuf message.
 
@@ -80,10 +52,10 @@ def point_to_pb(obj: Point) -> point_pb2.PointData:
 
     Returns
     -------
-    point_pb2.PointData
+    geometry_pb2.PointData
         The protobuf message representing the Point.
     """
-    proto_data = point_pb2.PointData()
+    proto_data = geometry_pb2.PointData()
     proto_data.guid = str(obj.guid)
     proto_data.name = obj.name
     proto_data.x = obj.x
@@ -92,14 +64,14 @@ def point_to_pb(obj: Point) -> point_pb2.PointData:
     return proto_data
 
 
-@pb_deserializer(point_pb2.PointData)
-def point_from_pb(proto_data: point_pb2.PointData) -> Point:
+@pb_deserializer(geometry_pb2.PointData)
+def point_from_pb(proto_data: geometry_pb2.PointData) -> Point:
     """
     Convert a protobuf message to COMPAS Point.
 
     Parameters
     ----------
-    proto_data : point_pb2.PointData
+    proto_data : geometry_pb2.PointData
         The protobuf message representing a Point.
 
     Returns
@@ -116,7 +88,7 @@ def point_from_pb(proto_data: point_pb2.PointData) -> Point:
 
 
 @pb_serializer(Line)
-def line_to_pb(line_obj: Line) -> line_pb2.LineData:
+def line_to_pb(line_obj: Line) -> geometry_pb2.LineData:
     """
     Convert a COMPAS Line to protobuf message.
 
@@ -127,10 +99,10 @@ def line_to_pb(line_obj: Line) -> line_pb2.LineData:
 
     Returns
     -------
-    line_pb2.LineData
+    geometry_pb2.LineData
         The protobuf message representing the Line.
     """
-    proto_data = line_pb2.LineData()
+    proto_data = geometry_pb2.LineData()
     proto_data.guid = str(line_obj.guid)
     proto_data.name = line_obj.name
 
@@ -143,14 +115,14 @@ def line_to_pb(line_obj: Line) -> line_pb2.LineData:
     return proto_data
 
 
-@pb_deserializer(line_pb2.LineData)
-def line_from_pb(proto_data: line_pb2.LineData) -> Line:
+@pb_deserializer(geometry_pb2.LineData)
+def line_from_pb(proto_data: geometry_pb2.LineData) -> Line:
     """
     Convert a protobuf message to COMPAS Line.
 
     Parameters
     ----------
-    proto_data : line_pb2.LineData
+    proto_data : geometry_pb2.LineData
         The protobuf message representing a Line.
 
     Returns
@@ -170,7 +142,7 @@ def line_from_pb(proto_data: line_pb2.LineData) -> Line:
 
 
 @pb_serializer(Vector)
-def vector_to_pb(obj: Vector) -> vector_pb2.VectorData:
+def vector_to_pb(obj: Vector) -> geometry_pb2.VectorData:
     """
     Convert a COMPAS Vector to protobuf message.
 
@@ -181,10 +153,10 @@ def vector_to_pb(obj: Vector) -> vector_pb2.VectorData:
 
     Returns
     -------
-    vector_pb2.VectorData
+    geometry_pb2.VectorData
         The protobuf message representing the Vector.
     """
-    proto_data = vector_pb2.VectorData()
+    proto_data = geometry_pb2.VectorData()
     proto_data.name = obj.name
     proto_data.x = obj.x
     proto_data.y = obj.y
@@ -192,14 +164,14 @@ def vector_to_pb(obj: Vector) -> vector_pb2.VectorData:
     return proto_data
 
 
-@pb_deserializer(vector_pb2.VectorData)
-def vector_from_pb(proto_data: vector_pb2.VectorData) -> Vector:
+@pb_deserializer(geometry_pb2.VectorData)
+def vector_from_pb(proto_data: geometry_pb2.VectorData) -> Vector:
     """
     Convert a protobuf message to COMPAS Vector.
 
     Parameters
     ----------
-    proto_data : vector_pb2.VectorData
+    proto_data : geometry_pb2.VectorData
         The protobuf message representing a Vector.
 
     Returns
@@ -216,7 +188,7 @@ def vector_from_pb(proto_data: vector_pb2.VectorData) -> Vector:
 
 
 @pb_serializer(Frame)
-def frame_to_pb(frame_obj: Frame) -> frame_pb2.FrameData:
+def frame_to_pb(frame_obj: Frame) -> geometry_pb2.FrameData:
     """
     Convert a COMPAS Frame to protobuf message.
 
@@ -227,10 +199,10 @@ def frame_to_pb(frame_obj: Frame) -> frame_pb2.FrameData:
 
     Returns
     -------
-    frame_pb2.FrameData
+    geometry_pb2.FrameData
         The protobuf message representing the Frame.
     """
-    proto_data = frame_pb2.FrameData()
+    proto_data = geometry_pb2.FrameData()
     proto_data.guid = str(frame_obj.guid)
     proto_data.name = frame_obj.name
 
@@ -245,14 +217,14 @@ def frame_to_pb(frame_obj: Frame) -> frame_pb2.FrameData:
     return proto_data
 
 
-@pb_deserializer(frame_pb2.FrameData)
-def frame_from_pb(proto_data: frame_pb2.FrameData) -> Frame:
+@pb_deserializer(geometry_pb2.FrameData)
+def frame_from_pb(proto_data: geometry_pb2.FrameData) -> Frame:
     """
     Convert a protobuf message to COMPAS Frame.
 
     Parameters
     ----------
-    proto_data : frame_pb2.FrameData
+    proto_data : geometry_pb2.FrameData
         The protobuf message representing a Frame.
 
     Returns
@@ -272,7 +244,7 @@ def frame_from_pb(proto_data: frame_pb2.FrameData) -> Frame:
 
 
 @pb_serializer(Mesh)
-def mesh_to_pb(mesh: Mesh) -> mesh_pb2.MeshData:
+def mesh_to_pb(mesh: Mesh) -> datastructures_pb2.MeshData:
     """
     Convert a COMPAS Mesh to protobuf message.
 
@@ -283,10 +255,10 @@ def mesh_to_pb(mesh: Mesh) -> mesh_pb2.MeshData:
 
     Returns
     -------
-    mesh_pb2.MeshData
+    datastructures_pb2.MeshData
         The protobuf message representing the Mesh.
     """
-    proto_data = mesh_pb2.MeshData()
+    proto_data = datastructures_pb2.MeshData()
     proto_data.guid = str(mesh.guid)
     proto_data.name = mesh.name or "Mesh"
 
@@ -298,21 +270,21 @@ def mesh_to_pb(mesh: Mesh) -> mesh_pb2.MeshData:
 
     for fkey in mesh.faces():
         indices = [index_map[vkey] for vkey in mesh.face_vertices(fkey)]
-        face_msg = mesh_pb2.FaceList()
+        face_msg = datastructures_pb2.FaceList()
         face_msg.indices.extend(indices)
         proto_data.faces.append(face_msg)
 
     return proto_data
 
 
-@pb_deserializer(mesh_pb2.MeshData)
-def mesh_from_pb(proto_data: mesh_pb2.MeshData) -> Mesh:
+@pb_deserializer(datastructures_pb2.MeshData)
+def mesh_from_pb(proto_data: datastructures_pb2.MeshData) -> Mesh:
     """
     Convert a protobuf message to COMPAS Mesh.
 
     Parameters
     ----------
-    proto_data : mesh_pb2.MeshData
+    proto_data : datastructures_pb2.MeshData
         The protobuf message representing a Mesh.
 
     Returns
@@ -341,7 +313,7 @@ def mesh_from_pb(proto_data: mesh_pb2.MeshData) -> Mesh:
 
 
 @pb_serializer(Circle)
-def circle_to_pb(circle: Circle) -> circle_pb2.CircleData:
+def circle_to_pb(circle: Circle) -> geometry_pb2.CircleData:
     """
     Convert a COMPAS Circle to protobuf message.
 
@@ -352,10 +324,10 @@ def circle_to_pb(circle: Circle) -> circle_pb2.CircleData:
 
     Returns
     -------
-    circle_pb2.CircleData
+    geometry_pb2.CircleData
         The protobuf message representing the Circle.
     """
-    result = circle_pb2.CircleData()
+    result = geometry_pb2.CircleData()
     result.guid = str(circle.guid)
     result.name = circle.name or "Circle"
     result.radius = circle.radius
@@ -363,14 +335,14 @@ def circle_to_pb(circle: Circle) -> circle_pb2.CircleData:
     return result
 
 
-@pb_deserializer(circle_pb2.CircleData)
-def circle_from_pb(proto_data: circle_pb2.CircleData) -> Circle:
+@pb_deserializer(geometry_pb2.CircleData)
+def circle_from_pb(proto_data: geometry_pb2.CircleData) -> Circle:
     """
     Convert a protobuf message to COMPAS Circle.
 
     Parameters
     ----------
-    proto_data : circle_pb2.CircleData
+    proto_data : geometry_pb2.CircleData
         The protobuf message representing a Circle.
 
     Returns
@@ -390,7 +362,7 @@ def circle_from_pb(proto_data: circle_pb2.CircleData) -> Circle:
 
 
 @pb_serializer(Plane)
-def plane_to_pb(plane: Plane) -> plane_pb2.PlaneData:
+def plane_to_pb(plane: Plane) -> geometry_pb2.PlaneData:
     """
     Convert a COMPAS Plane to protobuf message.
 
@@ -401,10 +373,10 @@ def plane_to_pb(plane: Plane) -> plane_pb2.PlaneData:
 
     Returns
     -------
-    plane_pb2.PlaneData
+    geometry_pb2.PlaneData
         The protobuf message representing the Plane.
     """
-    proto_data = plane_pb2.PlaneData()
+    proto_data = geometry_pb2.PlaneData()
     proto_data.guid = str(plane.guid)
     proto_data.name = plane.name
 
@@ -417,14 +389,14 @@ def plane_to_pb(plane: Plane) -> plane_pb2.PlaneData:
     return proto_data
 
 
-@pb_deserializer(plane_pb2.PlaneData)
-def plane_from_pb(proto_data: plane_pb2.PlaneData) -> Plane:
+@pb_deserializer(geometry_pb2.PlaneData)
+def plane_from_pb(proto_data: geometry_pb2.PlaneData) -> Plane:
     """
     Convert a protobuf message to COMPAS Plane.
 
     Parameters
     ----------
-    proto_data : plane_pb2.PlaneData
+    proto_data : geometry_pb2.PlaneData
         The protobuf message representing a Plane.
 
     Returns
@@ -445,7 +417,7 @@ def plane_from_pb(proto_data: plane_pb2.PlaneData) -> Plane:
 
 
 @pb_serializer(Polygon)
-def polygon_to_pb(polygon: Polygon) -> polygon_pb2.PolygonData:
+def polygon_to_pb(polygon: Polygon) -> geometry_pb2.PolygonData:
     """
     Convert a COMPAS Polygon to protobuf message.
 
@@ -456,10 +428,10 @@ def polygon_to_pb(polygon: Polygon) -> polygon_pb2.PolygonData:
 
     Returns
     -------
-    polygon_pb2.PolygonData
+    geometry_pb2.PolygonData
         The protobuf message representing the Polygon.
     """
-    proto_data = polygon_pb2.PolygonData()
+    proto_data = geometry_pb2.PolygonData()
     proto_data.guid = str(polygon.guid)
     proto_data.name = polygon.name
 
@@ -470,14 +442,14 @@ def polygon_to_pb(polygon: Polygon) -> polygon_pb2.PolygonData:
     return proto_data
 
 
-@pb_deserializer(polygon_pb2.PolygonData)
-def polygon_from_pb(proto_data: polygon_pb2.PolygonData) -> Polygon:
+@pb_deserializer(geometry_pb2.PolygonData)
+def polygon_from_pb(proto_data: geometry_pb2.PolygonData) -> Polygon:
     """
     Convert a protobuf message to COMPAS Polygon.
 
     Parameters
     ----------
-    proto_data : polygon_pb2.PolygonData
+    proto_data : geometry_pb2.PolygonData
         The protobuf message representing a Polygon.
 
     Returns
@@ -497,7 +469,7 @@ def polygon_from_pb(proto_data: polygon_pb2.PolygonData) -> Polygon:
 
 
 @pb_serializer(Box)
-def box_to_pb(box: Box) -> box_pb2.BoxData:
+def box_to_pb(box: Box) -> geometry_pb2.BoxData:
     """
     Convert a COMPAS Box to protobuf message.
 
@@ -508,10 +480,10 @@ def box_to_pb(box: Box) -> box_pb2.BoxData:
 
     Returns
     -------
-    box_pb2.BoxData
+    geometry_pb2.BoxData
         The protobuf message representing the Box.
     """
-    proto_data = box_pb2.BoxData()
+    proto_data = geometry_pb2.BoxData()
     proto_data.guid = str(box.guid)
     proto_data.name = box.name
     proto_data.xsize = box.xsize
@@ -524,14 +496,14 @@ def box_to_pb(box: Box) -> box_pb2.BoxData:
     return proto_data
 
 
-@pb_deserializer(box_pb2.BoxData)
-def box_from_pb(proto_data: box_pb2.BoxData) -> Box:
+@pb_deserializer(geometry_pb2.BoxData)
+def box_from_pb(proto_data: geometry_pb2.BoxData) -> Box:
     """
     Convert a protobuf message to COMPAS Box.
 
     Parameters
     ----------
-    proto_data : box_pb2.BoxData
+    proto_data : geometry_pb2.BoxData
         The protobuf message representing a Box.
 
     Returns
@@ -551,7 +523,7 @@ def box_from_pb(proto_data: box_pb2.BoxData) -> Box:
 
 
 @pb_serializer(Arc)
-def arc_to_pb(arc: Arc) -> arc_pb2.ArcData:
+def arc_to_pb(arc: Arc) -> geometry_pb2.ArcData:
     """
     Convert a COMPAS Arc to protobuf message.
 
@@ -562,10 +534,10 @@ def arc_to_pb(arc: Arc) -> arc_pb2.ArcData:
 
     Returns
     -------
-    arc_pb2.ArcData
+    geometry_pb2.ArcData
         The protobuf message representing the Arc.
     """
-    proto_data = arc_pb2.ArcData()
+    proto_data = geometry_pb2.ArcData()
     proto_data.guid = str(arc.guid)
     proto_data.name = arc.name
     proto_data.start_angle = arc.start_angle
@@ -577,14 +549,14 @@ def arc_to_pb(arc: Arc) -> arc_pb2.ArcData:
     return proto_data
 
 
-@pb_deserializer(arc_pb2.ArcData)
-def arc_from_pb(proto_data: arc_pb2.ArcData) -> Arc:
+@pb_deserializer(geometry_pb2.ArcData)
+def arc_from_pb(proto_data: geometry_pb2.ArcData) -> Arc:
     """
     Convert a protobuf message to COMPAS Arc.
 
     Parameters
     ----------
-    proto_data : arc_pb2.ArcData
+    proto_data : geometry_pb2.ArcData
         The protobuf message representing an Arc.
 
     Returns
@@ -605,7 +577,7 @@ def arc_from_pb(proto_data: arc_pb2.ArcData) -> Arc:
 
 
 @pb_serializer(Sphere)
-def sphere_to_pb(sphere: Sphere) -> sphere_pb2.SphereData:
+def sphere_to_pb(sphere: Sphere) -> geometry_pb2.SphereData:
     """
     Convert a COMPAS Sphere to protobuf message.
 
@@ -616,10 +588,10 @@ def sphere_to_pb(sphere: Sphere) -> sphere_pb2.SphereData:
 
     Returns
     -------
-    sphere_pb2.SphereData
+    geometry_pb2.SphereData
         The protobuf message representing the Sphere.
     """
-    proto_data = sphere_pb2.SphereData()
+    proto_data = geometry_pb2.SphereData()
     proto_data.guid = str(sphere.guid)
     proto_data.name = sphere.name
     proto_data.radius = sphere.radius
@@ -630,14 +602,14 @@ def sphere_to_pb(sphere: Sphere) -> sphere_pb2.SphereData:
     return proto_data
 
 
-@pb_deserializer(sphere_pb2.SphereData)
-def sphere_from_pb(proto_data: sphere_pb2.SphereData) -> Sphere:
+@pb_deserializer(geometry_pb2.SphereData)
+def sphere_from_pb(proto_data: geometry_pb2.SphereData) -> Sphere:
     """
     Convert a protobuf message to COMPAS Sphere.
 
     Parameters
     ----------
-    proto_data : sphere_pb2.SphereData
+    proto_data : geometry_pb2.SphereData
         The protobuf message representing a Sphere.
 
     Returns
@@ -657,7 +629,7 @@ def sphere_from_pb(proto_data: sphere_pb2.SphereData) -> Sphere:
 
 
 @pb_serializer(Cylinder)
-def cylinder_to_pb(cylinder: Cylinder) -> cylinder_pb2.CylinderData:
+def cylinder_to_pb(cylinder: Cylinder) -> geometry_pb2.CylinderData:
     """
     Convert a COMPAS Cylinder to protobuf message.
 
@@ -668,10 +640,10 @@ def cylinder_to_pb(cylinder: Cylinder) -> cylinder_pb2.CylinderData:
 
     Returns
     -------
-    cylinder_pb2.CylinderData
+    geometry_pb2.CylinderData
         The protobuf message representing the Cylinder.
     """
-    proto_data = cylinder_pb2.CylinderData()
+    proto_data = geometry_pb2.CylinderData()
     proto_data.guid = str(cylinder.guid)
     proto_data.name = cylinder.name
     proto_data.radius = cylinder.radius
@@ -683,14 +655,14 @@ def cylinder_to_pb(cylinder: Cylinder) -> cylinder_pb2.CylinderData:
     return proto_data
 
 
-@pb_deserializer(cylinder_pb2.CylinderData)
-def cylinder_from_pb(proto_data: cylinder_pb2.CylinderData) -> Cylinder:
+@pb_deserializer(geometry_pb2.CylinderData)
+def cylinder_from_pb(proto_data: geometry_pb2.CylinderData) -> Cylinder:
     """
     Convert a protobuf message to COMPAS Cylinder.
 
     Parameters
     ----------
-    proto_data : cylinder_pb2.CylinderData
+    proto_data : geometry_pb2.CylinderData
         The protobuf message representing a Cylinder.
 
     Returns
@@ -710,7 +682,7 @@ def cylinder_from_pb(proto_data: cylinder_pb2.CylinderData) -> Cylinder:
 
 
 @pb_serializer(Cone)
-def cone_to_pb(cone: Cone) -> cone_pb2.ConeData:
+def cone_to_pb(cone: Cone) -> geometry_pb2.ConeData:
     """
     Convert a COMPAS Cone to protobuf message.
 
@@ -721,10 +693,10 @@ def cone_to_pb(cone: Cone) -> cone_pb2.ConeData:
 
     Returns
     -------
-    cone_pb2.ConeData
+    geometry_pb2.ConeData
         The protobuf message representing the Cone.
     """
-    proto_data = cone_pb2.ConeData()
+    proto_data = geometry_pb2.ConeData()
     proto_data.guid = str(cone.guid)
     proto_data.name = cone.name
     proto_data.radius = cone.radius
@@ -736,14 +708,14 @@ def cone_to_pb(cone: Cone) -> cone_pb2.ConeData:
     return proto_data
 
 
-@pb_deserializer(cone_pb2.ConeData)
-def cone_from_pb(proto_data: cone_pb2.ConeData) -> Cone:
+@pb_deserializer(geometry_pb2.ConeData)
+def cone_from_pb(proto_data: geometry_pb2.ConeData) -> Cone:
     """
     Convert a protobuf message to COMPAS Cone.
 
     Parameters
     ----------
-    proto_data : cone_pb2.ConeData
+    proto_data : geometry_pb2.ConeData
         The protobuf message representing a Cone.
 
     Returns
@@ -763,7 +735,7 @@ def cone_from_pb(proto_data: cone_pb2.ConeData) -> Cone:
 
 
 @pb_serializer(Torus)
-def torus_to_pb(torus: Torus) -> torus_pb2.TorusData:
+def torus_to_pb(torus: Torus) -> geometry_pb2.TorusData:
     """
     Convert a COMPAS Torus to protobuf message.
 
@@ -774,10 +746,10 @@ def torus_to_pb(torus: Torus) -> torus_pb2.TorusData:
 
     Returns
     -------
-    torus_pb2.TorusData
+    geometry_pb2.TorusData
         The protobuf message representing the Torus.
     """
-    proto_data = torus_pb2.TorusData()
+    proto_data = geometry_pb2.TorusData()
     proto_data.guid = str(torus.guid)
     proto_data.name = torus.name
     proto_data.radius_axis = torus.radius_axis
@@ -789,14 +761,14 @@ def torus_to_pb(torus: Torus) -> torus_pb2.TorusData:
     return proto_data
 
 
-@pb_deserializer(torus_pb2.TorusData)
-def torus_from_pb(proto_data: torus_pb2.TorusData) -> Torus:
+@pb_deserializer(geometry_pb2.TorusData)
+def torus_from_pb(proto_data: geometry_pb2.TorusData) -> Torus:
     """
     Convert a protobuf message to COMPAS Torus.
 
     Parameters
     ----------
-    proto_data : torus_pb2.TorusData
+    proto_data : geometry_pb2.TorusData
         The protobuf message representing a Torus.
 
     Returns
@@ -816,7 +788,7 @@ def torus_from_pb(proto_data: torus_pb2.TorusData) -> Torus:
 
 
 @pb_serializer(Ellipse)
-def ellipse_to_pb(ellipse: Ellipse) -> ellipse_pb2.EllipseData:
+def ellipse_to_pb(ellipse: Ellipse) -> geometry_pb2.EllipseData:
     """
     Convert a COMPAS Ellipse to protobuf message.
 
@@ -827,10 +799,10 @@ def ellipse_to_pb(ellipse: Ellipse) -> ellipse_pb2.EllipseData:
 
     Returns
     -------
-    ellipse_pb2.EllipseData
+    geometry_pb2.EllipseData
         The protobuf message representing the Ellipse.
     """
-    proto_data = ellipse_pb2.EllipseData()
+    proto_data = geometry_pb2.EllipseData()
     proto_data.guid = str(ellipse.guid)
     proto_data.name = ellipse.name
     proto_data.major = ellipse.major
@@ -842,14 +814,14 @@ def ellipse_to_pb(ellipse: Ellipse) -> ellipse_pb2.EllipseData:
     return proto_data
 
 
-@pb_deserializer(ellipse_pb2.EllipseData)
-def ellipse_from_pb(proto_data: ellipse_pb2.EllipseData) -> Ellipse:
+@pb_deserializer(geometry_pb2.EllipseData)
+def ellipse_from_pb(proto_data: geometry_pb2.EllipseData) -> Ellipse:
     """
     Convert a protobuf message to COMPAS Ellipse.
 
     Parameters
     ----------
-    proto_data : ellipse_pb2.EllipseData
+    proto_data : geometry_pb2.EllipseData
         The protobuf message representing an Ellipse.
 
     Returns
@@ -869,7 +841,7 @@ def ellipse_from_pb(proto_data: ellipse_pb2.EllipseData) -> Ellipse:
 
 
 @pb_serializer(Polyline)
-def polyline_to_pb(polyline: Polyline) -> polyline_pb2.PolylineData:
+def polyline_to_pb(polyline: Polyline) -> geometry_pb2.PolylineData:
     """
     Convert a COMPAS Polyline to protobuf message.
 
@@ -880,10 +852,10 @@ def polyline_to_pb(polyline: Polyline) -> polyline_pb2.PolylineData:
 
     Returns
     -------
-    polyline_pb2.PolylineData
+    geometry_pb2.PolylineData
         The protobuf message representing the Polyline.
     """
-    proto_data = polyline_pb2.PolylineData()
+    proto_data = geometry_pb2.PolylineData()
     proto_data.guid = str(polyline.guid)
     proto_data.name = polyline.name
 
@@ -894,14 +866,14 @@ def polyline_to_pb(polyline: Polyline) -> polyline_pb2.PolylineData:
     return proto_data
 
 
-@pb_deserializer(polyline_pb2.PolylineData)
-def polyline_from_pb(proto_data: polyline_pb2.PolylineData) -> Polyline:
+@pb_deserializer(geometry_pb2.PolylineData)
+def polyline_from_pb(proto_data: geometry_pb2.PolylineData) -> Polyline:
     """
     Convert a protobuf message to COMPAS Polyline.
 
     Parameters
     ----------
-    proto_data : polyline_pb2.PolylineData
+    proto_data : geometry_pb2.PolylineData
         The protobuf message representing a Polyline.
 
     Returns
@@ -921,7 +893,7 @@ def polyline_from_pb(proto_data: polyline_pb2.PolylineData) -> Polyline:
 
 
 @pb_serializer(Pointcloud)
-def pointcloud_to_pb(pointcloud: Pointcloud) -> pointcloud_pb2.PointcloudData:
+def pointcloud_to_pb(pointcloud: Pointcloud) -> geometry_pb2.PointcloudData:
     """
     Convert a COMPAS Pointcloud to protobuf message.
 
@@ -932,10 +904,10 @@ def pointcloud_to_pb(pointcloud: Pointcloud) -> pointcloud_pb2.PointcloudData:
 
     Returns
     -------
-    pointcloud_pb2.PointcloudData
+    geometry_pb2.PointcloudData
         The protobuf message representing the Pointcloud.
     """
-    proto_data = pointcloud_pb2.PointcloudData()
+    proto_data = geometry_pb2.PointcloudData()
     proto_data.guid = str(pointcloud.guid)
     proto_data.name = pointcloud.name
 
@@ -946,14 +918,14 @@ def pointcloud_to_pb(pointcloud: Pointcloud) -> pointcloud_pb2.PointcloudData:
     return proto_data
 
 
-@pb_deserializer(pointcloud_pb2.PointcloudData)
-def pointcloud_from_pb(proto_data: pointcloud_pb2.PointcloudData) -> Pointcloud:
+@pb_deserializer(geometry_pb2.PointcloudData)
+def pointcloud_from_pb(proto_data: geometry_pb2.PointcloudData) -> Pointcloud:
     """
     Convert a protobuf message to COMPAS Pointcloud.
 
     Parameters
     ----------
-    proto_data : pointcloud_pb2.PointcloudData
+    proto_data : geometry_pb2.PointcloudData
         The protobuf message representing a Pointcloud.
 
     Returns
@@ -973,7 +945,7 @@ def pointcloud_from_pb(proto_data: pointcloud_pb2.PointcloudData) -> Pointcloud:
 
 
 @pb_serializer(Transformation)
-def transformation_to_pb(transformation: Transformation) -> transformation_pb2.TransformationData:
+def transformation_to_pb(transformation: Transformation) -> geometry_pb2.TransformationData:
     """
     Convert a COMPAS Transformation to protobuf message.
 
@@ -984,10 +956,10 @@ def transformation_to_pb(transformation: Transformation) -> transformation_pb2.T
 
     Returns
     -------
-    transformation_pb2.TransformationData
+    geometry_pb2.TransformationData
         The protobuf message representing the Transformation.
     """
-    proto_data = transformation_pb2.TransformationData()
+    proto_data = geometry_pb2.TransformationData()
     proto_data.guid = str(transformation.guid)
     proto_data.name = transformation.name
 
@@ -1000,14 +972,14 @@ def transformation_to_pb(transformation: Transformation) -> transformation_pb2.T
     return proto_data
 
 
-@pb_deserializer(transformation_pb2.TransformationData)
-def transformation_from_pb(proto_data: transformation_pb2.TransformationData) -> Transformation:
+@pb_deserializer(geometry_pb2.TransformationData)
+def transformation_from_pb(proto_data: geometry_pb2.TransformationData) -> Transformation:
     """
     Convert a protobuf message to COMPAS Transformation.
 
     Parameters
     ----------
-    proto_data : transformation_pb2.TransformationData
+    proto_data : geometry_pb2.TransformationData
         The protobuf message representing a Transformation.
 
     Returns
@@ -1036,7 +1008,7 @@ def transformation_from_pb(proto_data: transformation_pb2.TransformationData) ->
 
 
 @pb_serializer(Translation)
-def translation_to_pb(translation: Translation) -> translation_pb2.TranslationData:
+def translation_to_pb(translation: Translation) -> geometry_pb2.TranslationData:
     """
     Convert a COMPAS Translation to protobuf message.
 
@@ -1047,10 +1019,10 @@ def translation_to_pb(translation: Translation) -> translation_pb2.TranslationDa
 
     Returns
     -------
-    translation_pb2.TranslationData
+    geometry_pb2.TranslationData
         The protobuf message representing the Translation.
     """
-    proto_data = translation_pb2.TranslationData()
+    proto_data = geometry_pb2.TranslationData()
     proto_data.guid = str(translation.guid)
     proto_data.name = translation.name
 
@@ -1060,14 +1032,14 @@ def translation_to_pb(translation: Translation) -> translation_pb2.TranslationDa
     return proto_data
 
 
-@pb_deserializer(translation_pb2.TranslationData)
-def translation_from_pb(proto_data: translation_pb2.TranslationData) -> Translation:
+@pb_deserializer(geometry_pb2.TranslationData)
+def translation_from_pb(proto_data: geometry_pb2.TranslationData) -> Translation:
     """
     Convert a protobuf message to COMPAS Translation.
 
     Parameters
     ----------
-    proto_data : translation_pb2.TranslationData
+    proto_data : geometry_pb2.TranslationData
         The protobuf message representing a Translation.
 
     Returns
@@ -1088,7 +1060,7 @@ def translation_from_pb(proto_data: translation_pb2.TranslationData) -> Translat
 
 
 @pb_serializer(Rotation)
-def rotation_to_pb(rotation: Rotation) -> rotation_pb2.RotationData:
+def rotation_to_pb(rotation: Rotation) -> geometry_pb2.RotationData:
     """
     Convert a COMPAS Rotation to protobuf message.
 
@@ -1099,10 +1071,10 @@ def rotation_to_pb(rotation: Rotation) -> rotation_pb2.RotationData:
 
     Returns
     -------
-    rotation_pb2.RotationData
+    geometry_pb2.RotationData
         The protobuf message representing the Rotation.
     """
-    proto_data = rotation_pb2.RotationData()
+    proto_data = geometry_pb2.RotationData()
     proto_data.guid = str(rotation.guid)
     proto_data.name = rotation.name
 
@@ -1125,14 +1097,14 @@ def rotation_to_pb(rotation: Rotation) -> rotation_pb2.RotationData:
     return proto_data
 
 
-@pb_deserializer(rotation_pb2.RotationData)
-def rotation_from_pb(proto_data: rotation_pb2.RotationData) -> Rotation:
+@pb_deserializer(geometry_pb2.RotationData)
+def rotation_from_pb(proto_data: geometry_pb2.RotationData) -> Rotation:
     """
     Convert a protobuf message to COMPAS Rotation.
 
     Parameters
     ----------
-    proto_data : rotation_pb2.RotationData
+    proto_data : geometry_pb2.RotationData
         The protobuf message representing a Rotation.
 
     Returns
@@ -1155,7 +1127,7 @@ def rotation_from_pb(proto_data: rotation_pb2.RotationData) -> Rotation:
 
 
 @pb_serializer(Capsule)
-def capsule_to_pb(capsule: Capsule) -> capsule_pb2.CapsuleData:
+def capsule_to_pb(capsule: Capsule) -> geometry_pb2.CapsuleData:
     """
     Convert a COMPAS Capsule to protobuf message.
 
@@ -1166,10 +1138,10 @@ def capsule_to_pb(capsule: Capsule) -> capsule_pb2.CapsuleData:
 
     Returns
     -------
-    capsule_pb2.CapsuleData
+    geometry_pb2.CapsuleData
         The protobuf message representing the Capsule.
     """
-    proto_data = capsule_pb2.CapsuleData()
+    proto_data = geometry_pb2.CapsuleData()
     proto_data.guid = str(capsule.guid)
     proto_data.name = capsule.name
     proto_data.radius = capsule.radius
@@ -1181,14 +1153,14 @@ def capsule_to_pb(capsule: Capsule) -> capsule_pb2.CapsuleData:
     return proto_data
 
 
-@pb_deserializer(capsule_pb2.CapsuleData)
-def capsule_from_pb(proto_data: capsule_pb2.CapsuleData) -> Capsule:
+@pb_deserializer(geometry_pb2.CapsuleData)
+def capsule_from_pb(proto_data: geometry_pb2.CapsuleData) -> Capsule:
     """
     Convert a protobuf message to COMPAS Capsule.
 
     Parameters
     ----------
-    proto_data : capsule_pb2.CapsuleData
+    proto_data : geometry_pb2.CapsuleData
         The protobuf message representing a Capsule.
 
     Returns
@@ -1208,7 +1180,7 @@ def capsule_from_pb(proto_data: capsule_pb2.CapsuleData) -> Capsule:
 
 
 @pb_serializer(Quaternion)
-def quaternion_to_pb(quaternion: Quaternion) -> quaternion_pb2.QuaternionData:
+def quaternion_to_pb(quaternion: Quaternion) -> geometry_pb2.QuaternionData:
     """
     Convert a COMPAS Quaternion to protobuf message.
 
@@ -1219,10 +1191,10 @@ def quaternion_to_pb(quaternion: Quaternion) -> quaternion_pb2.QuaternionData:
 
     Returns
     -------
-    quaternion_pb2.QuaternionData
+    geometry_pb2.QuaternionData
         The protobuf message representing the Quaternion.
     """
-    proto_data = quaternion_pb2.QuaternionData()
+    proto_data = geometry_pb2.QuaternionData()
     proto_data.guid = str(quaternion.guid)
     proto_data.name = quaternion.name
     proto_data.w = quaternion.w
@@ -1233,14 +1205,14 @@ def quaternion_to_pb(quaternion: Quaternion) -> quaternion_pb2.QuaternionData:
     return proto_data
 
 
-@pb_deserializer(quaternion_pb2.QuaternionData)
-def quaternion_from_pb(proto_data: quaternion_pb2.QuaternionData) -> Quaternion:
+@pb_deserializer(geometry_pb2.QuaternionData)
+def quaternion_from_pb(proto_data: geometry_pb2.QuaternionData) -> Quaternion:
     """
     Convert a protobuf message to COMPAS Quaternion.
 
     Parameters
     ----------
-    proto_data : quaternion_pb2.QuaternionData
+    proto_data : geometry_pb2.QuaternionData
         The protobuf message representing a Quaternion.
 
     Returns
@@ -1259,7 +1231,7 @@ def quaternion_from_pb(proto_data: quaternion_pb2.QuaternionData) -> Quaternion:
 
 
 @pb_serializer(Scale)
-def scale_to_pb(scale: Scale) -> scale_pb2.ScaleData:
+def scale_to_pb(scale: Scale) -> geometry_pb2.ScaleData:
     """
     Convert a COMPAS Scale to protobuf message.
 
@@ -1270,10 +1242,10 @@ def scale_to_pb(scale: Scale) -> scale_pb2.ScaleData:
 
     Returns
     -------
-    scale_pb2.ScaleData
+    geometry_pb2.ScaleData
         The protobuf message representing the Scale.
     """
-    proto_data = scale_pb2.ScaleData()
+    proto_data = geometry_pb2.ScaleData()
     proto_data.guid = str(scale.guid)
     proto_data.name = scale.name
 
@@ -1286,14 +1258,14 @@ def scale_to_pb(scale: Scale) -> scale_pb2.ScaleData:
     return proto_data
 
 
-@pb_deserializer(scale_pb2.ScaleData)
-def scale_from_pb(proto_data: scale_pb2.ScaleData) -> Scale:
+@pb_deserializer(geometry_pb2.ScaleData)
+def scale_from_pb(proto_data: geometry_pb2.ScaleData) -> Scale:
     """
     Convert a protobuf message to COMPAS Scale.
 
     Parameters
     ----------
-    proto_data : scale_pb2.ScaleData
+    proto_data : geometry_pb2.ScaleData
         The protobuf message representing a Scale.
 
     Returns
@@ -1322,7 +1294,7 @@ def scale_from_pb(proto_data: scale_pb2.ScaleData) -> Scale:
 
 
 @pb_serializer(Reflection)
-def reflection_to_pb(reflection: Reflection) -> reflection_pb2.ReflectionData:
+def reflection_to_pb(reflection: Reflection) -> geometry_pb2.ReflectionData:
     """
     Convert a COMPAS Reflection to protobuf message.
 
@@ -1333,10 +1305,10 @@ def reflection_to_pb(reflection: Reflection) -> reflection_pb2.ReflectionData:
 
     Returns
     -------
-    reflection_pb2.ReflectionData
+    geometry_pb2.ReflectionData
         The protobuf message representing the Reflection.
     """
-    proto_data = reflection_pb2.ReflectionData()
+    proto_data = geometry_pb2.ReflectionData()
     proto_data.guid = str(reflection.guid)
     proto_data.name = reflection.name
 
@@ -1349,14 +1321,14 @@ def reflection_to_pb(reflection: Reflection) -> reflection_pb2.ReflectionData:
     return proto_data
 
 
-@pb_deserializer(reflection_pb2.ReflectionData)
-def reflection_from_pb(proto_data: reflection_pb2.ReflectionData) -> Reflection:
+@pb_deserializer(geometry_pb2.ReflectionData)
+def reflection_from_pb(proto_data: geometry_pb2.ReflectionData) -> Reflection:
     """
     Convert a protobuf message to COMPAS Reflection.
 
     Parameters
     ----------
-    proto_data : reflection_pb2.ReflectionData
+    proto_data : geometry_pb2.ReflectionData
         The protobuf message representing a Reflection.
 
     Returns
@@ -1385,7 +1357,7 @@ def reflection_from_pb(proto_data: reflection_pb2.ReflectionData) -> Reflection:
 
 
 @pb_serializer(Shear)
-def shear_to_pb(shear: Shear) -> shear_pb2.ShearData:
+def shear_to_pb(shear: Shear) -> geometry_pb2.ShearData:
     """
     Convert a COMPAS Shear to protobuf message.
 
@@ -1396,10 +1368,10 @@ def shear_to_pb(shear: Shear) -> shear_pb2.ShearData:
 
     Returns
     -------
-    shear_pb2.ShearData
+    geometry_pb2.ShearData
         The protobuf message representing the Shear.
     """
-    proto_data = shear_pb2.ShearData()
+    proto_data = geometry_pb2.ShearData()
     proto_data.guid = str(shear.guid)
     proto_data.name = shear.name
 
@@ -1412,14 +1384,14 @@ def shear_to_pb(shear: Shear) -> shear_pb2.ShearData:
     return proto_data
 
 
-@pb_deserializer(shear_pb2.ShearData)
-def shear_from_pb(proto_data: shear_pb2.ShearData) -> Shear:
+@pb_deserializer(geometry_pb2.ShearData)
+def shear_from_pb(proto_data: geometry_pb2.ShearData) -> Shear:
     """
     Convert a protobuf message to COMPAS Shear.
 
     Parameters
     ----------
-    proto_data : shear_pb2.ShearData
+    proto_data : geometry_pb2.ShearData
         The protobuf message representing a Shear.
 
     Returns
@@ -1448,7 +1420,7 @@ def shear_from_pb(proto_data: shear_pb2.ShearData) -> Shear:
 
 
 @pb_serializer(Projection)
-def projection_to_pb(projection: Projection) -> projection_pb2.ProjectionData:
+def projection_to_pb(projection: Projection) -> geometry_pb2.ProjectionData:
     """
     Convert a COMPAS Projection to protobuf message.
 
@@ -1459,10 +1431,10 @@ def projection_to_pb(projection: Projection) -> projection_pb2.ProjectionData:
 
     Returns
     -------
-    projection_pb2.ProjectionData
+    geometry_pb2.ProjectionData
         The protobuf message representing the Projection.
     """
-    proto_data = projection_pb2.ProjectionData()
+    proto_data = geometry_pb2.ProjectionData()
     proto_data.guid = str(projection.guid)
     proto_data.name = projection.name
 
@@ -1475,14 +1447,14 @@ def projection_to_pb(projection: Projection) -> projection_pb2.ProjectionData:
     return proto_data
 
 
-@pb_deserializer(projection_pb2.ProjectionData)
-def projection_from_pb(proto_data: projection_pb2.ProjectionData) -> Projection:
+@pb_deserializer(geometry_pb2.ProjectionData)
+def projection_from_pb(proto_data: geometry_pb2.ProjectionData) -> Projection:
     """
     Convert a protobuf message to COMPAS Projection.
 
     Parameters
     ----------
-    proto_data : projection_pb2.ProjectionData
+    proto_data : geometry_pb2.ProjectionData
         The protobuf message representing a Projection.
 
     Returns
@@ -1511,7 +1483,7 @@ def projection_from_pb(proto_data: projection_pb2.ProjectionData) -> Projection:
 
 
 @pb_serializer(Bezier)
-def bezier_to_pb(bezier: Bezier) -> bezier_pb2.BezierData:
+def bezier_to_pb(bezier: Bezier) -> geometry_pb2.BezierData:
     """
     Convert a COMPAS Bezier to protobuf message.
 
@@ -1522,10 +1494,10 @@ def bezier_to_pb(bezier: Bezier) -> bezier_pb2.BezierData:
 
     Returns
     -------
-    bezier_pb2.BezierData
+    geometry_pb2.BezierData
         The protobuf message representing the Bezier.
     """
-    proto_data = bezier_pb2.BezierData()
+    proto_data = geometry_pb2.BezierData()
     proto_data.guid = str(bezier.guid)
     proto_data.name = bezier.name
     proto_data.degree = bezier.degree
@@ -1537,14 +1509,14 @@ def bezier_to_pb(bezier: Bezier) -> bezier_pb2.BezierData:
     return proto_data
 
 
-@pb_deserializer(bezier_pb2.BezierData)
-def bezier_from_pb(proto_data: bezier_pb2.BezierData) -> Bezier:
+@pb_deserializer(geometry_pb2.BezierData)
+def bezier_from_pb(proto_data: geometry_pb2.BezierData) -> Bezier:
     """
     Convert a protobuf message to COMPAS Bezier.
 
     Parameters
     ----------
-    proto_data : bezier_pb2.BezierData
+    proto_data : geometry_pb2.BezierData
         The protobuf message representing a Bezier.
 
     Returns
@@ -1564,7 +1536,7 @@ def bezier_from_pb(proto_data: bezier_pb2.BezierData) -> Bezier:
 
 
 @pb_serializer(Hyperbola)
-def hyperbola_to_pb(hyperbola: Hyperbola) -> hyperbola_pb2.HyperbolaData:
+def hyperbola_to_pb(hyperbola: Hyperbola) -> geometry_pb2.HyperbolaData:
     """
     Convert a COMPAS Hyperbola to protobuf message.
 
@@ -1575,10 +1547,10 @@ def hyperbola_to_pb(hyperbola: Hyperbola) -> hyperbola_pb2.HyperbolaData:
 
     Returns
     -------
-    hyperbola_pb2.HyperbolaData
+    geometry_pb2.HyperbolaData
         The protobuf message representing the Hyperbola.
     """
-    proto_data = hyperbola_pb2.HyperbolaData()
+    proto_data = geometry_pb2.HyperbolaData()
     proto_data.guid = str(hyperbola.guid)
     proto_data.name = hyperbola.name
     proto_data.major = hyperbola.major
@@ -1590,14 +1562,14 @@ def hyperbola_to_pb(hyperbola: Hyperbola) -> hyperbola_pb2.HyperbolaData:
     return proto_data
 
 
-@pb_deserializer(hyperbola_pb2.HyperbolaData)
-def hyperbola_from_pb(proto_data: hyperbola_pb2.HyperbolaData) -> Hyperbola:
+@pb_deserializer(geometry_pb2.HyperbolaData)
+def hyperbola_from_pb(proto_data: geometry_pb2.HyperbolaData) -> Hyperbola:
     """
     Convert a protobuf message to COMPAS Hyperbola.
 
     Parameters
     ----------
-    proto_data : hyperbola_pb2.HyperbolaData
+    proto_data : geometry_pb2.HyperbolaData
         The protobuf message representing a Hyperbola.
 
     Returns
@@ -1617,7 +1589,7 @@ def hyperbola_from_pb(proto_data: hyperbola_pb2.HyperbolaData) -> Hyperbola:
 
 
 @pb_serializer(Parabola)
-def parabola_to_pb(parabola: Parabola) -> parabola_pb2.ParabolaData:
+def parabola_to_pb(parabola: Parabola) -> geometry_pb2.ParabolaData:
     """
     Convert a COMPAS Parabola to protobuf message.
 
@@ -1628,10 +1600,10 @@ def parabola_to_pb(parabola: Parabola) -> parabola_pb2.ParabolaData:
 
     Returns
     -------
-    parabola_pb2.ParabolaData
+    geometry_pb2.ParabolaData
         The protobuf message representing the Parabola.
     """
-    proto_data = parabola_pb2.ParabolaData()
+    proto_data = geometry_pb2.ParabolaData()
     proto_data.guid = str(parabola.guid)
     proto_data.name = parabola.name
     proto_data.focal = parabola.focal
@@ -1642,14 +1614,14 @@ def parabola_to_pb(parabola: Parabola) -> parabola_pb2.ParabolaData:
     return proto_data
 
 
-@pb_deserializer(parabola_pb2.ParabolaData)
-def parabola_from_pb(proto_data: parabola_pb2.ParabolaData) -> Parabola:
+@pb_deserializer(geometry_pb2.ParabolaData)
+def parabola_from_pb(proto_data: geometry_pb2.ParabolaData) -> Parabola:
     """
     Convert a protobuf message to COMPAS Parabola.
 
     Parameters
     ----------
-    proto_data : parabola_pb2.ParabolaData
+    proto_data : geometry_pb2.ParabolaData
         The protobuf message representing a Parabola.
 
     Returns
@@ -1669,7 +1641,7 @@ def parabola_from_pb(proto_data: parabola_pb2.ParabolaData) -> Parabola:
 
 
 @pb_serializer(Polyhedron)
-def polyhedron_to_pb(polyhedron: Polyhedron) -> polyhedron_pb2.PolyhedronData:
+def polyhedron_to_pb(polyhedron: Polyhedron) -> datastructures_pb2.PolyhedronData:
     """
     Convert a COMPAS Polyhedron to protobuf message.
 
@@ -1680,10 +1652,10 @@ def polyhedron_to_pb(polyhedron: Polyhedron) -> polyhedron_pb2.PolyhedronData:
 
     Returns
     -------
-    polyhedron_pb2.PolyhedronData
+    datastructures_pb2.PolyhedronData
         The protobuf message representing the Polyhedron.
     """
-    proto_data = polyhedron_pb2.PolyhedronData()
+    proto_data = datastructures_pb2.PolyhedronData()
     proto_data.guid = str(polyhedron.guid)
     proto_data.name = polyhedron.name
 
@@ -1694,7 +1666,7 @@ def polyhedron_to_pb(polyhedron: Polyhedron) -> polyhedron_pb2.PolyhedronData:
 
     # Add faces
     for face in polyhedron.faces:
-        proto_face = polyhedron_pb2.FaceData()
+        proto_face = datastructures_pb2.FaceData()
         for vertex_index in face:
             proto_face.vertex_indices.append(vertex_index)
         proto_data.faces.append(proto_face)
@@ -1702,14 +1674,14 @@ def polyhedron_to_pb(polyhedron: Polyhedron) -> polyhedron_pb2.PolyhedronData:
     return proto_data
 
 
-@pb_deserializer(polyhedron_pb2.PolyhedronData)
-def polyhedron_from_pb(proto_data: polyhedron_pb2.PolyhedronData) -> Polyhedron:
+@pb_deserializer(datastructures_pb2.PolyhedronData)
+def polyhedron_from_pb(proto_data: datastructures_pb2.PolyhedronData) -> Polyhedron:
     """
     Convert a protobuf message to COMPAS Polyhedron.
 
     Parameters
     ----------
-    proto_data : polyhedron_pb2.PolyhedronData
+    proto_data : datastructures_pb2.PolyhedronData
         The protobuf message representing a Polyhedron.
 
     Returns
