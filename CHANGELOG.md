@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * Refactored proto definitions from 31 separate files into three organized files (`geometry.proto`, `datastructures.proto`, `message.proto`) to better reflect COMPAS package structure.
+* Fixed `guid` isn't maintained round-trip on some types.
 
 ### Removed
 
