@@ -1,6 +1,7 @@
 import gzip
 import os
 import platform
+import shutil
 import stat
 import tarfile
 import urllib.request
@@ -71,6 +72,12 @@ def _download_and_extract_docsplugin(url, extract_path):
 
     with gzip.open(archive_path, "rb") as gz_ref:
         with tarfile.TarFile(fileobj=gz_ref, mode="r") as tar_ref:
+            # Extract safely to prevent path traversal
+            for member in tar_ref.getmembers():
+                member_path = Path(extract_path) / member.name
+                # Ensure the path is within extract_path
+                if not member_path.resolve().is_relative_to(Path(extract_path).resolve()):
+                    raise ValueError(f"Attempted path traversal in tar file: {member.name}")
             tar_ref.extractall(extract_path)
 
     archive_path.unlink()
@@ -133,6 +140,7 @@ def generate_proto_classes(ctx, target_language: str = "python"):
         proto_out_folder.mkdir(parents=True, exist_ok=True)
     else:
         print(f"Target language '{target_language}' not supported.")
+        return
 
     for idl_file in ctx.proto_folder.glob("*.proto"):
         cmd = f"{protoc_path} "
@@ -157,7 +165,7 @@ def create_class_assets(ctx):
         existing_file.unlink()
         print(f"Removed existing asset: {existing_file}")
 
-    class_assests = []
+    class_assets = []
 
     for language in PROTO_TARGET_LANGUAGES:
         generate_proto_classes(ctx, target_language=language)
@@ -171,15 +179,13 @@ def create_class_assets(ctx):
                     arcname = f"{item.relative_to(generated_dir)}"
                     zipf.write(item, arcname)
                     print(f"Added {arcname}")
-        class_assests.append(zip_path)
+        class_assets.append(zip_path)
         # clean up
         if generated_dir.exists():
-            import shutil
-
             shutil.rmtree(generated_dir)
             print(f"Removed temporary generated files in: {generated_dir}")
-    if class_assests:
-        print("protobuf class assets are ready for GitHub release upload! find them in: {dist_dir}")
+    if class_assets:
+        print(f"protobuf class assets are ready for GitHub release upload! find them in: {dist_dir}")
 
 
 @task()

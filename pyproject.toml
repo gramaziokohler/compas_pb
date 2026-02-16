@@ -93,7 +93,8 @@ version = { attr = "compas_pb.__version__" }
 where = ["src"]
 
 [tool.setuptools.package-data]
-"*" = ["*.proto"]
+"compas_pb.protobuf_defs" = ["*.proto"]
+"compas_pb.generated" = ["*.py", "*.pyi"]
 
 # ============================================================================
 # replace pytest.ini
