@@ -123,7 +123,7 @@ doctest_optionflags = [
 # ============================================================================
 
 [tool.bumpversion]
-current_version = "0.4.8"
+current_version = "0.4.9"
 message = "Bump version to {new_version}"
 commit = true
 tag = true
