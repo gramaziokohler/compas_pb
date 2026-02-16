@@ -79,7 +79,9 @@ def point_from_pb(proto_data: geometry_pb2.PointData) -> Point:
     Point
         The deserialized COMPAS Point object.
     """
-    return Point(x=proto_data.x, y=proto_data.y, z=proto_data.z, name=proto_data.name)
+    result = Point(x=proto_data.x, y=proto_data.y, z=proto_data.z, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
 
 
 # =============================================================================
@@ -133,7 +135,9 @@ def line_from_pb(proto_data: geometry_pb2.LineData) -> Line:
     start = point_from_pb(proto_data.start)
     end = point_from_pb(proto_data.end)
 
-    return Line(start=start, end=end, name=proto_data.name)
+    result = Line(start=start, end=end, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
 
 
 # =============================================================================
@@ -158,6 +162,7 @@ def vector_to_pb(obj: Vector) -> geometry_pb2.VectorData:
     """
     proto_data = geometry_pb2.VectorData()
     proto_data.name = obj.name
+    proto_data.guid = str(obj.guid)
     proto_data.x = obj.x
     proto_data.y = obj.y
     proto_data.z = obj.z
@@ -179,7 +184,9 @@ def vector_from_pb(proto_data: geometry_pb2.VectorData) -> Vector:
     Vector
         The deserialized COMPAS Vector object.
     """
-    return Vector(x=proto_data.x, y=proto_data.y, z=proto_data.z, name=proto_data.name)
+    result = Vector(x=proto_data.x, y=proto_data.y, z=proto_data.z, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
 
 
 # =============================================================================
@@ -235,7 +242,9 @@ def frame_from_pb(proto_data: geometry_pb2.FrameData) -> Frame:
     origin = point_from_pb(proto_data.point)
     xaxis = vector_from_pb(proto_data.xaxis)
     yaxis = vector_from_pb(proto_data.yaxis)
-    return Frame(point=origin, xaxis=xaxis, yaxis=yaxis, name=proto_data.name)
+    result = Frame(point=origin, xaxis=xaxis, yaxis=yaxis, name=proto_data.name)
+    result._guid = proto_data.guid
+    return result
 
 
 # =============================================================================
@@ -292,7 +301,7 @@ def mesh_from_pb(proto_data: datastructures_pb2.MeshData) -> Mesh:
     Mesh
         The deserialized COMPAS Mesh object.
     """
-    mesh = Mesh(guid=proto_data.guid, name=proto_data.name)
+    mesh = Mesh(name=proto_data.name)
     vertex_map = []
 
     for pb_point in proto_data.vertices:
@@ -304,6 +313,7 @@ def mesh_from_pb(proto_data: datastructures_pb2.MeshData) -> Mesh:
         indices = [vertex_map[i] for i in face.indices]
         mesh.add_face(indices)
 
+    mesh._guid = proto_data.guid
     return mesh
 
 
