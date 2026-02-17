@@ -74,8 +74,6 @@ def migrate_legacy_docs(ctx, push_to_origin=False, branch="gh-pages"):
             legacy_entries = [
                 {
                     "version": ver,
-                    "title": ver,
-                    "aliases": [],
                     "name": ver,
                     "url": f"{SITE_BASE_URL}/legacy/{ver}/",
                 }
