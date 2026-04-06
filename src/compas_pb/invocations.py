@@ -14,46 +14,56 @@ PROTOC_GEN_DOCS_VERSION = "1.5.1"
 # typescript,javascript, and go need other compiler plugins
 PROTO_TARGET_LANGUAGES = ["cpp", "csharp", "java", "objc", "php", "ruby"]
 
+_PROTOC_ARCH_MAPPING = {
+    "x86_64": "x86_64",
+    "aarch64": "aarch_64",
+    "arm64": "aarch_64",
+    "amd64": "x86_64",
+}
+
+_DOCSPLUGIN_ARCH_MAPPING = {
+    "x86_64": "amd64",
+    "aarch64": "arm64",
+    "arm64": "arm64",
+    "amd64": "amd64",
+}
+
+
+def _get_platform_info():
+    system = platform.system().lower()
+    arch = platform.machine().lower()
+
+    if system not in ("linux", "darwin", "windows"):
+        raise RuntimeError(f"Unsupported platform: {system} {arch}")
+
+    return system, arch
+
 
 def _get_protoc_download_url(version=PROTOC_VERSION):
     base_url = f"https://github.com/protocolbuffers/protobuf/releases/download/v{version}/"
-    system = platform.system()
-    arch = platform.machine()
+    system, arch = _get_platform_info()
 
-    if system == "Linux" and arch == "x86_64":
-        return base_url + f"protoc-{version}-linux-x86_64.zip"
-    elif system == "Darwin":
-        return base_url + f"protoc-{version}-osx-universal_binary.zip"  # universal binary (allegedly) works on intel + apple silicon
-    elif system == "Windows":
+    protoc_arch = _PROTOC_ARCH_MAPPING.get(arch)
+    if not protoc_arch:
+        raise RuntimeError(f"Unsupported architecture for protoc: {arch}")
+
+    if system == "linux":
+        return base_url + f"protoc-{version}-linux-{protoc_arch}.zip"
+    elif system == "darwin":
+        return base_url + f"protoc-{version}-osx-universal_binary.zip"
+    elif system == "windows":
         return base_url + f"protoc-{version}-win64.zip"
-
-    raise RuntimeError(f"Unsupported platform: {system} {arch}")
 
 
 def _get_docsplugin_download_url(version=PROTOC_GEN_DOCS_VERSION):
     base_url = f"https://github.com/pseudomuto/protoc-gen-doc/releases/download/v{version}/"
-    system = platform.system()
-    arch = platform.machine().lower()
+    system, arch = _get_platform_info()
 
-    arch_mapping = {
-        "x86_64": "amd64",
-        "aarch64": "arm64",
-        "arm64": "arm64",
-        "amd64": "amd64",
-    }
+    docs_arch = _DOCSPLUGIN_ARCH_MAPPING.get(arch)
+    if not docs_arch:
+        raise RuntimeError(f"Unsupported architecture for protoc-gen-doc: {arch}")
 
-    selected_arch = arch_mapping.get(arch)
-    if not selected_arch:
-        raise RuntimeError(f"Unsupported architecture: {arch}")
-
-    if system == "Linux":
-        return base_url + f"protoc-gen-doc_{version}_linux_{selected_arch}.tar.gz"
-    elif system == "Darwin":
-        return base_url + f"protoc-gen-doc_{version}_darwin_{selected_arch}.tar.gz"
-    elif system == "Windows":
-        return base_url + f"protoc-gen-doc_{version}_windows_{selected_arch}.tar.gz"
-
-    raise RuntimeError(f"Unsupported platform: {system} {arch}")
+    return base_url + f"protoc-gen-doc_{version}_{system}_{docs_arch}.tar.gz"
 
 
 def _get_cached_protoc_path():
