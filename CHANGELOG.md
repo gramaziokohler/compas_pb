@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+* Better handling of os and architecture combinations in the invocations module.
+
 ### Removed
 
 
